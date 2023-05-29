@@ -18,8 +18,8 @@
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active text-center">
-                <youtube-player videoId="edYCtaNueQY" [playerVars]="{autoplay: 1}"></youtube-player> <!--Presentation video-->
+            <div #youtubePlayer class="carousel-item active text-center">
+                <youtube-player videoId="{{game.videoCode}}" [playerVars]="{autoplay: 1}" [height]="videoHeight" [width]="videoWidth"></youtube-player> <!--Presentation video-->
             </div>
             <div class="carousel-item">
                 <img src="{{game.image}}" class="card-img-top" alt="...">   <!--Image-->

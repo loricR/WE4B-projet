@@ -6,7 +6,8 @@ export class Game {
         public longDescription: string,
         public price: number,
         public developer: string,
-        public category: string[]
+        public category: string[],
+        public videoCode: string
     ) {
         this.name = name;
         this.image = image;
@@ -15,5 +16,6 @@ export class Game {
         this.price = price;
         this.developer = developer;
         this.category = category;
+        this.videoCode = videoCode;
     }
 }
