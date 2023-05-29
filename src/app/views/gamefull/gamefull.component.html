@@ -1,5 +1,4 @@
-<div class="card" style="width: 18rem;">
-  <div class="card-body">
+<div class="container">
     <h5 class="card-title">{{game.name}}</h5>
     <span *ngFor="let category of game.category; let i = index;" [ngSwitch]="i">    <!--Category-->
         <span *ngSwitchCase="0" class="badge rounded-pill text-bg-primary">{{category}}</span>
@@ -12,20 +11,45 @@
         <span *ngSwitchCase="7" class="badge rounded-pill text-bg-dark">{{category}}</span>
     </span>
 
-    <img src="{{game.image}}" class="card-img-top" alt="...">   <!--Image-->
+    <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active text-center">
+                <youtube-player videoId="edYCtaNueQY" [playerVars]="{autoplay: 1}"></youtube-player> <!--Presentation video-->
+            </div>
+            <div class="carousel-item">
+                <img src="{{game.image}}" class="card-img-top" alt="...">   <!--Image-->
+            </div>
+            <div class="carousel-item">
+                <img src="{{game.image}}" class="card-img-top" alt="...">   <!--Image 2-->
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <p>{{game.longDescription}}</p>   <!--Description-->
             <a href="#" class="card-link">{{game.developer}}</a>    <!--Developer name-->
             <p>☆☆☆☆☆</p>
+            <p>Commentaires</p>
         </li>
         <li class="text-center list-group-item">
             <span class="badge text-bg-warning">{{game.price}}€</span>  <!--Price-->
         </li>
     </ul>
     <div class="text-center">
-        <button type="button" class="btn btn-primary">En savoir plus</button>  <!--Link to full game display-->    
+        <button type="button" class="btn btn-primary">Acheter</button>  <!--Buy the game-->    
     </div>
-  </div>
 </div>

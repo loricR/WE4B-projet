@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Game } from 'src/app/models/game';
 import { GameService } from 'src/app/services/game.service';
@@ -8,6 +8,7 @@ import { GameService } from 'src/app/services/game.service';
   templateUrl: './gamefull.component.html',
   styleUrls: ['./gamefull.component.css']
 })
+
 export class GamefullComponent {
   public prd_idx : number
   public game : Game
