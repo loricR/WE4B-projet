@@ -1,0 +1,55 @@
+<div class="container">
+    <h5 class="card-title">{{game.name}}</h5>
+    <span *ngFor="let category of game.category; let i = index;" [ngSwitch]="i">    <!--Category-->
+        <span *ngSwitchCase="0" class="badge rounded-pill text-bg-primary">{{category}}</span>
+        <span *ngSwitchCase="1" class="badge rounded-pill text-bg-secondary">{{category}}</span>
+        <span *ngSwitchCase="2" class="badge rounded-pill text-bg-success">{{category}}</span>
+        <span *ngSwitchCase="3" class="badge rounded-pill text-bg-danger">{{category}}</span>
+        <span *ngSwitchCase="4" class="badge rounded-pill text-bg-warning">{{category}}</span>
+        <span *ngSwitchCase="5" class="badge rounded-pill text-bg-info">{{category}}</span>
+        <span *ngSwitchCase="6" class="badge rounded-pill text-bg-light">{{category}}</span>
+        <span *ngSwitchCase="7" class="badge rounded-pill text-bg-dark">{{category}}</span>
+    </span>
+
+    <div #carousel id="carouselIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div #youtubePlayer class="carousel-item active text-center">
+                <youtube-player #youtubeVideo videoId="{{game.videoCode}}" [playerVars]="{autoplay: 1}" [height]="videoHeight" [width]="videoWidth"></youtube-player> <!--Presentation video-->
+            </div>
+            <div class="carousel-item">
+                <img src="{{game.image}}" class="card-img-top" alt="...">   <!--Image-->
+            </div>
+            <div class="carousel-item">
+                <img src="{{game.image}}" class="card-img-top" alt="...">   <!--Image 2-->
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <p>{{game.longDescription}}</p>   <!--Description-->
+            <a href="#" class="card-link">{{game.developer}}</a>    <!--Developer name-->
+            <p>☆☆☆☆☆</p>
+            <p>Commentaires</p>
+        </li>
+        <li class="text-center list-group-item">
+            <span class="badge text-bg-warning">{{game.price}}€</span>  <!--Price-->
+        </li>
+    </ul>
+    <div class="text-center">
+        <button type="button" class="btn btn-primary">Acheter</button>  <!--Buy the game-->    
+    </div>
+</div>
