@@ -1,0 +1,33 @@
+
+<form (ngSubmit)="LoginUser()" class="registerform">
+    <div class="mb-3 ">
+        <label for="exampleInputEmail1" class="form-label">Nom d'utilisateur</label>
+        <input type="email" class="form-control" id="username" aria-describedby="emailHelp"[(ngModel)]="user.username">
+        
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
+        <input type="password" class="form-control" id="password" [(ngModel)]="user.password">
+        <br>
+        <input type="password" class="form-control" id="password2 " [(ngModel)]="user.password2" placeholder=" Confirmer le mot de passe ">
+    </div>
+        <button type="submit" class="btn btn-primary">Se connecter </button>
+</form>
+
+<h2> Ou créer votre compte si vous n'en n'avez pas !</h2>
+
+
+<form (ngSubmit)="createUser()" class="registerform">
+<div class="mb-3 ">
+    <label for="exampleInputEmail1" class="form-label">Nom d'utilisateur</label>
+    <input type="email" class="form-control" id="username" aria-describedby="emailHelp"[(ngModel)]="user.username">
+    <div id="emailHelp" class="form-text">Retenez vos identifiants, vous ne pourrez pas les récupérer</div>
+</div>
+<div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
+    <input type="password" class="form-control" id="password" [(ngModel)]="user.password">
+    <br>
+    <input type="password" class="form-control" id="password2 " [(ngModel)]="user.password2" placeholder=" Confirmer le mot de passe ">
+</div>
+<button type="submit" class="btn btn-primary">Creer mon compte</button>
+</form>

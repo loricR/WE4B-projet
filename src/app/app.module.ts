@@ -9,7 +9,9 @@ import { GameListComponent } from './views/game-list/game-list.component';
 import { GamefullComponent } from './views/gamefull/gamefull.component';
 import { NavbarComponent } from './views/navbar/navbar.component';
 import { HomeComponent } from './views/home/home.component';
-
+import { CommonModule } from '@angular/common';
+import { SignupComponent } from './views/signup/signup.component';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,12 +19,16 @@ import { HomeComponent } from './views/home/home.component';
     GameListComponent,
     GamefullComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    SignupComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
-    YouTubePlayerModule
+    YouTubePlayerModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
