@@ -1,0 +1,27 @@
+<div class="container mt-5">
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">username</th>
+                <th scope="col">password</th>
+                <th scope="col">dev</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor = 'let us of readData'>
+                <th scope="row">{{us.id}}</th>
+                <td>{{us.username}}</td>
+                <td>{{us.password}}</td>
+                <td>{{us.dev}}</td>
+            </tr>
+        </tbody>
+
+
+
+
+
+
+    </table>
