@@ -63,7 +63,7 @@ app.get("/user/:id",(req,res)=>{
             });
         } else {
             res.send({
-                message:"data not found"
+                message:"Aucun utilisateur trouvé.."
             });
         }
     });
@@ -79,14 +79,14 @@ app.post('/user',(req,res)=>{
     let username = req.body.username;
     let password = req.body.password;
     
-    let qr = `INSERT INTO user(fullname, email, dev) VALUES ('${username}', '${password}', DEFAULT)`;
+    let qr = `INSERT INTO user(username, password, dev) VALUES ('${username}', '${password}', DEFAULT)`;
 
     db.query(qr,(err,result)=> {
 
         if(err) { console.log(err);}
 
         res.send({
-            message:"data inserted correctly"
+            message:"Votre compte a été créé!"
         });
 
     });
@@ -94,26 +94,26 @@ app.post('/user',(req,res)=>{
 
 // update a user's data
 
-app.put('/user/:id',(req,res)=>{
-
+app.put('/user/:id', (req, res) => {
     console.log(req.body, "updatedata");
-
+  
     let gID = req.params.id;
-
+  
     let username = req.body.username;
     let password = req.body.password;
-
-    let qr = `UPDATE user SET password = ${password} WHERE id= ${gID}`;
-
-    db.query(qr,(err,result)=>{
-
-        if(err) {console.log(err)}
-
-        res.send({
-            message:"data updated"
-        });
+  
+    let qr = `UPDATE user SET password = '${password}', username = '${username}' WHERE id = ${gID}`;
+  
+    db.query(qr, (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+  
+      res.send({
+        message: "Identifiants mis à jour!"
+      });
     });
-});
+  });
 
 
 // delete single user data 
@@ -122,12 +122,12 @@ app.delete("/user/:id",(req,res)=>{
 
     let gID = req.params.id
 
-    let qr = `DELETE FROM user WHERE id = ${gID}`;
+    let qr = `DELETE FROM user WHERE ID = ${gID}`;
     db.query(qr,(err,result)=>{
         if(err) { console.log(err)}
 
         res.send({
-            message:"data deleted"
+            message:"Compte supprimé"
         });
     });
 

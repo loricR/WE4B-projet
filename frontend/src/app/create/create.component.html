@@ -1,1 +1,41 @@
-<p>create works!</p>
+<div class="container mt-5">
+
+
+    <!-- show errormsg  can replace warning with danger for red color-->
+    <div *ngIf="errormsg" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{errormsg}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div *ngIf="successmsg" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{successmsg}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <form [formGroup]="userForm">
+
+        <div class="col-lg-4 mt-2">
+            <input type="text" class="form-control" formControlName="username" placeholder="Entrer votre nom d'utilisateur">
+        </div>
+
+        <div class="col-lg-4 mt-2">
+            <input type="text" class="form-control" formControlName="password" placeholder="Entrer votre mot de passe">
+        </div>
+
+        <div class="col-lg-4 mt-2">
+            <input type="text" class="form-control" formControlName="password2" placeholder="Entrer de nouveau votre mot de passe">
+        </div>
+          
+        <div>
+        <div class="col-lg-4 mt-2" *ngIf="!getparamid">
+            <button class="btn btn-primary btn-sm" (click)="userSubmit()">Créer</button>
+        </div>
+        </div>
+          
+
+        <div class="col-lg-4 mt-2" *ngIf="getparamid">
+            <button class="btn btn-dark btn-sm" (click)="userUpdate()">Modifier</button>
+        </div>
+
+    </form>
+</div>

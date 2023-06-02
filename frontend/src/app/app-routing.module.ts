@@ -9,6 +9,7 @@ import { ReadComponent } from './read/read.component';
 const routes: Routes = [
 
   {path:'create', component:CreateComponent},
+  {path:'create/:id', component:CreateComponent},
   {path:'read', component:ReadComponent},
   {path: '', component: HomeComponent},
   {path: 'store', component: GameListComponent},
