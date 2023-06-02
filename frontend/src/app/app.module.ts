@@ -18,6 +18,8 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { ApiserviceService } from './apiservice.service';
 
+import {FormsModule,ReactiveFormsModule} from '@angular/forms'
+
 @NgModule({
   declarations: [
     AppComponent,
