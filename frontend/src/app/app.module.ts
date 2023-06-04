@@ -14,11 +14,9 @@ import { ReadComponent } from './read/read.component';
 
 import { CommonModule } from '@angular/common';
 import { SignupComponent } from './views/signup/signup.component';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiserviceService } from './apiservice.service';
-
-import {FormsModule,ReactiveFormsModule} from '@angular/forms'
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -29,15 +27,14 @@ import {FormsModule,ReactiveFormsModule} from '@angular/forms'
     NavbarComponent,
     HomeComponent,
     CreateComponent,
-    ReadComponent
+    ReadComponent,
+    SignupComponent
   ],
 imports: [
     CommonModule,
     BrowserModule,
     AppRoutingModule,
     YouTubePlayerModule,
-    HomeComponent,
-    SignupComponent,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule
