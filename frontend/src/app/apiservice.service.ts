@@ -12,6 +12,7 @@ export class ApiserviceService {
     // connect frontend to backend
 
     apiUrl = 'http://localhost:3000/user';
+    gameApiUrl = 'http://localhost:3000/user/games';
 
     // get all data
 
@@ -50,4 +51,15 @@ export class ApiserviceService {
       let ids = id;
       return this._http.get(`${this.apiUrl}/${ids}`);
     }
+
+    getGamesByDeveloper(developerId: number): Observable<any> {
+      const url = `${this.gameApiUrl}/${developerId}`; 
+      return this._http.get(url);
+    }
+
+    addGameByDeveloper(data: any): Observable<any> {
+      const url = `${this.gameApiUrl}/${data.userId}`;
+      return this._http.post(url, data);
+    }
+
 }

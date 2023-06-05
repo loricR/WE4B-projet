@@ -13,7 +13,7 @@ app.use(bodyparser.json());
 const db = mysql.createConnection({
     host:"localhost",
     user:"root",
-    password:"",
+    password:"iron",
     database:"we4b",
     port:3306
 });
@@ -136,3 +136,51 @@ app.delete("/user/:id",(req,res)=>{
 app.listen(3000,()=> {
     console.log("server running");
 });
+
+
+// Get all games done by a developer (id given in parameter)
+
+app.get("/user/games/:id",(req,res)=>{
+
+    let devId = req.params.id
+    
+    let qr = `SELECT * FROM game WHERE dev = ${devId}`;
+    db.query(qr,(err,result)=>{
+
+        if(err) {
+            console.log(err,"errs");
+        }
+
+        if(result.length > 0) {
+            res.send({
+                message:'all users data',
+                data:result
+            });
+        }
+    });
+});
+
+// Posts a new game developed by a developer
+
+app.post("/user/games/:id", (req, res) => {
+    console.log(req.body, "updatedata");
+  
+    let devID = req.body.userId;
+    let gameName = req.body.gameName;
+    let gameDesc = req.body.gameDescription;
+
+    console.log(gameDesc);
+    console.log(gameName);
+  
+    let qr = `INSERT INTO game(name,description,dev) VALUES ("${gameName}",'${gameDesc}','${devID}' )`;
+  
+    db.query(qr, (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+  
+      res.send({
+        message: "Game Inserted !"
+      });
+    });
+  });

@@ -1,0 +1,82 @@
+<h2>Your profile</h2>
+
+<section class="vh-100" style="background-color: #f4f5f7;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-6 mb-4 mb-lg-0">
+        <div class="card mb-3" style="border-radius: .5rem;">
+          <div class="row g-0">
+            <div class="col-md-4 gradient-custom text-center text-white"
+              style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+              <img src="{{profilePictureUrl}}" alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+              <h5>{{ username }}</h5>
+              <p>User</p>
+              <i class="far fa-edit mb-5"></i>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body p-4">
+                <h6>Information</h6>
+                <hr class="mt-0 mb-4">
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>ID :</h6>
+                    <p class="text-muted">{{ userId }}</p>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6>Developer Status</h6>
+                    <p class="text-muted">{{ isDeveloper ? 'Developer' : 'Not a Developer' }}</p>
+                  </div>
+                </div>
+                <h6>Games :</h6>
+                <hr class="mt-0 mb-4">
+                <div *ngIf="!isDeveloper" class="row pt-1">
+                  <p class="text-muted">User not a developer!</p>
+                </div>
+                <div *ngIf="isDeveloper" class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <button class="btn btn-primary" (click)="toggleGames()">
+                      {{ showGames ? 'Hide Games' : 'View Games' }}
+                    </button>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <ng-container *ngIf="showGames">
+                      <div *ngFor="let game of games">
+                        <h6>Game :</h6>
+                        <p class="text-muted">{{ game.name }}</p>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <hr class="mt-0 mb-4">
+                  <div class="col-6 mb-3" *ngIf="showGames">
+                    <h6>Add a new game you are proud of!</h6>
+                    <form [formGroup]="userForm">
+                      <input type="hidden" class="form-control mt-3" [value]="this.userId" formControlName="userId" name="userId">
+                      <input type="text" class="form-control" placeholder="Game Name" formControlName="gameName" name="gameName">
+                      <textarea class="form-control mt-3" placeholder="Game Description" name="gameDescription" formControlName="gameDescription"></textarea>
+                      <button class="btn btn-success mt-3" (click)="addGameByDeveloper()">Submit</button>
+                    </form>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-start">
+                  <a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
+                  <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
+                  <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
+                </div>
+
+                <div *ngIf="showSuccessMsg" id="successMsg" class="alert alert-success alert-dismissible" role="alert">
+                    <strong>{{successMsg}}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="closeSuccessMsg()"></button>
+                </div>
+                  
+                  
+                  
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

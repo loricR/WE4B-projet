@@ -11,6 +11,7 @@ import { NavbarComponent } from './views/navbar/navbar.component';
 import { HomeComponent } from './views/home/home.component';
 import { CreateComponent } from './create/create.component';
 import { ReadComponent } from './read/read.component';
+import { DeveloperComponent } from './developer/developer.component';
 
 import { CommonModule } from '@angular/common';
 import { SignupComponent } from './views/signup/signup.component';
@@ -28,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     CreateComponent,
     ReadComponent,
-    SignupComponent
+    SignupComponent,
+    DeveloperComponent
   ],
 imports: [
     CommonModule,
