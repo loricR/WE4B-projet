@@ -23,7 +23,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { ResearchBarComponent } from './views/research-bar/research-bar.component';
 import { ResearchPageComponent } from './views/research-page/research-page.component';
+<<<<<<< HEAD:frontend/src/app/app.module.ts
 >>>>>>> 04e438f1 (debat barre de recherche):src/app/app.module.ts
+=======
+>>>>>>> f50cc7b4702cb1d9ebb90b439d97c46e3d26ca18:src/app/app.module.ts
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +43,10 @@ import { ResearchPageComponent } from './views/research-page/research-page.compo
     SignupComponent,
     ResearchBarComponent,
     ResearchPageComponent,
+<<<<<<< HEAD:frontend/src/app/app.module.ts
 >>>>>>> 04e438f1 (debat barre de recherche):src/app/app.module.ts
+=======
+>>>>>>> f50cc7b4702cb1d9ebb90b439d97c46e3d26ca18:src/app/app.module.ts
   ],
 imports: [
     CommonModule,
