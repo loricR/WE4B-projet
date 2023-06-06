@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ApiserviceService } from '../apiservice.service';
 import { Game } from '../models/game';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-developer',
@@ -9,7 +10,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
   styleUrls: ['./developer.component.css']
 })
 export class DeveloperComponent {
-  constructor(private apiService: ApiserviceService) {}
+  constructor(private apiService: ApiserviceService, private router : Router) {}
 
   @Input() profilePictureUrl!: string;
   @Input() username!: string;
@@ -19,14 +20,45 @@ export class DeveloperComponent {
   showGames: boolean = false;
   showSuccessMsg: boolean = false;
   games: Game[] = [];
+
+  imageLinks: string[] = [];
+  categories: string[] = [];
+
+   
   successMsg: string = '';
+
+  predefinedCategories: string[] = ['Solo', 'Multiplayer', 'Adventure', 'FPS', 'Puzzle', 'Open World', 'RPG', 'Strategy', 'Simulation','MOBA', 'Retro'];
   
 
   userForm = new FormGroup({
     gameName: new FormControl('', Validators.required),
-    gameDescription: new FormControl('', Validators.required),
-    userId: new FormControl('',Validators.required)
+    description: new FormControl('', Validators.required),
+    longDescription: new FormControl('', Validators.required),
+    price: new FormControl('', Validators.required),
+    videoCode: new FormControl('', Validators.required),
+    userId: new FormControl('', Validators.required)
   });
+
+  addImageLink(): void {
+    const controlName = `image${this.imageLinks.length}`;
+    (this.userForm.controls as any)[controlName] = new FormControl('', Validators.required);
+
+
+    this.imageLinks.push(controlName);
+  }
+  
+  addCategory(): void {
+    const controlName = `category${this.categories.length}`;
+    (this.userForm.controls as any)[controlName] = new FormControl('', Validators.required);
+
+    this.categories.push(controlName);
+  }
+
+  redirectToGamePage(gameId: number): void {
+
+    console.log(gameId)
+    this.router.navigate(['/store', gameId]);
+  }
 
   toggleGames(): void {
     if (this.isDeveloper) {
@@ -35,6 +67,7 @@ export class DeveloperComponent {
         this.getGamesByDeveloper();
       }
     }
+    console.log(this.games);
   }
 
   getGamesByDeveloper(): void {
@@ -65,7 +98,7 @@ export class DeveloperComponent {
 
   addGameByDeveloper(): void {
 
-    console.log(this.userForm.value.gameDescription)
+    console.log(this.userForm.value.description)
     console.log(this.userForm.value.gameName)
 
     // Assign the userId value to the userId control
@@ -93,7 +126,7 @@ export class DeveloperComponent {
             this.games.push(response);
             this.userForm.patchValue({
               gameName: '',
-              gameDescription: ''
+              description: ''
             });
             this.toggleGames();
             

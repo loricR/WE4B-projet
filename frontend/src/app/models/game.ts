@@ -1,21 +1,27 @@
 export class Game {
     constructor(
+        public ID: number,
         public name: string,
-        public image: string,
-        public simpleDescription: string,
+        public description: string,
+        public dev: number,
         public longDescription: string,
         public price: number,
-        public developer: string,
+        public videoCode: string,
+
+        public image: string[],
         public category: string[],
-        public videoCode: string
+        
     ) {
+        this.ID = ID,
         this.name = name;
-        this.image = image;
-        this.simpleDescription = simpleDescription;
+        this.description = description;
         this.longDescription = longDescription;
         this.price = price;
-        this.developer = developer;
-        this.category = category;
+        this.dev = dev;
         this.videoCode = videoCode;
+
+        this.image = image;
+        this.category = category;
+        
     }
 }

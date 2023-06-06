@@ -14,7 +14,11 @@
     transition: opacity 0.5s;
   }
   
-  .alert.fade-out {
+.alert.fade-out {
     opacity: 0;
-  }
+}
+
+.game-name {
+  font-weight: normal; /* or any other regular font style */
+}
   
