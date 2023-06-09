@@ -26,6 +26,16 @@ const storage = multer.diskStorage({
     const fileName = `${Date.now()}${fileExtension}`;
     cb(null, fileName);
   }
+
+app.use(bodyparser.json());
+
+//database Connection
+const db = mysql.createConnection({
+    host:"localhost",
+    user:"root",
+    password:"iron",
+    database:"we4b",
+    port:3306
 });
 
 const upload = multer({ storage: storage });
