@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { User } from '../../models/user';
+import { User } from 'src/app/models/user';
+import { DeveloperComponent } from 'src/app/developer/developer.component';
 
 @Component({
   selector: 'app-signup',

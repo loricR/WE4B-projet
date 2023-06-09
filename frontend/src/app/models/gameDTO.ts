@@ -1,4 +1,4 @@
-export class Game {
+export class GameDTO {
     constructor(
         public ID: number,
         public name: string,
@@ -6,13 +6,8 @@ export class Game {
         public dev: number,
         public longDescription: string,
         public price: number,
-        public videoCode: string,
-        public images: string[],
-        public category: string[],
-        public cpu: string,
-        public gpu: string,
-        public ram: string
 
+        
     ) {
         this.ID = ID,
         this.name = name;
@@ -20,11 +15,6 @@ export class Game {
         this.longDescription = longDescription;
         this.price = price;
         this.dev = dev;
-        this.videoCode = videoCode;
-        this.cpu = cpu;
-        this.gpu = gpu;
-        this.ram = ram;
-        this.images = images;
-        this.category = category;
+
     }
 }
