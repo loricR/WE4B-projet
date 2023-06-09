@@ -39,7 +39,6 @@
                     </button>
                   </div>
                   <div class="col-12" *ngIf="showGames">
-                    <h6>Games:</h6>
                     <hr class="mt-0 mb-4">
                     <div *ngFor="let game of games; let i = index">
                       <h6>
@@ -53,59 +52,82 @@
                   <div class="col-12 mb-3">
                     <br> 
                     <!-- <div *ngIf="userId === loggedInUserId" class="col-12 mb-3"></div> -->
-                    <h6>Add a new game you are proud of!</h6><br>
-                    <hr class="mt-0 mb-4">
-                    <form [formGroup]="userForm">
-                      <!-- Existing code for other form fields -->
+                    
+                    <button class="btn btn-primary" (click)="showAddGameSection = !showAddGameSection">
+                      {{ showAddGameSection ? 'Hide adding section' : 'Add a new game you are proud of!' }}
+                      <br>
+                    </button>
+                    <br><br>
+                    <div class="col-12 mb-3" *ngIf="showAddGameSection">
+                      <hr class="mt-0 mb-4">
+                      <form [formGroup]="userForm">
+                        <!-- Existing code for other form fields -->
 
-                      <div class="mt-3">
-                        <input type="text" class="form-control" placeholder="Game Name" formControlName="gameName" name="gameName">
-                      </div>
-                      <div class="mt-3">
-                        <h6>Images:</h6>
-                        <div *ngFor="let imageLink of imageLinks; let i = index">
-                          <input type="text" class="form-control mt-2" [placeholder]="'Image ' + (i + 1)" [formControlName]="'image' + i" [name]="'image' + i">
+                        <div class="mt-3">
+                          <input type="text" class="form-control" placeholder="Game Name" formControlName="gameName" name="gameName">
                         </div>
-                        <button class="btn btn-primary mt-2" (click)="addImageLink()">Add Image</button>
-                      </div>
-                      <div class="mt-3">
-                        <h6>Categories:</h6>
-                        <div *ngFor="let category of categories; let i = index">
-                          <select class="form-select mt-2" [formControlName]="'category' + i" [name]="'category' + i">
-                            <option *ngFor="let predefinedCategory of predefinedCategories" [value]="predefinedCategory">{{ predefinedCategory }}</option>
+                        <div class="mt-3">
+                          <h6>Images:</h6>
+                          <div class="mt-3">
+                            <div *ngIf="images.length > 0">
+                              <img *ngFor="let imagePath of images" [src]="imagePath" alt="Uploaded Image" width="200">
+                            </div>
+                            <div>
+                              <input type="file" (change)="onFileSelected($event)" [disabled]="!isSelectedFile">
+                            </div>
+                          </div>
+                          <!--<button class="btn btn-primary mt-2" (click)="addImage()">Add Image</button>-->
+                          <button class="btn btn-success mt-3" (click)="uploadFile()">Upload File</button>
+
+                        </div>
+
+                        <br>
+                        <hr class="mt-0 mb-4">
+                        
+                        
+                        <div>
+                          <label for="category-select"> Select Category :  .</label>
+                          <select id="category-select" (change)="addCategory($event.target)">
+                            <option value="" disabled selected>Select a category</option>
+                            <option *ngFor="let category of predefinedCategories" [value]="category">{{ category }}</option>
                           </select>
                         </div>
-                        <button class="btn btn-primary mt-2" (click)="addCategory()">Add Category</button>
-                      </div>
 
-                      <div class="mt-3">
-                        <h6>Description:</h6>
-                        <textarea class="form-control mt-2" rows="4" placeholder="Description" formControlName="description" name="description"></textarea>
-                      </div>
-                    
-                      <div class="mt-3">
-                        <h6>Long Description:</h6>
-                        <textarea class="form-control mt-2" rows="8" placeholder="Long Description" formControlName="longDescription" name="longDescription"></textarea>
-                      </div>
+                        <br>
 
-                      <input type="number" class="form-control mt-3" placeholder="Price" formControlName="price" name="price">
-                      <input type="text" class="form-control mt-3" placeholder="Video Code" formControlName="videoCode" name="videoCode">
-                    
-                      <!-- Existing code for other form fields -->
-                    
-                      <button class="btn btn-success mt-3" (click)="addGameByDeveloper()">Submit</button>
+                        <div *ngIf="categories.length > 0">
+                          <h6>Selected Categories:</h6>
+                          <ul>
+                            <li *ngFor="let selectedCategory of categories">{{ selectedCategory }}</li>
+                          </ul>
+                        </div>
 
-                    </form>
+                        <div class="mt-3">
+                          <br>
+                          <h6>Description:</h6>
+                          <textarea class="form-control mt-2" rows="4" placeholder="Description" formControlName="description" name="description"></textarea>
+                        </div>
+                      
+                        <div class="mt-3">
+                          <br>
+                          <h6>Long Description:</h6>
+                          <textarea class="form-control mt-2" rows="8" placeholder="Long Description" formControlName="longDescription" name="longDescription"></textarea>
+                        </div>
+
+                        <br>
+                        <input type="number" class="form-control mt-3" placeholder="Price" formControlName="price" name="price">
+                        <input type="text" class="form-control mt-3" placeholder="Video Code" formControlName="videoCode" name="videoCode">
+
+                        <br>
+                      
+                        <button class="btn btn-success mt-3" (click)="addGameByDeveloper()">Submit</button>
+
+                      </form>
+                    </div>
                   </div>
                   
                 </div>
                 
-
-                <div class="d-flex justify-content-start">
-                  <a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
-                  <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
-                  <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
-                </div>
 
                 <div *ngIf="showSuccessMsg" id="successMsg" class="alert alert-success alert-dismissible" role="alert">
                     <strong>{{successMsg}}</strong>
