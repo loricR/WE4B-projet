@@ -17,6 +17,8 @@ import { SignupComponent } from './views/signup/signup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiserviceService } from './apiservice.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ResearchBarComponent } from './views/research-bar/research-bar.component';
+import { ResearchPageComponent } from './views/research-page/research-page.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     CreateComponent,
     ReadComponent,
-    SignupComponent
+    SignupComponent,
+    ResearchBarComponent,
+    ResearchPageComponent
   ],
 imports: [
     CommonModule,
