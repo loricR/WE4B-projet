@@ -10,9 +10,9 @@ export class GameService {
 
   constructor() {
     this.gameArray = [];
-    this.gameArray.push(new Game('CSGO', '../assets/images/csgo.png', 'La description courte.', 'La description longue.', 12, 'nom du dev', ['FPS', 'Multijoueur'], 'edYCtaNueQY'));
-    this.gameArray.push(new Game('CSS', '../assets/images/meta_rifle.jpg', 'La description courte.', 'La description longue.', 12, 'nom du dev', ['FPS', 'Multijoueur', 'Aventure'], 'XMmQ2DTGHOk'));
-    this.gameArray.push(new Game('CS2', '../assets/images/meta_rifle.jpg', 'La description courte.', 'La description longue.', 12, 'nom du dev', ['FPS', 'Multijoueur'], '2iivKSgqlgs'));
+    this.gameArray.push(new Game(1,'CSGO', 'La description courte.', 1, 'La description longue.', 12, 'edYCtaNueQY', ['../assets/images/csgo.png'], ['FPS', 'Multijoueur'], ));
+    //this.gameArray.push(new Game(2,'CSS', '../assets/images/meta_rifle.jpg', 'La description courte.', 'La description longue.', 12, 'nom du dev', ['FPS', 'Multijoueur', 'Aventure'], 'XMmQ2DTGHOk'));
+    //this.gameArray.push(new Game(3,'CS2', '../assets/images/meta_rifle.jpg', 'La description courte.', 'La description longue.', 12, 'nom du dev', ['FPS', 'Multijoueur'], '2iivKSgqlgs'));
   }
 
   getGames(): Game[] {

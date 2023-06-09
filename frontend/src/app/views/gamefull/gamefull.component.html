@@ -22,10 +22,10 @@
                 <youtube-player #youtubeVideo videoId="{{game.videoCode}}" [playerVars]="{autoplay: 1}" [height]="videoHeight" [width]="videoWidth"></youtube-player> <!--Presentation video-->
             </div>
             <div class="carousel-item">
-                <img src="{{game.image}}" class="card-img-top" alt="...">   <!--Image-->
+                <img src="{{game.images}}" class="card-img-top" alt="...">   <!--Image-->
             </div>
             <div class="carousel-item">
-                <img src="{{game.image}}" class="card-img-top" alt="...">   <!--Image 2-->
+                <img src="{{game.images}}" class="card-img-top" alt="...">   <!--Image 2-->
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators" data-bs-slide="prev">
@@ -41,7 +41,7 @@
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <p>{{game.longDescription}}</p>   <!--Description-->
-            <a href="#" class="card-link">{{game.developer}}</a>    <!--Developer name-->
+            <a href="#" class="card-link">{{game.dev}}</a>    <!--Developer name-->
             <p>☆☆☆☆☆</p>
             <p>Commentaires</p>
         </li>
