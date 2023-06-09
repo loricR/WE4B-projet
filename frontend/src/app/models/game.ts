@@ -7,7 +7,11 @@ export class Game {
         public price: number,
         public developer: string,
         public category: string[],
-        public videoCode: string
+        public videoCode: string,
+        public cpu: string,
+        public gpu: string,
+        public ram: string
+
     ) {
         this.name = name;
         this.image = image;
@@ -17,5 +21,8 @@ export class Game {
         this.developer = developer;
         this.category = category;
         this.videoCode = videoCode;
+        this.cpu = cpu;
+        this.gpu = gpu;
+        this.ram = ram;
     }
 }

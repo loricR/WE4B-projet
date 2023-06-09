@@ -28,4 +28,21 @@
     background-color: black;
 }
 
-
+/*Modification hors bootstrap*/
+.card-title{
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+.descri{
+    padding: 10px 30px;
+    width: 50%;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    display:inline-block;
+    vertical-align: top;
+}
+.card{
+    display: inline-block;
+    margin-right: 15%;
+}
