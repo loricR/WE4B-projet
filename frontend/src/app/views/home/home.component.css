@@ -83,3 +83,12 @@
 #buttonmodif{
   margin-top: 2%;
 }
+
+
+.image-zoom {
+  transition: transform 0.3s ease;
+}
+
+.image-zoom:hover {
+  transform: scale(1.1);
+}
