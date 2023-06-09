@@ -11,6 +11,14 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+//database Connection
+const db = mysql.createConnection({
+  host:"localhost",
+  user:"root",
+  password:"iron",
+  database:"we4b",
+  port:3306
+});
 
 
 const storage = multer.diskStorage({
@@ -25,29 +33,11 @@ const storage = multer.diskStorage({
     const fileExtension = path.extname(file.originalname);
     const fileName = `${Date.now()}${fileExtension}`;
     cb(null, fileName);
-  }
-
-app.use(bodyparser.json());
-
-//database Connection
-const db = mysql.createConnection({
-    host:"localhost",
-    user:"root",
-    password:"iron",
-    database:"we4b",
-    port:3306
+  },
 });
 
 const upload = multer({ storage: storage });
 
-// Database Connection
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "iron",
-  database: "we4b",
-  port: 3306,
-});
 
 // Check database connection
 db.connect((err) => {

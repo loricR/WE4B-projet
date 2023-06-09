@@ -32,7 +32,7 @@ import { ResearchPageComponent } from './views/research-page/research-page.compo
     CreateComponent,
     ReadComponent,
     SignupComponent,
-    DeveloperComponent
+    DeveloperComponent,
     ResearchBarComponent,
     ResearchPageComponent
   ],
