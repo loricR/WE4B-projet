@@ -21,4 +21,8 @@
 .game-name {
   font-weight: normal; /* or any other regular font style */
 }
+
+h5 {
+  position : center;
+}
   

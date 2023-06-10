@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 09 Juin 2023 à 09:23
+-- Généré le :  Sam 10 Juin 2023 à 10:38
 -- Version du serveur :  5.7.11
 -- Version de PHP :  5.6.18
 
@@ -61,6 +61,15 @@ CREATE TABLE `categorygame` (
   `ID_game` int(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Contenu de la table `categorygame`
+--
+
+INSERT INTO `categorygame` (`ID`, `ID_category`, `ID_game`) VALUES
+(4, 6, 19),
+(5, 10, 19),
+(6, 12, 19);
+
 -- --------------------------------------------------------
 
 --
@@ -87,25 +96,41 @@ CREATE TABLE `game` (
   `dev` int(8) NOT NULL COMMENT 'ID dev',
   `longDescription` varchar(5000) NOT NULL,
   `price` int(5) NOT NULL DEFAULT '0',
-  `videoCode` varchar(200) DEFAULT 'R2hkdKVJSJ0'
+  `videoCode` varchar(200) DEFAULT 'R2hkdKVJSJ0',
+  `cpu` varchar(200) DEFAULT NULL,
+  `gpu` varchar(200) DEFAULT NULL,
+  `ram` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `game`
 --
 
-INSERT INTO `game` (`ID`, `name`, `description`, `dev`, `longDescription`, `price`, `videoCode`) VALUES
-(1, 'CS GO', 'Piou piou boum', 21, 'BOUM TARATATATATATATTATATA WIIIIIEEEEEEEE BRMMMMMMMMMMMMM ', 50, 'R2hkdKVJSJ0'),
-(2, 'THIS SHOULD WORK', 'HOPEFULLY', 21, ':pray:', 0, 'R2hkdKVJSJ0'),
-(3, 'Best game Ever', 'Not at all..', 21, 'Really not', 15, 'R2hkdKVJSJ0'),
-(4, 'RS40 Death Journey : Hell\'s insights', 'This is what real hell looks like : unawared players, be careful where you step !', 21, 'Prepare to embark on a thrilling and immersive gaming experience with RS40 Death Journey: Hell\'s Insights. Step into a dark and treacherous world filled with mystery, danger, and relentless challenges. As the protagonist of this gripping adventure, you will be thrust into a realm of darkness, where survival depends on your wit, agility, and strategic thinking.\n', 50, 'iOUJLPbW20A'),
-(5, 'WE4B : The Lost Code', 'I think it\'s not going to work', 21, 'Def not', 45, 'pPHbtzmYM6Y'),
-(6, 'IT41 : Story of a far long gone Logic', 'Nothing much to say', 21, 'Same here tbh', 40, 'aH6-bVcUXcg'),
-(7, 'IF3A - The Inuque Adventure', '...', 21, 'Same over here ....', 850, 'aH6-bVcUXcg'),
-(8, 'RS40 - The Last TD', 'Weird game tbh', 21, 'Really weird game...', 30, 'AnUHfuiehzuihihzei'),
-(9, 'Litzler : a Sakura story', 'Do not play this', 21, 'Please, really do not.', 20, 'cioejzuihf_uazoz'),
-(10, 'Pesto', 'Pesto le pôti chat qui court dans les prés', 21, 'trop bien', 20, 'efpfhodv'),
-(11, 'SY40 : Sémaphores en folie', '...', 21, '...', 21, 'oiqejvvizojoi');
+INSERT INTO `game` (`ID`, `name`, `description`, `dev`, `longDescription`, `price`, `videoCode`, `cpu`, `gpu`, `ram`) VALUES
+(1, 'CS GO', 'Piou piou boum', 21, 'BOUM TARATATATATATATTATATA WIIIIIEEEEEEEE BRMMMMMMMMMMMMM ', 50, 'R2hkdKVJSJ0', NULL, NULL, NULL),
+(2, 'THIS SHOULD WORK', 'HOPEFULLY', 21, ':pray:', 0, 'R2hkdKVJSJ0', NULL, NULL, NULL),
+(3, 'Best game Ever', 'Not at all..', 21, 'Really not', 15, 'R2hkdKVJSJ0', NULL, NULL, NULL),
+(4, 'RS40 Death Journey : Hell\'s insights', 'This is what real hell looks like : unawared players, be careful where you step !', 21, 'Prepare to embark on a thrilling and immersive gaming experience with RS40 Death Journey: Hell\'s Insights. Step into a dark and treacherous world filled with mystery, danger, and relentless challenges. As the protagonist of this gripping adventure, you will be thrust into a realm of darkness, where survival depends on your wit, agility, and strategic thinking.\n', 50, 'iOUJLPbW20A', NULL, NULL, NULL),
+(5, 'WE4B : The Lost Code', 'I think it\'s not going to work', 21, 'Def not', 45, 'pPHbtzmYM6Y', NULL, NULL, NULL),
+(6, 'IT41 : Story of a far long gone Logic', 'Nothing much to say', 21, 'Same here tbh', 40, 'aH6-bVcUXcg', NULL, NULL, NULL),
+(7, 'IF3A - The Inuque Adventure', '...', 21, 'Same over here ....', 850, 'aH6-bVcUXcg', NULL, NULL, NULL),
+(8, 'RS40 - The Last TD', 'Weird game tbh', 21, 'Really weird game...', 30, 'AnUHfuiehzuihihzei', NULL, NULL, NULL),
+(9, 'Litzler : a Sakura story', 'Do not play this', 21, 'Please, really do not.', 20, 'cioejzuihf_uazoz', NULL, NULL, NULL),
+(10, 'Pesto', 'Pesto le pôti chat qui court dans les prés', 21, 'trop bien', 20, 'efpfhodv', NULL, NULL, NULL),
+(11, 'SY40 : Sémaphores en folie', '...', 21, '...', 21, 'oiqejvvizojoi', NULL, NULL, NULL),
+(19, 'INFO - The No hair / Long hair Dilemna', 'Not a bad game', 21, 'Playable', 41, 'azertyh', 'AMD Ryzen 7 5800X', 'NVIDIA GeForce GTX 1660 Ti (6 GB VRAM)', '32 GB DDR4 RAM');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `hasbought`
+--
+
+CREATE TABLE `hasbought` (
+  `ID` int(8) NOT NULL,
+  `ID_user` int(8) NOT NULL,
+  `ID_game` int(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -118,6 +143,13 @@ CREATE TABLE `image` (
   `link` varchar(500) NOT NULL,
   `ID_game` int(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `image`
+--
+
+INSERT INTO `image` (`ID`, `link`, `ID_game`) VALUES
+(15, '../assets/images/1686388051954.jpg', 19);
 
 -- --------------------------------------------------------
 
@@ -175,6 +207,14 @@ ALTER TABLE `game`
   ADD KEY `game_ibfk_1` (`dev`);
 
 --
+-- Index pour la table `hasbought`
+--
+ALTER TABLE `hasbought`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `ID_user` (`ID_user`),
+  ADD KEY `ID_game` (`ID_game`);
+
+--
 -- Index pour la table `image`
 --
 ALTER TABLE `image`
@@ -200,7 +240,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT pour la table `categorygame`
 --
 ALTER TABLE `categorygame`
-  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT pour la table `comment`
 --
@@ -210,12 +250,17 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT pour la table `game`
 --
 ALTER TABLE `game`
-  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT pour la table `hasbought`
+--
+ALTER TABLE `hasbought`
+  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
-  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT pour la table `user`
 --
@@ -244,6 +289,13 @@ ALTER TABLE `comment`
 --
 ALTER TABLE `game`
   ADD CONSTRAINT `game_ibfk_1` FOREIGN KEY (`dev`) REFERENCES `user` (`ID`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `hasbought`
+--
+ALTER TABLE `hasbought`
+  ADD CONSTRAINT `hasbought_ibfk_1` FOREIGN KEY (`ID_user`) REFERENCES `user` (`ID`),
+  ADD CONSTRAINT `hasbought_ibfk_2` FOREIGN KEY (`ID_game`) REFERENCES `game` (`ID`);
 
 --
 -- Contraintes pour la table `image`
