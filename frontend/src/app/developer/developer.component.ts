@@ -39,6 +39,16 @@ export class DeveloperComponent {
   categories: string[] = [];
   predefinedCategories: string[] = ['Solo', 'Multiplayer', 'Adventure', 'FPS', 'Puzzle', 'Open World', 'RPG', 'Strategy', 'Simulation', 'MOBA', 'Retro'];
 
+  recommendedCPU: string = '';
+  predefinedCPU: string[] = ['Intel Core i7-10700K','AMD Ryzen 7 5800X','Intel Core i9-10900K', 'AMD Ryzen 9 5900X', 'Intel Core i5-11600K','AMD Ryzen 5 5600X','Intel Core i3-10100'];
+
+
+  recommendedGPU: string = '';
+  predefinedGPU: string[] = ['NVIDIA GeForce RTX 3070', 'NVIDIA GeForce RTX 3070', 'NVIDIA GeForce RTX 3060 Ti', 'AMD Radeon RX 6800', 'NVIDIA GeForce GTX 1660 Ti', 'AMD Radeon RX 5500 XT', 'AMD Radeon RX 5500 XT'];
+
+
+  recommendedRAM: string = '';
+  predefinedRAM: string[] = ['8 GB DDR4 RAM','16 GB DDR4 RAM','32 GB DDR4 RAM','64 GB DDR4 RAM','12 GB DDR4 RAM','24 GB DDR4 RAM','48 GB DDR4 RAM'];
 
 
 
@@ -57,13 +67,31 @@ export class DeveloperComponent {
     this.categories.push(category);
     this.predefinedCategories = this.predefinedCategories.filter(c => c !== category);
   }
+
+  addCPU(event: any): void {
+    const cpu = event.value;
+    this.recommendedCPU = cpu;
+    this.predefinedCPU = [];
+  }
+
+  addGPU(event: any): void {
+    const gpu = event.value;
+    this.recommendedGPU = gpu;
+    this.predefinedGPU = [];
+  }
+
+  addRAM(event: any): void {
+    const ram = event.value;
+    this.recommendedRAM = ram;
+    this.predefinedRAM = [];
+  }
   
   
   
 
   redirectToGamePage(gameId: number): void {
     console.log(gameId);
-    this.router.navigate(['/store', gameId]);
+    this.router.navigate(['/game', gameId]);
   }
 
   toggleGames(): void {
@@ -73,7 +101,7 @@ export class DeveloperComponent {
         this.getGamesByDeveloper();
       }
     }
-    console.log(this.categories);
+    //console.log(this.categories);
   }
 
   getGamesByDeveloper(): void {
@@ -182,7 +210,10 @@ export class DeveloperComponent {
       price,
       videoCode,
       this.images.map((imagePath) => imagePath.replace('data:', '/assets')), // Modify the image paths
-      this.categories
+      this.categories,
+      this.recommendedCPU,
+      this.recommendedGPU,
+      this.recommendedRAM
     );
 
     const newGameDTO: GameDTO = new GameDTO(

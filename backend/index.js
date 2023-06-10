@@ -20,7 +20,7 @@ const db = mysql.createConnection({
   port:3306
 });
 
-
+// Repository of pictures chosen for games
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const destinationDir = path.join(__dirname, '../frontend/src/assets/images');
@@ -175,9 +175,12 @@ app.post("/user/games/:id", (req, res) => {
   const longDescription = req.body.longDescription || '';
   const price = req.body.price || 0;
   const videoCode = req.body.videoCode || '';
+  const cpu = req.body.cpu || '';
+  const gpu = req.body.gpu || '';
+  const ram = req.body.ram || '';
 
-  const qr = `INSERT INTO game (name, description, dev, longDescription, price, videoCode) VALUES (?, ?, ?, ?, ?, ?)`;
-  const values = [gameName, description, dev, longDescription, price, videoCode];
+  const qr = `INSERT INTO game (name, description, dev, longDescription, price, videoCode, cpu, gpu, ram) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const values = [gameName, description, dev, longDescription, price, videoCode, cpu, gpu, ram];
 
   db.query(qr, values, (err, result) => {
     if (err) {
