@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mysql = require("mysql2");
+const jwt = require("jsonwebtoken");
+const key = require("./key");
 const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
@@ -278,6 +280,39 @@ app.post('/user/upload', upload.single('file'), (req, res) => {
   res.status(200).json({ message: 'File uploaded successfully.', newFileName });
 });
 
+app.listen(3000,()=> {
+    console.log("server running");
+});
+
+app.post("/auth/signin", (req, res) => {    //Query to login
+    try {
+        let qr = 'SELECT id, username, dev FROM user WHERE username = ? AND password = ?';
+    db.query(qr, [req.body.username, req.body.password], (err,result)=>{
+
+        if(err) {
+            console.log(err,"errs");
+        }
+
+        if(result.length > 0) {   //If we find a user with this username/password
+            const token = jwt.sign({ id: result.ID },
+                key.secret,
+                {
+                 algorithm: 'HS256',
+                 allowInsecureKeySizes: true,
+                 expiresIn: 30, // 24 hours
+                });
+
+            result[0].accessToken = token;  //Add token to the data
+            res.status(200).send({
+                data:result
+            });
+        }        
+        //TODO: Sinon, si l'utilisateur existe, mdp incorrect et sinon juste l'utilisateur existe pas
+    });
+    } catch (error) {
+      return res.status(500).send({ message: error.message });
+    }
+});
 
 app.listen(3000, () => {
   console.log("Server running");

@@ -12,7 +12,8 @@
       <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false"><app-research-bar></app-research-bar></button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" routerLink='/register' >Se connecter</button>
+      <button *ngIf="!isLoggedIn; else logged" class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" routerLink='/register' >Se connecter</button>
+      <ng-template #logged><button #logged class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" (click)="logout()" >Se déconnecter</button></ng-template>
     </li>
   </ul>
 

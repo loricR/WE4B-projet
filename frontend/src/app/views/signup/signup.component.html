@@ -1,25 +1,25 @@
-
-
-
-<!-- <form (ngSubmit)="LoginUser()" class="registerform">
+<form class="registerform" *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
     <div class="mb-3 ">
-        <label for="exampleInputEmail1" class="form-label">Nom d'utilisateur</label>
-        <input type="email" class="form-control" id="username" aria-describedby="emailHelp"[(ngModel)]="user.username">
+        <label for="username" class="form-label">Nom d'utilisateur</label>
+        <input type="text" class="form-control" id="username" name="username" [(ngModel)]="form.username" required #username="ngModel"/>
+        <div class="alert alert-danger" role="alert" *ngIf="username.errors && f.submitted">Le nom d'utilisateur est obligatoire!</div>
         
     </div>
     <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
-        <input type="password" class="form-control" id="password" [(ngModel)]="user.password">
-        <br>
-        <input type="password" class="form-control" id="password2 " [(ngModel)]="user.password2" placeholder=" Confirmer le mot de passe ">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="form.password" required minlength="6" #password="ngModel"/>
+        <div class="alert alert-danger" role="alert" *ngIf="password.errors && f.submitted">
+            <div *ngIf="password.errors?.['required']">Le mot de passe est obligatoire</div>
+            <div *ngIf="password.errors?.['minlength']">Le mot de passe doit faire au moins 6 caractères</div>
+        </div>
     </div>
         <button type="submit" class="btn btn-primary">Se connecter </button>
 </form>
 
-<h2 > Ou créer votre compte si vous n'en n'avez pas !</h2>
+<!--<h2> Ou créer votre compte si vous n'en n'avez pas !</h2>
 
 
-<form (ngSubmit)="createUser()" class="registerform">
+<form class="registerform">
 <div class="mb-3 ">
     <label for="exampleInputEmail1" class="form-label">Nom d'utilisateur</label>
     <input type="email" class="form-control" id="username" aria-describedby="emailHelp"[(ngModel)]="user.username">
@@ -32,6 +32,7 @@
     <input type="password" class="form-control" id="password2 " [(ngModel)]="user.password2" placeholder=" Confirmer le mot de passe ">
 </div>
 <button type="submit" class="btn btn-primary">Creer mon compte</button>
+
 </form> -->
 
     
@@ -41,6 +42,5 @@
   [isDeveloper]="true"
   [userId]="21"
 ></app-developer>
-
 
 
