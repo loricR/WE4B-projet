@@ -280,10 +280,6 @@ app.post('/user/upload', upload.single('file'), (req, res) => {
   res.status(200).json({ message: 'File uploaded successfully.', newFileName });
 });
 
-app.listen(3000,()=> {
-    console.log("server running");
-});
-
 app.post("/auth/signin", (req, res) => {    //Query to login
     try {
         let qr = 'SELECT id, username, dev FROM user WHERE username = ? AND password = ?';
