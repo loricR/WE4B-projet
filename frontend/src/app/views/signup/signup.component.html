@@ -1,4 +1,3 @@
-
 <form class="registerform" *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
     <div class="mb-3 ">
         <label for="username" class="form-label">Nom d'utilisateur</label>
@@ -33,4 +32,15 @@
     <input type="password" class="form-control" id="password2 " [(ngModel)]="user.password2" placeholder=" Confirmer le mot de passe ">
 </div>
 <button type="submit" class="btn btn-primary">Creer mon compte</button>
-</form>-->
+
+</form> -->
+
+    
+<app-developer
+  [profilePictureUrl]="'assets/images/Pesto_tete.png'"
+  [username]="'Louis'"
+  [isDeveloper]="true"
+  [userId]="21"
+></app-developer>
+
+

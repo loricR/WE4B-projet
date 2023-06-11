@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../models/user';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user';
+import { DeveloperComponent } from 'src/app/developer/developer.component';
 
 @Component({
   selector: 'app-signup',

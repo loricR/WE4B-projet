@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { YouTubePlayer } from '@angular/youtube-player';
 import { Game } from 'src/app/models/game';
 import { GameService } from 'src/app/services/game.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gamefull',
@@ -19,7 +20,7 @@ export class GamefullComponent {
   @ViewChild('youtubeVideo') youtubeVideo: YouTubePlayer | undefined;
   @ViewChild('carousel') carousel: ElementRef | undefined;
 
-  constructor(private activatedroute : ActivatedRoute, private service : GameService) { 
+  constructor(private activatedroute : ActivatedRoute, private service : GameService, private router : Router) { 
     this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
     this.game = service.getPrdByIndex(this.prd_idx-1)
   }
@@ -52,4 +53,8 @@ export class GamefullComponent {
     }
     this.onResize();
   }
+  calldev() {
+    this.service.devpage(this.game.dev);
+  }
+
 }
