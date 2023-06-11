@@ -4,8 +4,8 @@
 
     <div class="card " style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <h5 class="card-title">Informations techniques</h5>
+          <p class="card-text" style="text-align: center;">Chaque jeux diposent de ses informations spécifiques: composants minimum, style de jeu, prix et développeur</p>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
@@ -20,7 +20,7 @@
                 <span *ngSwitchCase="7" class="badge rounded-pill text-bg-dark">{{category}}</span>
             </span>        
           </li>
-          <li class="list-group-item">Concu par : <a href="#" class="card-link">{{game.dev}}</a> </li>
+          <li class="list-group-item">Jeu développé par : <a href="javascript:void(0)" class="card-link" (click)="madeby()"> {{game.dev}}</a> </li>
           <li class="list-group-item"><span class="badge text-bg-warning">{{game.price}}€</span>  <!--Price--></li>
           <li class="list-group-item">☆☆☆☆☆</li>
           <li class="list-group-item">

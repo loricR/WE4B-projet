@@ -18,6 +18,7 @@ const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'store', component: GameListComponent},
   { path: 'developer', component: DeveloperComponent },
+  { path: 'developer/:id', component: DeveloperComponent},
   { path: 'store/:id', component: GameComponent}, // Add this line for the game page
   {path: 'register', component: SignupComponent},
   {path: 'game/:id', component : GamefullComponent},
