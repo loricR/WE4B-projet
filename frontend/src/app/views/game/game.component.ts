@@ -17,10 +17,10 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {};
 
   readMore() {
-    this.router.navigate(['/', 'game', this.game_idx+1])
+    this.router.navigate(['/', 'game', this.game_idx+1]);
   }
-  madeby() : void {
-    this.router.navigate(['/', 'developer', this.game.dev])   // acceder au dev du jeu
+  calldev() {
+    this.GameService.devpage(this.game.dev);
   }
 
 }

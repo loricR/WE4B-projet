@@ -53,9 +53,8 @@ export class GamefullComponent {
     }
     this.onResize();
   }
-
-  madeby() : void {
-    this.router.navigate(['/', 'developer', this.game.dev])   // acceder au dev du jeu
+  calldev() {
+    this.service.devpage(this.game.dev);
   }
 
 }
