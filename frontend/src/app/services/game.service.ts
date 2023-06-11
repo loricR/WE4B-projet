@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Game } from '../models/game';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class GameService {
 
   gameArray: Game[] = [];
 
-  constructor() {
+  constructor(private router: Router) { 
     this.gameArray = [];
 
     //Modèle incluant cpu, gpu et ram : 
@@ -27,4 +28,11 @@ export class GameService {
   getPrdByIndex(idx : number): Game {
     return this.gameArray[idx];
   }
+
+  devpage(id : number) : void{
+    this.router.navigate(['/', 'developer', id])
+  }
+
+
+
 }
