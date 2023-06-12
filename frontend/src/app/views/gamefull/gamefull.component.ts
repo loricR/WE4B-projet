@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 
 export class GamefullComponent {
+  protected rating: number = 0;
   public prd_idx : number
   public game : Game
   @ViewChild('youtubePlayer') youtubePlayer: ElementRef | undefined;
@@ -55,6 +56,9 @@ export class GamefullComponent {
   }
   calldev() {
     this.service.devpage(this.game.dev);
+  }
+  setrating(rating: number):void{
+    this.rating = rating;
   }
 
 }

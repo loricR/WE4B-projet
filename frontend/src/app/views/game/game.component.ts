@@ -11,16 +11,21 @@ import { GameService } from 'src/app/services/game.service';
 export class GameComponent implements OnInit {
   @Input() game!: Game;
   @Input() game_idx! : number;
+  protected rating: number = 0;
 
   constructor(private router: Router,private GameService:GameService) {};
 
   ngOnInit(): void {};
+
 
   readMore() {
     this.router.navigate(['/', 'game', this.game_idx+1]);
   }
   calldev() {
     this.GameService.devpage(this.game.dev);
+  }
+  setrating(rating: number):void{
+    this.rating = rating;
   }
 
 }

@@ -17,6 +17,7 @@ export class ApiserviceService {
     picUrl = 'http://localhost:3000/api/save-image';
     gameApiUrl = 'http://localhost:3000/user/games';
 
+
     // get all data
 
     getAllData():Observable<any>{
@@ -71,6 +72,11 @@ export class ApiserviceService {
       const formData = new FormData();
       formData.append('file', file);
       return this._http.post<any>(`${this.apiUrl}/upload`, formData);
+    }
+
+    getUserInfo(id : number):Observable<any> {
+      const url = `${this.apiUrl}/userinfo/${id}`; 
+      return this._http.get(url);
     }
 
 }
