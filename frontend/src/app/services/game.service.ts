@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class GameService {
-
   gameArray: Game[] = [];
-
+  
   constructor(private router: Router) { 
     this.gameArray = [];
+    
+
 
     //Modèle incluant cpu, gpu et ram : 
     // this.gameArray.push(new Game(1, 'Counter Strike Global Offensive', '../assets/images/csgo.png', 'La description courte.', 'La description longue.', 12, 'nom du dev', ['FPS', 'Multijoueur'], 'edYCtaNueQY',"Intel Core 2 Duo E6600", "AMD Phenom X3 8750 or better", "2 GB"));
@@ -32,7 +33,5 @@ export class GameService {
   devpage(id : number) : void{
     this.router.navigate(['/', 'developer', id])
   }
-
-
 
 }
