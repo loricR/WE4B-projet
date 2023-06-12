@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Sam 10 Juin 2023 à 10:38
+-- Généré le :  Lun 12 Juin 2023 à 11:01
 -- Version du serveur :  5.7.11
 -- Version de PHP :  5.6.18
 
@@ -68,7 +68,19 @@ CREATE TABLE `categorygame` (
 INSERT INTO `categorygame` (`ID`, `ID_category`, `ID_game`) VALUES
 (4, 6, 19),
 (5, 10, 19),
-(6, 12, 19);
+(6, 12, 19),
+(7, 3, 20),
+(8, 8, 20),
+(9, 12, 20),
+(10, 7, 20),
+(11, 4, 21),
+(12, 9, 21),
+(13, 2, 22),
+(14, 8, 22),
+(15, 12, 22),
+(16, 4, 23),
+(17, 7, 23),
+(18, 10, 23);
 
 -- --------------------------------------------------------
 
@@ -118,7 +130,11 @@ INSERT INTO `game` (`ID`, `name`, `description`, `dev`, `longDescription`, `pric
 (9, 'Litzler : a Sakura story', 'Do not play this', 21, 'Please, really do not.', 20, 'cioejzuihf_uazoz', NULL, NULL, NULL),
 (10, 'Pesto', 'Pesto le pôti chat qui court dans les prés', 21, 'trop bien', 20, 'efpfhodv', NULL, NULL, NULL),
 (11, 'SY40 : Sémaphores en folie', '...', 21, '...', 21, 'oiqejvvizojoi', NULL, NULL, NULL),
-(19, 'INFO - The No hair / Long hair Dilemna', 'Not a bad game', 21, 'Playable', 41, 'azertyh', 'AMD Ryzen 7 5800X', 'NVIDIA GeForce GTX 1660 Ti (6 GB VRAM)', '32 GB DDR4 RAM');
+(19, 'INFO - The No hair / Long hair Dilemna', 'Not a bad game', 21, 'Playable', 41, 'azertyh', 'AMD Ryzen 7 5800X', 'NVIDIA GeForce GTX 1660 Ti (6 GB VRAM)', '32 GB DDR4 RAM'),
+(20, 'The Ultimate Test', 'This example is perfect.', 21, 'This example is perfect for one reason : IT\'S GOING TO WORK !', 42, 'jS3jOJCQImA', 'AMD Ryzen 9 5900X', 'NVIDIA GeForce GTX 1660 Ti', '32 GB DDR4 RAM'),
+(21, 'The Ultimate Test 2 ', 'Really, I swear it\'s going to work', 21, 'For real, I\'m being dead serious; this is gonna work.', 41, 'trnx5XT0cZs', 'AMD Ryzen 7 5800X', 'NVIDIA GeForce RTX 3070', '48 GB DDR4 RAM'),
+(22, 'The Ultimate Test 3', 'This time. It\'s going to be PERFECT', 21, 'I\'m telling you, this is great, going to be insane af.', 69, '4AeIz_n16Q8', 'AMD Ryzen 9 5900X', 'AMD Radeon RX 6800', '64 GB DDR4 RAM'),
+(23, 'The Ultimate Test 4', 'You ain\'t ready', 21, 'This game is phenomenal', 20, 'KoDWXvHIXPo', 'Intel Core i3-10100', 'AMD Radeon RX 5500 XT', '48 GB DDR4 RAM');
 
 -- --------------------------------------------------------
 
@@ -149,7 +165,17 @@ CREATE TABLE `image` (
 --
 
 INSERT INTO `image` (`ID`, `link`, `ID_game`) VALUES
-(15, '../assets/images/1686388051954.jpg', 19);
+(15, '../assets/images/1686388051954.jpg', 19),
+(16, '../assets/images/1686510570456.jpg', 20),
+(17, '../assets/images/1686510585089.png', 20),
+(18, '../assets/images/1686512350538.jpg', 21),
+(19, '../assets/images/1686513909987.png', 22),
+(20, '../assets/images/1686513915741.png', 22),
+(21, '../assets/images/1686553410286.png', 23),
+(22, '../assets/images/1686553415427.jpg', 23),
+(23, '../assets/images/1686553423585.png', 23),
+(24, '../assets/images/1686553432101.png', 23),
+(25, '../assets/images/1686553437339.png', 23);
 
 -- --------------------------------------------------------
 
@@ -162,7 +188,7 @@ CREATE TABLE `user` (
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `dev` tinyint(1) NOT NULL DEFAULT '0',
-  `profilePictureURL` varchar(500) NOT NULL DEFAULT './images/Pesto_tete.png',
+  `profilePictureURL` varchar(500) NOT NULL DEFAULT './assets/images/Pesto_tete.png',
   `email` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -171,7 +197,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`ID`, `username`, `password`, `dev`, `profilePictureURL`, `email`) VALUES
-(21, 'louis', 'louis', 1, './assets/images/Pesto_tete.png', 'louis.rolland@utbm.fr');
+(21, 'louis', 'louis', 1, './assets/images/Pesto_tete.png', 'louis.rolland@utbm.fr'),
+(22, 'Loric', 'Loric', 1, './assets/images/Pesto_tete.png', 'loric.ravassard@utbm.fr'),
+(23, 'Tibo', 'Tibo', 1, './assets/images/Pesto_tete.png', 'tibo@tibo.tibo'),
+(24, 'Alexandre', 'Alexandre', 1, './assets/images/Pesto_tete.png', 'Alexandereeeeeeeee.aeze@dzak');
 
 --
 -- Index pour les tables exportées
@@ -240,7 +269,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT pour la table `categorygame`
 --
 ALTER TABLE `categorygame`
-  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT pour la table `comment`
 --
@@ -250,7 +279,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT pour la table `game`
 --
 ALTER TABLE `game`
-  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT pour la table `hasbought`
 --
@@ -260,12 +289,12 @@ ALTER TABLE `hasbought`
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
-  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- Contraintes pour les tables exportées
 --

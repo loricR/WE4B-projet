@@ -2,9 +2,11 @@ import { Component, Input } from '@angular/core';
 import { ApiserviceService } from '../apiservice.service';
 import { Game } from '../models/game';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GameDTO } from '../models/gameDTO';
+import { User } from '../models/user';
+import { userDTO } from '../models/userDTO';
 
 
 @Component({
@@ -13,13 +15,59 @@ import { GameDTO } from '../models/gameDTO';
   styleUrls: ['./developer.component.css']
 })
 export class DeveloperComponent {
-  constructor(private http: HttpClient, private apiService: ApiserviceService, private router: Router) {}
+
+  public userArray : userDTO[] = []
+  public user = new userDTO(
+    21,                // ID
+    'louis',        // username
+    'louis',    // password
+    1,                // dev
+    'assets/images/Pesto_tete.png',  // profilePictureURL
+    'louis.rolland@utbm.fr'  // email
+  );
+
+  public isDeveloper:number = this.user.dev
+  public profilePictureUrl: string = this.user.profilePictureURL
+  public username:string = this.user.username
+
+  public user_id : number
+
+  constructor(private activatedroute : ActivatedRoute, private http: HttpClient, private apiService: ApiserviceService, private router: Router) {
+
+    this.user_id = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
+    //this.user = apiService.getUserInfo(this.user_id)
+
+    console.log(this.user_id);
+
+    this.apiService.getUserInfo(this.user_id).subscribe(
+      (response) => {
+        this.userArray = response.data;
+        console.log(this.userArray);
+
+        this.user = this.userArray[0];
 
 
-  @Input() profilePictureUrl!: string;
-  @Input() username!: string;
-  @Input() isDeveloper!: boolean;
-  @Input() userId!: number;
+        this.isDeveloper = this.user.dev;
+        this.profilePictureUrl = this.user.profilePictureURL;
+        this.username = this.user.username;
+
+        return;
+      },
+      (error) => {
+        console.log('Error fetching user info:', error);
+      }
+    );
+
+  }
+
+
+  // @Input() profilePictureUrl!: string;
+  // @Input() username!: string;
+  // @Input() isDeveloper!: boolean;
+  // @Input() userId!: number;
+
+  
+
 
   showGames: boolean = false;
   showSuccessMsg: boolean = false;
@@ -101,12 +149,12 @@ export class DeveloperComponent {
         this.getGamesByDeveloper();
       }
     }
-    //console.log(this.categories);
+    //console.log(this.user);
   }
 
   getGamesByDeveloper(): void {
     // Call the API service to fetch games made by the developer
-    this.apiService.getGamesByDeveloper(this.userId).subscribe(
+    this.apiService.getGamesByDeveloper(this.user_id).subscribe(
       (response) => {
         this.games = response.data;
       },
@@ -180,7 +228,7 @@ export class DeveloperComponent {
   
     // Assign the userId value to the userId control
     this.userForm.patchValue({
-      userId: this.userId.toString()
+      userId: this.user_id.toString()
     });
   
     console.log(this.userForm.value.userId);
@@ -205,7 +253,7 @@ export class DeveloperComponent {
       0, // ID is initialized to 0 as it will be assigned by the server
       gameName,
       gameDescription,
-      this.userId,
+      this.user_id,
       longDescription,
       price,
       videoCode,
@@ -220,7 +268,7 @@ export class DeveloperComponent {
       0,
       gameName,
       gameDescription,
-      this.userId,
+      this.user_id,
       longDescription,
       price,
     );
