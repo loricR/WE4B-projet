@@ -9,7 +9,6 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class GameService {
-
   gameArray: Game[] = [];
 
   gameApiUrl = 'http://localhost:3000/games';
@@ -118,8 +117,6 @@ export class GameService {
 
     return this._http.get(`${this.gameApiUrl}/images/${ID}`);
   }
-
-
 
 
 }

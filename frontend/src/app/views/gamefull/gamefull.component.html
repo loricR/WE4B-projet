@@ -27,7 +27,13 @@
           </li>
           <li class="list-group-item">Jeu développé par : <a href="javascript:void(0)" class="card-link" (click)="calldev()"> {{game.dev}}</a> </li>
           <li class="list-group-item"><span class="badge text-bg-warning">{{game.price}}€</span>  <!--Price--></li>
-          <li class="list-group-item">☆☆☆☆☆</li>
+          <li class="list-group-item">
+            <ul class="rating"> <!-- Notation -->
+                <li class="star" *ngFor="let star of [1, 2, 3, 4, 5]" (click)="setrating(star)" [ngClass]="{'active': star <= rating}">
+                  &#9733;
+                </li>
+              </ul>
+          </li>
           <li class="list-group-item">
             <span class="badge rounded-pill text-bg-info">{{game.cpu}}</span>
             <span class="badge rounded-pill text-bg-success">{{game.gpu}}</span>
@@ -92,5 +98,13 @@
 
       
     <hr>
+    <div class="com"> 
+        <h2> Zone de commentaire </h2>
+        <p class="title">Endroit dédidé à la rédaction de commentaires sur le jeu</p> 
+
+    </div>
+
+
+
 </div>
 
