@@ -1,46 +1,68 @@
-<form class="registerform" *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+<form class="registerform" *ngIf="!isLoggedIn" name="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
     <div class="mb-3 ">
         <label for="username" class="form-label">Nom d'utilisateur</label>
-        <input type="text" class="form-control" id="username" name="username" [(ngModel)]="form.username" required #username="ngModel"/>
-        <div class="alert alert-danger" role="alert" *ngIf="username.errors && f.submitted">Le nom d'utilisateur est obligatoire!</div>
+        <input type="text" class="form-control" id="username" name="username" formControlName="username"/>
+        <div class="alert alert-danger" role="alert" *ngIf="loginFormControls['username'].invalid && loginFormControls['username'].touched">
+            <div *ngIf="loginFormControls['username'].getError('required')">Le nom d'utilisateur est obligatoire.</div>
+        </div>
         
     </div>
     <div class="mb-3">
         <label for="password" class="form-label">Mot de passe</label>
-        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="form.password" required minlength="6" #password="ngModel"/>
-        <div class="alert alert-danger" role="alert" *ngIf="password.errors && f.submitted">
-            <div *ngIf="password.errors?.['required']">Le mot de passe est obligatoire</div>
-            <div *ngIf="password.errors?.['minlength']">Le mot de passe doit faire au moins 6 caractères</div>
+        <input type="password" class="form-control" id="password" name="password" formControlName="password"/>
+        <div class="alert alert-danger" role="alert" *ngIf="loginFormControls['password'].invalid && loginFormControls['password'].touched">
+            <div *ngIf="loginFormControls['password'].getError('required')">Le mot de passe est obligatoire.</div>
+            <div *ngIf="loginFormControls['password'].getError('minlength')">Le mot de passe doit faire au moins 6 caractères.</div>
         </div>
     </div>
         <button type="submit" class="btn btn-primary">Se connecter </button>
+        <div class="alert alert-danger" *ngIf="isLoginFailed">Nom d'utilisateur ou mot de passe incorrect.</div>
 </form>
 
-<!--<h2> Ou créer votre compte si vous n'en n'avez pas !</h2>
+<h2> Ou créer votre compte si vous n'en n'avez pas !</h2>
 
 
-<form class="registerform">
-<div class="mb-3 ">
-    <label for="exampleInputEmail1" class="form-label">Nom d'utilisateur</label>
-    <input type="email" class="form-control" id="username" aria-describedby="emailHelp"[(ngModel)]="user.username">
-    <div id="emailHelp" class="form-text">Retenez vos identifiants, vous ne pourrez pas les récupérer</div>
-</div>
-<div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
-    <input type="password" class="form-control" id="password" [(ngModel)]="user.password">
-    <br>
-    <input type="password" class="form-control" id="password2 " [(ngModel)]="user.password2" placeholder=" Confirmer le mot de passe ">
-</div>
-<button type="submit" class="btn btn-primary">Creer mon compte</button>
-
-</form> -->
+<form class="registerform" [formGroup]="registerForm" *ngIf="!isLoggedIn" name="registerForm" (ngSubmit)="onSubmitRegister()">
+    <div class="mb-3 ">
+        <label for="username" class="form-label">Nom d'utilisateur</label>
+        <input type="text" class="form-control" id="username" name="username" formControlName="username"/>
+        <div class="alert alert-danger" role="alert" *ngIf="registerFormControls['username'].invalid && registerFormControls['username'].touched">
+            <div *ngIf="registerFormControls['username'].getError('required')">Veuillez saisir un nom d'utilisateur.</div>
+            <div *ngIf="registerFormControls['username'].getError('userExist')">Ce nom d'utilisateur existe déjà.</div>
+          </div>
+        <div id="userHelp" class="form-text">Retenez vos identifiants, vous ne pourrez pas les récupérer</div>
+    </div>
+    <div class="mb-3 ">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" formControlName="email"/>
+        <div class="alert alert-danger" role="alert" *ngIf="registerFormControls['email'].invalid && registerFormControls['email'].touched">
+            <div *ngIf="registerFormControls['email'].getError('required')">Veuillez saisir une adresse email.</div>
+            <div *ngIf="registerFormControls['email'].getError('email')">Veuillez saisir une adresse email valide.</div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input type="password" class="form-control" id="password" name="password" formControlName="password"/>
+        <div class="alert alert-danger" *ngIf="registerFormControls['password'].invalid && registerFormControls['password'].touched">
+            <div *ngIf="registerFormControls['password'].getError('required')">Le mot de passe est obligatoire.</div>
+            <div *ngIf="registerFormControls['password'].getError('minlength')">Le mot de passe doit contenir au moins 6 caractères.</div>
+        </div>
+        <br>
+        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" formControlName="confirmPassword" placeholder=" Confirmer le mot de passe "/>
+        <div class="alert alert-danger" role="alert" *ngIf="registerFormControls['confirmPassword'].invalid && registerFormControls['confirmPassword'].touched">
+            <div *ngIf="registerFormControls['confirmPassword'].getError('required')">Veuillez confirmer le mot de passe.</div>
+            <div *ngIf="registerFormControls['confirmPassword'].getError('passwordMismatch')">Les mots de passe de correspondent pas.</div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Créer mon compte</button>
+    <div class="alert alert-warning" *ngIf="isSignupFailed">Erreur lors de l'inscription</div>
+</form>
+<div class="alert alert-success" *ngIf="isSuccessRegister">Vous êtes inscrit correctement!</div>
 
     
-<app-developer
+<!--<app-developer
   [profilePictureUrl]="'assets/images/Pesto_tete.png'"
   [username]="'Louis'"
   [isDeveloper]="true"
   [userId]="21"
-></app-developer>
-
-
+></app-developer>-->

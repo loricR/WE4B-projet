@@ -280,9 +280,20 @@ app.post('/user/upload', upload.single('file'), (req, res) => {
   res.status(200).json({ message: 'File uploaded successfully.', newFileName });
 });
 
+function createToken(user) {
+  const token = jwt.sign({ id: user.ID },
+    key.secret,
+    {
+     algorithm: 'HS256',
+     allowInsecureKeySizes: true,
+     expiresIn: 86400, // 24 hours
+    });
+    return token;
+}
+
 app.post("/auth/signin", (req, res) => {    //Query to login
     try {
-        let qr = 'SELECT id, username, dev FROM user WHERE username = ? AND password = ?';
+        let qr = 'SELECT id, username, dev FROM user WHERE username = ? AND password = PASSWORD(?)';
     db.query(qr, [req.body.username, req.body.password], (err,result)=>{
 
         if(err) {
@@ -290,24 +301,73 @@ app.post("/auth/signin", (req, res) => {    //Query to login
         }
 
         if(result.length > 0) {   //If we find a user with this username/password
-            const token = jwt.sign({ id: result.ID },
-                key.secret,
-                {
-                 algorithm: 'HS256',
-                 allowInsecureKeySizes: true,
-                 expiresIn: 30, // 24 hours
-                });
-
-            result[0].accessToken = token;  //Add token to the data
+            result[0].accessToken = createToken(result);  //Add token to the data
             res.status(200).send({
                 data:result
             });
+        } else {
+          res.status(200).send({
+            data:false
+        });
         }        
         //TODO: Sinon, si l'utilisateur existe, mdp incorrect et sinon juste l'utilisateur existe pas
     });
     } catch (error) {
       return res.status(500).send({ message: error.message });
     }
+});
+
+app.post("/auth/signup", (req, res) => {    //Query to signup
+  try {
+    let form = req.body.registerForm;
+      let qr = 'INSERT INTO user (username,email,password) VALUES (?,?,PASSWORD(?))';
+      let qrGetID = 'SELECT ID, username, dev FROM user WHERE ID = ?';
+  db.query(qr, [form.username, form.email, form.password], (err,result)=>{
+
+      if(err) {
+          console.log(err,"errs");
+      }
+      else {
+          db.query(qrGetID, [result.insertId], (errUser,resultUser)=>{
+            if(errUser) {
+              console.log(err,"errs");
+            }
+            if(resultUser.length > 0) {
+              resultUser.accessToken = createToken(resultUser);  //Add token to the data
+              res.status(200).send({
+                data:resultUser
+              });
+            }
+        });
+      }
+  });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+});
+
+app.post("/auth/userexist", (req, res) => {    //Query to login
+  try {
+      let qr = 'SELECT id FROM user WHERE username = ?';
+  db.query(qr, [req.body.username], (err,result)=>{
+
+      if(err) {
+          console.log(err,"errs");
+      }
+
+      if(result.length > 0) {   //If we find a user with this username
+          res.status(200).send({
+              data:true
+          });
+      } else {
+        res.status(200).send({
+            data:false
+        });
+      }        
+  });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
 });
 
 app.listen(3000, () => {
