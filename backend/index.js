@@ -279,6 +279,93 @@ app.post('/user/upload', upload.single('file'), (req, res) => {
 });
 
 
+
+app.get("/user/userinfo/:id", (req, res) => {
+
+  
+  let userId = req.params.id;
+
+  console.log("Loading user info of", userId);
+
+  let qr = `SELECT * FROM user WHERE ID = ${userId}`;
+  db.query(qr, (err, result) => {
+    if (err) {
+      console.log(err, "errs");
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+    res.send({
+      message: "Userinfo data",
+      data: result,
+    });
+  });
+});
+
+
+
+// Get all games
+app.get("/games", (req, res) => {
+  let qr = "SELECT * FROM game";
+  db.query(qr, (err, result) => {
+    if (err) {
+      console.log(err, "errs");
+      return res.status(500).json({ error: "Internal server error" });
+    }
+    res.send({
+      message: "All games' data",
+      data: result,
+    });
+  });
+});
+
+// GET ALL CATEGORIES
+app.get("/games/categories/:id", (req, res) => {
+  const gameID = req.params.id;
+
+  const query = `
+    SELECT c.name
+    FROM categorygame cg
+    INNER JOIN category c ON cg.ID_category = c.ID
+    WHERE cg.ID_game = ${gameID}
+  `;
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Erreur interne du serveur" });
+    }
+
+    const categoryNames = result.map((row) => row.name);
+
+    console.log("Catégories :", categoryNames);
+
+    res.send({
+      message: "Tous les noms de catégories",
+      data: categoryNames,
+    });
+  });
+});
+
+
+
+// Get all images
+app.get("/games/images/:id", (req, res) => {
+
+  let game_id = req.params.id;
+
+  let qr = `SELECT link FROM image WHERE ID_game = ${game_id}`;
+  db.query(qr, (err, result) => {
+    if (err) {
+      console.log(err, "errs");
+      return res.status(500).json({ error: "Internal server error" });
+    }
+    res.send({
+      message: "All images link from the game",
+      data: result,
+    });
+  });
+});
+
 app.listen(3000, () => {
   console.log("Server running");
 });
