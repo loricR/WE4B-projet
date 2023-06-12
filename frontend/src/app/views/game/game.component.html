@@ -12,7 +12,9 @@
             <span *ngSwitchCase="7" class="badge rounded-pill text-bg-dark">{{category}}</span>
         </span>
 
-        <img src="{{game.images}}" class="card-img-top" alt="...">   <!--Image-->
+        <ng-container *ngIf="game.images && game.images.length > 0">
+            <img [src]="game.images[0]" class="card-img-top" alt="..."> <!--Image-->
+        </ng-container>
     
         <ul class="list-group list-group-flush">
             <li class="list-group-item"> 
