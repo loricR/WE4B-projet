@@ -5,6 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,8 +15,7 @@ export class GameService {
   gameArray: Game[] = [];
 
   gameApiUrl = 'http://localhost:3000/games';
-
-  constructor(private router: Router, private _http:HttpClient) { 
+  constructor(private router: Router, private _http:HttpClient ) { 
     //this.gameArray = [];
 
     //Modèle incluant cpu, gpu et ram : 
@@ -117,6 +119,5 @@ export class GameService {
 
     return this._http.get(`${this.gameApiUrl}/images/${ID}`);
   }
-
 
 }
