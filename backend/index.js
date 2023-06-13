@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host:"localhost",
     user:"root",
-    password:"iron",    
+    password:"",    
     database:"we4b",
     port:3306
 
@@ -86,6 +86,61 @@ app.get("/user/:id", (req, res) => {
     } else {
       res.send({
         message: "Aucun utilisateur trouvé..",
+      });
+    }
+  });
+});
+
+// Get single data
+app.get("/recherche/game/:id", (req, res) => {
+  console.log(req.params.id, "getid=>");
+
+  let gID = req.params.id;
+
+  let qr = `SELECT * FROM game WHERE dev = ${gID}`;
+
+  db.query(qr, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+    if (result.length > 0) {
+      res.send({
+        message: "Get single data",
+        data: result,
+      });
+    } else {
+      res.send({
+        message: "Aucun jeu trouvé..",
+      });
+    }
+  });
+});
+
+app.get("/recherche/game/:name/:minPrice/:maxPrice/:dev", (req, res) => {
+
+  let name = req.params.name;
+  let minPrice = req.params.minPrice;
+  let maxPrice = req.params.maxPrice;
+  let dev = req.params.dev;
+
+  let qr = `SELECT * FROM game WHERE name LIKE '%${name}%' AND price >= ${minPrice} AND price <= ${maxPrice} AND dev LIKE  '%${dev}%'`;
+
+  db.query(qr, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+    if (result.length > 0) {
+      res.send({
+        message: "Get single data",
+        data: result,
+      });
+    } else {
+      res.send({
+        message: "Aucun jeu trouvé..",
       });
     }
   });
