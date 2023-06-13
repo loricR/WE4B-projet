@@ -11,6 +11,7 @@ import { NavbarComponent } from './views/navbar/navbar.component';
 import { HomeComponent } from './views/home/home.component';
 import { CreateComponent } from './create/create.component';
 import { ReadComponent } from './read/read.component';
+import { DeveloperComponent } from './developer/developer.component';
 
 import { CommonModule } from '@angular/common';
 import { SignupComponent } from './views/signup/signup.component';
@@ -19,6 +20,8 @@ import { ApiserviceService } from './apiservice.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ResearchBarComponent } from './views/research-bar/research-bar.component';
 import { ResearchPageComponent } from './views/research-page/research-page.component';
+import { authInterceptorProviders } from './auth.interceptor';
+import { PagenotfoundComponent } from './views/pagenotfound/pagenotfound.component';
 
 @NgModule({
   declarations: [
@@ -31,8 +34,10 @@ import { ResearchPageComponent } from './views/research-page/research-page.compo
     CreateComponent,
     ReadComponent,
     SignupComponent,
+    DeveloperComponent,
     ResearchBarComponent,
-    ResearchPageComponent
+    ResearchPageComponent,
+    PagenotfoundComponent
   ],
 imports: [
     CommonModule,
@@ -43,7 +48,7 @@ imports: [
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [ApiserviceService],
+  providers: [ApiserviceService, authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,13 +12,27 @@
             <span *ngSwitchCase="7" class="badge rounded-pill text-bg-dark">{{category}}</span>
         </span>
 
-        <img src="{{game.image}}" class="card-img-top" alt="...">   <!--Image-->
+
+        <ng-container *ngIf="game.images && game.images.length > 0">
+            <img [src]="game.images[0]" class="card-img-top" alt="..."> <!--Image-->
+        </ng-container>
+
     
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <p>{{game.simpleDescription}}</p>   <!--Description-->
-                <a href="#" class="card-link">{{game.developer}}</a>    <!--Developer name-->
-                <p>☆☆☆☆☆</p>
+            <li class="list-group-item"> 
+                <p> Rapide description du jeu : </p>
+                <p>{{game.description}}</p>   <!--Description-->
+                <p>Jeu concu par :<a href="javascript:void(0)" class="card-link" (click)="calldev()"> {{game.dev}}</a></p>  <!--Developer name-->
+                <!-- Notation -->
+                <ul class="rating">
+                    <li class="star" *ngFor="let star of [1, 2, 3, 4, 5]" (click)="setrating(star)" [ngClass]="{'active': star <= rating}">
+                      &#9733;
+                    </li>
+                  </ul>
+                <!-- Notation -->
+
+
+
             </li>
             <li class="text-center list-group-item">
                 <span class="badge text-bg-warning">{{game.price}}€</span>  <!--Price-->

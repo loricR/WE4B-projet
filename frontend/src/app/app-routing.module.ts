@@ -6,7 +6,11 @@ import { HomeComponent } from './views/home/home.component';
 import { CreateComponent } from './create/create.component';
 import { ReadComponent } from './read/read.component';
 import { SignupComponent } from './views/signup/signup.component';
+import { DeveloperComponent } from './developer/developer.component';
+import { GameComponent } from './views/game/game.component';
 import { ResearchPageComponent } from './views/research-page/research-page.component';
+import { authGuard } from './services/auth.guard';
+import { PagenotfoundComponent } from './views/pagenotfound/pagenotfound.component';
 
 const routes: Routes = [
 
@@ -15,9 +19,14 @@ const routes: Routes = [
   {path:'read', component:ReadComponent},
   {path: '', component: HomeComponent},
   {path: 'store', component: GameListComponent},
-  {path: 'register', component: SignupComponent},
+  {path: 'register', component: SignupComponent, canActivate: [authGuard]},
+  { path: 'developer', component: DeveloperComponent },
+  { path: 'developer/:id', component: DeveloperComponent},
+  { path: 'store/:id', component: GameComponent}, // Add this line for the game page
   {path: 'game/:id', component : GamefullComponent},
-  {path: 'research', component : ResearchPageComponent}
+  {path: 'research', component : ResearchPageComponent},
+  {path: '**', component: PagenotfoundComponent}
+
    ];
 
 @NgModule({
