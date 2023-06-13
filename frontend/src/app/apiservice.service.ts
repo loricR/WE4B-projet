@@ -10,8 +10,6 @@ import { CommentDTO } from './models/CommentDTO';
 })
 export class ApiserviceService {
 
-  constructor(private _http:HttpClient) { }
-
     // connect frontend to backend
 
     apiUrl = 'http://localhost:3000/user';
@@ -20,6 +18,8 @@ export class ApiserviceService {
 
 
 
+    constructor(private _http:HttpClient) { }
+
     // get all data
 
     getAllData():Observable<any>{
@@ -27,6 +27,10 @@ export class ApiserviceService {
       return this._http.get(`${this.apiUrl}`);
     }
 
+    getAllData2(id:any):Observable<any>{
+
+      return this._http.get(`${this.apiUrl}/${id}`);
+    }
     // create data
 
     createData(data:any):Observable<any>{
@@ -51,7 +55,6 @@ export class ApiserviceService {
       return this._http.put(`${this.apiUrl}/${ids}`,data);
     }
 
-    
     // get single user data
     getSingleData(id:any):Observable<any>{
       let ids = id;
@@ -81,6 +84,12 @@ export class ApiserviceService {
       return this._http.get(url);
     }
 
+
+    searchData(query: string): Observable<any> {
+        const url = `${this.apiUrl}/:${query}`; // Modify the URL and parameters based on your backend API
+        console.log("test");
+        return this._http.get(url);
+    }
     
 
 }
