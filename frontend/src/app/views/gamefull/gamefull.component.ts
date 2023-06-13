@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { YouTubePlayer } from '@angular/youtube-player';
 import { Game } from 'src/app/models/game';
@@ -13,10 +13,16 @@ import { CommentDTO } from 'src/app/models/CommentDTO';
   styleUrls: ['./gamefull.component.css']
 })
 
-export class GamefullComponent implements OnInit {
+export class GamefullComponent {
   protected rating: number = 0;
-  public prd_idx : number
-  public game : Game
+  public prd_idx : number = 0;
+  public game : Game = new Game();
+  public allComments: CommentDTO[] = [];
+
+  public commentFromUser: CommentDTO = new CommentDTO("",0,0,0);
+  public comment_string: string = '';
+  public note:number = 0;
+  public pageLoaded: boolean = false;
 
   @ViewChild('youtubePlayer') youtubePlayer: ElementRef | undefined;
   videoHeight: number | undefined;
@@ -25,40 +31,29 @@ export class GamefullComponent implements OnInit {
   @ViewChild('carousel') carousel: ElementRef | undefined;
 
   constructor(private activatedroute : ActivatedRoute, private service : GameService, private router : Router) { 
+    if(service.isReadyImediately()) {
+      this.pageLoaded = true;
+      this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
 
-    console.log("Constructeur");
+      this.game =this.service.getGameById(this.prd_idx);
 
-    this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
-    //this.game = service.getPrdByIndex(this.prd_idx-1)
+      this.getCommentsFromGame(this.prd_idx);
+      this.pageLoaded = true;
+    }
+    else {
+      this.service.isReady().subscribe((isReady: boolean) => {
+        if (isReady) {
+          //Game service ready
+          this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
+          //this.game = service.getPrdByIndex(this.prd_idx-1)
 
-    this.game = this.service.getGameById(this.prd_idx);
+          this.game =this.service.getGameById(this.prd_idx);
 
-    console.log(this.game);
-
-    this.getCommentsFromGame(this.prd_idx);
-  }
-
-
-
-  public allComments: CommentDTO[] = [];
-
-  public commentFromUser: CommentDTO = new CommentDTO("",0,0,0);
-  public comment_string: string = '';
-  public note:number = 0;
-    
-  ngOnInit(): void {
-
-    console.log("INIT");
-
-    this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
-    //this.game = service.getPrdByIndex(this.prd_idx-1)
-
-    this.game =this.service.getGameById(this.prd_idx);
-
-    console.log(this.game);
-
-    this.getCommentsFromGame(this.prd_idx);
-
+          this.getCommentsFromGame(this.prd_idx);
+          this.pageLoaded = true;
+        }
+      });
+    }
   }
 
   ngAfterViewInit(): void {
