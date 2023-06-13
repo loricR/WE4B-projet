@@ -19,7 +19,7 @@ export class GameComponent implements OnInit {
 
 
   readMore() {
-    this.router.navigate(['/', 'game', this.game_idx+1]);
+    this.router.navigate(['/', 'game', this.game.ID]);
   }
   calldev() {
     this.GameService.devpage(this.game.dev);

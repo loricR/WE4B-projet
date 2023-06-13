@@ -20,7 +20,6 @@ const db = mysql.createConnection({
     password:"",    
     database:"we4b",
     port:3306
-
 });
 
 // Repository of pictures chosen for games
@@ -451,6 +450,7 @@ app.get("/user/userinfo/:id", (req, res) => {
 
 // Get all games
 app.get("/games", (req, res) => {
+
   let qr = "SELECT * FROM game";
   db.query(qr, (err, result) => {
     if (err) {
@@ -483,7 +483,7 @@ app.get("/games/categories/:id", (req, res) => {
 
     const categoryNames = result.map((row) => row.name);
 
-    console.log("Catégories :", categoryNames);
+    // console.log("Catégories :", categoryNames);
 
     res.send({
       message: "Tous les noms de catégories",
@@ -511,6 +511,51 @@ app.get("/games/images/:id", (req, res) => {
     });
   });
 });
+
+
+// Post a commentary
+app.post("/comment", (req,res) => {
+
+  let ID_game = req.body.ID_game;
+  let ID_user = req.body.ID_user;
+
+  let content = req.body.content;
+  let note = req.body.note;
+
+  let qr = `INSERT INTO comment(content, ID_game, iD_user, note) VALUES (?,?,?,?)`;
+
+  db.query(qr, [content, ID_game, ID_user, note], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+    console.log(`${content} : COMMENT sent`);
+  });
+
+})
+
+
+// Get all comments
+app.get("/comment/:id", (req, res) => {
+
+  let game_id = req.params.id;
+
+  let qr = `SELECT * FROM comment WHERE ID_game = ?`;
+
+  db.query(qr, [game_id], (err, result) => {
+    if (err) {
+      console.log(err, "errs");
+      return res.status(500).json({ error: "Internal server error" });
+    }
+    res.send({
+      message: `All comments' data from game ${game_id}`,
+      data: result,
+    });
+  });
+});
+
+
 
 app.listen(3000, () => {
   console.log("Server running");

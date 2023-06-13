@@ -1,17 +1,17 @@
 export class Game {
     constructor(
-        public ID: number,
-        public name: string,
-        public description: string,
-        public dev: number,
-        public longDescription: string,
-        public price: number,
-        public videoCode: string,
-        public images: string[],
-        public category: string[],
-        public cpu: string,
-        public gpu: string,
-        public ram: string
+        public ID: number = 0,
+        public name: string = '',
+        public description: string = '',
+        public dev: number = 0,
+        public longDescription: string = '',
+        public price: number = 0,
+        public videoCode: string = '',
+        public images: string[] = [''],
+        public category: string[] = [''],
+        public cpu: string = '',
+        public gpu: string = '',
+        public ram: string = ''
 
     ) {
         this.ID = ID,

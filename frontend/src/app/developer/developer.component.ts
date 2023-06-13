@@ -36,6 +36,8 @@ export class DeveloperComponent {
 
     this.user_id = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
     //this.user = apiService.getUserInfo(this.user_id)
+    this.user_id = 21;
+
 
     console.log(this.user_id);
 
@@ -262,15 +264,6 @@ export class DeveloperComponent {
       this.recommendedCPU,
       this.recommendedGPU,
       this.recommendedRAM
-    );
-
-    const newGameDTO: GameDTO = new GameDTO(
-      0,
-      gameName,
-      gameDescription,
-      this.user_id,
-      longDescription,
-      price,
     );
 
     console.log('Adding game!', newGame);

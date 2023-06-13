@@ -4,6 +4,8 @@ import { YouTubePlayer } from '@angular/youtube-player';
 import { Game } from 'src/app/models/game';
 import { GameService } from 'src/app/services/game.service';
 import { Router } from '@angular/router';
+import { CommentDTO } from 'src/app/models/CommentDTO';
+
 
 @Component({
   selector: 'app-gamefull',
@@ -13,8 +15,15 @@ import { Router } from '@angular/router';
 
 export class GamefullComponent {
   protected rating: number = 0;
-  public prd_idx : number
-  public game : Game
+  public prd_idx : number = 0;
+  public game : Game = new Game();
+  public allComments: CommentDTO[] = [];
+
+  public commentFromUser: CommentDTO = new CommentDTO("",0,0,0);
+  public comment_string: string = '';
+  public note:number = 0;
+  public pageLoaded: boolean = false;
+
   @ViewChild('youtubePlayer') youtubePlayer: ElementRef | undefined;
   videoHeight: number | undefined;
   videoWidth: number | undefined;
@@ -22,11 +31,29 @@ export class GamefullComponent {
   @ViewChild('carousel') carousel: ElementRef | undefined;
 
   constructor(private activatedroute : ActivatedRoute, private service : GameService, private router : Router) { 
-    this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
-    this.game = service.getPrdByIndex(this.prd_idx-1)
-  }
-    
-  ngOnInit(): void {
+    if(service.isReadyImediately()) {
+      this.pageLoaded = true;
+      this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
+
+      this.game =this.service.getGameById(this.prd_idx);
+
+      this.getCommentsFromGame(this.prd_idx);
+      this.pageLoaded = true;
+    }
+    else {
+      this.service.isReady().subscribe((isReady: boolean) => {
+        if (isReady) {
+          //Game service ready
+          this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
+          //this.game = service.getPrdByIndex(this.prd_idx-1)
+
+          this.game =this.service.getGameById(this.prd_idx);
+
+          this.getCommentsFromGame(this.prd_idx);
+          this.pageLoaded = true;
+        }
+      });
+    }
   }
 
   ngAfterViewInit(): void {
@@ -59,6 +86,48 @@ export class GamefullComponent {
   }
   setrating(rating: number):void{
     this.rating = rating;
+  }
+
+  postCommForm() {
+    this.commentFromUser.content = this.comment_string;
+    this.comment_string = '';
+
+    this.commentFromUser.ID_game= this.prd_idx;
+
+    // CHANGER L'ID LORSQUE CONNEXION FAITE
+    this.commentFromUser.ID_user = 21;
+    this.commentFromUser.note = this.note;
+
+    this.postComm(this.commentFromUser);
+  }
+
+  postComm(data:CommentDTO) {
+    //this.service2.postComm(data);
+
+    this.service.postComm(data).subscribe(
+      (response) => {
+        console.log('Comment uploaded successfully:', response);
+      },
+      (error) => {
+        console.log('Error uploading Comment ...', error);
+      }
+    );
+    this.getCommentsFromGame(this.prd_idx);
+    
+  }
+
+  getCommentsFromGame(id:number) {
+
+    this.service.getAllComments(id).subscribe(
+      (response) => {
+        this.allComments = response.data;
+        console.log(this.allComments);
+      },
+      (error) => {
+        console.log('Error fetching all comments:', error);
+      }
+    );
+     
   }
 
 }
