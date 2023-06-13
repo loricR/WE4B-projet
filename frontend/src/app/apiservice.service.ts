@@ -17,8 +17,6 @@ export class ApiserviceService {
     gameApiUrl = 'http://localhost:3000/user/games';
     gameUrl = 'http://localhost:3000/recherche/game';
 
-
-
     constructor(private _http:HttpClient) { }
 
     // get all data
@@ -62,7 +60,13 @@ export class ApiserviceService {
       return this._http.get(`${this.apiUrl}/${ids}`);
     }
 
-    getGamesByDeveloper(developerId: number): Observable<any> {
+    searchData(query: string): Observable<any> {
+      const url = `${this.apiUrl}/:${query}`; // Modify the URL and parameters based on your backend API
+      console.log("test");
+      return this._http.get(url);
+    }
+  
+    getGamesByDeveloper(developerId: any): Observable<any> {
       const url = `${this.gameApiUrl}/${developerId}`; 
       return this._http.get(url);
     }
