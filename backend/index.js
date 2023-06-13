@@ -15,11 +15,12 @@ app.use(bodyParser.json());
 
 //database Connection
 const db = mysql.createConnection({
-  host:"localhost",
-  user:"root",
-  password:"iron",
-  database:"we4b",
-  port:3306
+    host:"localhost",
+    user:"root",
+    password:"iron",    
+    database:"we4b",
+    port:3306
+
 });
 
 // Repository of pictures chosen for games

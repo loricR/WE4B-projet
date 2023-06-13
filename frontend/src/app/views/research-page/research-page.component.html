@@ -1,1 +1,24 @@
-<p>research-page works!</p>
+<div>
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Enter search query" />
+    <button (click)="search()">Search</button>
+  </div> 
+    <p>{{searchQuery}}</p>   
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">username</th>
+                <th scope="col">password</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor = 'let us of searchResults'>
+                <th scope="row">{{us.ID}}</th>
+                <td>{{us.username}}</td>
+                <td>{{us.password}}</td>
+                <td>{{us.dev}}</td>
+            </tr>
+        </tbody>
+    </table>
