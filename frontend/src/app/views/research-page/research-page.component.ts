@@ -9,13 +9,27 @@ import { ApiserviceService } from '../../apiservice.service';
    
 export class ResearchPageComponent {
   searchQuery!: string;
+  searchType: string = 'user'; //Default to user search
   searchResults: any;
+
+  gameName : string = '';
+  minPrice : number = 0;
+  maxPrice : number = 100;
+  developer : string = '';
 
   constructor(private dataService: ApiserviceService) {}
 
   search(): void {
-    this.dataService.getAllData2(this.searchQuery).subscribe((res) => {
-        this.searchResults = res.data;
+    // Your search logic here based on searchQuery and searchType
+    if (this.searchType === 'user') {
+      this.dataService.getUserData(this.searchQuery).subscribe((res) => {
+      this.searchResults = res.data;
       });
+    } else if (this.searchType === 'game') {
+        this.dataService.researchGame(this.gameName, this.minPrice, this.maxPrice, this.developer).subscribe((res) => {
+        this.searchResults = res.data;
+        console.log(this.searchQuery);
+      });
+    }
   }
 }
