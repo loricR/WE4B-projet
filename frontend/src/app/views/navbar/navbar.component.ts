@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
+import { GameService } from 'src/app/services/game.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,4 +22,6 @@ export class NavbarComponent implements OnInit {
     this.tokenStorage.signOut();
     window.location.reload();
   }
+
 }
+
