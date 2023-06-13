@@ -1,9 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { YouTubePlayer } from '@angular/youtube-player';
 import { Game } from 'src/app/models/game';
 import { GameService } from 'src/app/services/game.service';
 import { Router } from '@angular/router';
+import { CommentDTO } from 'src/app/models/CommentDTO';
+
 
 @Component({
   selector: 'app-gamefull',
@@ -11,10 +13,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./gamefull.component.css']
 })
 
-export class GamefullComponent {
+export class GamefullComponent implements OnInit {
   protected rating: number = 0;
   public prd_idx : number
   public game : Game
+
   @ViewChild('youtubePlayer') youtubePlayer: ElementRef | undefined;
   videoHeight: number | undefined;
   videoWidth: number | undefined;
@@ -22,11 +25,40 @@ export class GamefullComponent {
   @ViewChild('carousel') carousel: ElementRef | undefined;
 
   constructor(private activatedroute : ActivatedRoute, private service : GameService, private router : Router) { 
+
+    console.log("Constructeur");
+
     this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
-    this.game = service.getPrdByIndex(this.prd_idx-1)
+    //this.game = service.getPrdByIndex(this.prd_idx-1)
+
+    this.game = this.service.getGameById(this.prd_idx);
+
+    console.log(this.game);
+
+    this.getCommentsFromGame(this.prd_idx);
   }
+
+
+
+  public allComments: CommentDTO[] = [];
+
+  public commentFromUser: CommentDTO = new CommentDTO("",0,0,0);
+  public comment_string: string = '';
+  public note:number = 0;
     
   ngOnInit(): void {
+
+    console.log("INIT");
+
+    this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
+    //this.game = service.getPrdByIndex(this.prd_idx-1)
+
+    this.game =this.service.getGameById(this.prd_idx);
+
+    console.log(this.game);
+
+    this.getCommentsFromGame(this.prd_idx);
+
   }
 
   ngAfterViewInit(): void {
@@ -59,6 +91,48 @@ export class GamefullComponent {
   }
   setrating(rating: number):void{
     this.rating = rating;
+  }
+
+  postCommForm() {
+    this.commentFromUser.content = this.comment_string;
+    this.comment_string = '';
+
+    this.commentFromUser.ID_game= this.prd_idx;
+
+    // CHANGER L'ID LORSQUE CONNEXION FAITE
+    this.commentFromUser.ID_user = 21;
+    this.commentFromUser.note = this.note;
+
+    this.postComm(this.commentFromUser);
+  }
+
+  postComm(data:CommentDTO) {
+    //this.service2.postComm(data);
+
+    this.service.postComm(data).subscribe(
+      (response) => {
+        console.log('Comment uploaded successfully:', response);
+      },
+      (error) => {
+        console.log('Error uploading Comment ...', error);
+      }
+    );
+    this.getCommentsFromGame(this.prd_idx);
+    
+  }
+
+  getCommentsFromGame(id:number) {
+
+    this.service.getAllComments(id).subscribe(
+      (response) => {
+        this.allComments = response.data;
+        console.log(this.allComments);
+      },
+      (error) => {
+        console.log('Error fetching all comments:', error);
+      }
+    );
+     
   }
 
 }

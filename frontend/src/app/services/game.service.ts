@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CommentDTO } from '../models/CommentDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,11 @@ import { map } from 'rxjs/operators';
 export class GameService {
   gameArray: Game[] = [];
 
+  isDoneGenerating: boolean = false;
+
   gameApiUrl = 'http://localhost:3000/games';
+  commentApiUrl = 'http://localhost:3000/comment';
+
 
   constructor(private router: Router, private _http:HttpClient) { 
     //this.gameArray = [];
@@ -22,8 +27,6 @@ export class GameService {
     // this.gameArray.push(new Game(3, 'CS2', '../assets/images/meta_rifle.jpg', 'La description courte.', 'La description longue.', 12, 'nom du dev', ['FPS', 'Multijoueur'], '2iivKSgqlgs',"Intel Core i9 ", "Nvidia Geforce RTX4090 Ti", "34 GB"));
     
     //this.gameArray.push(new Game(1,'CSGO', 'La description courte.', 22, 'La description longue.', 12, 'edYCtaNueQY', ['../assets/images/csgo.png'], ['FPS', 'Multijoueur'],"Intel Core i9 ", "Nvidia Geforce RTX4090 Ti", "34 GB" ));
-
-    
 
     this.getAllGames().subscribe(
       (response: any) => {
@@ -69,7 +72,8 @@ export class GameService {
               console.log('First picture', game.images[0]);
             });
     
-            console.log('All games:', this.gameArray);
+            console.log('test dans forkjoin parce que pkp', this.gameArray[2]);
+
           },
           (error) => {
             console.log('Error fetching games:', error);
@@ -82,7 +86,7 @@ export class GameService {
     );
     
 
-    console.log(this.gameArray);
+    console.log("test après sybscribe ", this.gameArray[2]);
 
   }
 
@@ -95,8 +99,25 @@ export class GameService {
     return this.gameArray;
   }
 
-  getPrdByIndex(idx : number): Game {
-    return this.gameArray[idx];
+  // getPrdByIndex(idx : number): Game {
+  //   return this.gameArray[idx];
+  // }
+
+
+  getGameById(id: number): Game {
+
+    //console.log(" Dans getGameID : " , this.gameArray);
+
+    console.log("Dans getGameID : ", this.gameArray[2]);
+
+
+    const game = this.gameArray.find( ({ID}) => ID === id);
+
+    console.log(" TEST FIND : ", this.gameArray.find( ({ID}) => ID === id));
+    console.log("id : ", id)
+
+    
+    return game ? game : new Game(1, 'Counter Strike Global Offensive', 'DESCRIPTIONNN', 21, 'La description longue.', 12, 'edYCtaNueQY', ['edYCtaNueQY'], ['FPS', 'Multijoueur'],"Intel Core 2 Duo E6600", "AMD Phenom X3 8750 or better", "2 GB"); // Renvoie un nouvel objet Game vide si aucun jeu correspondant n'est trouvé
   }
 
   devpage(id : number) : void{
@@ -116,6 +137,18 @@ export class GameService {
   getImages(ID:number): Observable<any> {
 
     return this._http.get(`${this.gameApiUrl}/images/${ID}`);
+  }
+
+  postComm(data:CommentDTO): Observable<any> {
+    const url = `${this.commentApiUrl}`;
+
+    console.log("JE SUIS AU SERVICE !!!")
+    return this._http.post(url, data);
+  }
+
+  getAllComments(ID:number): Observable<any> {
+
+    return this._http.get(`${this.commentApiUrl}/${ID}`);
   }
 
 
