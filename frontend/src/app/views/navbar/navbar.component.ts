@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
+import { GameService } from 'src/app/services/game.service';
 
 @Component({
   selector: 'app-navbar',
@@ -67,3 +68,4 @@ export class NavbarComponent implements OnInit {
     this.navItem.set(newActive, true);
   }
 }
+
