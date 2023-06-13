@@ -1,24 +1,52 @@
 <div>
     <input type="text" [(ngModel)]="searchQuery" placeholder="Enter search query" />
     <button (click)="search()">Search</button>
-  </div> 
-    <p>{{searchQuery}}</p>   
-    <table class="table">
+  </div>
+  
+  <div>
+    <label for="searchType">Search by:</label>
+    <input type="radio" id="userSearch" name="searchType" [(ngModel)]="searchType" value="user" checked>
+    <label for="userSearch">User</label>
+    <input type="radio" id="gameSearch" name="searchType" [(ngModel)]="searchType" value="game">
+    <label for="gameSearch">Game</label>
+  </div>
+  
+  <div *ngIf="searchType === 'game'">
+    <label for="gameName">Game Name:</label>
+    <input type="text" id="gameName" name="gameName" [(ngModel)]="gameName">
+  
+    <label for="minPrice">Minimum Price:</label>
+    <input type="number" id="minPrice" name="minPrice" [(ngModel)]="minPrice">
+  
+    <label for="maxPrice">Maximum Price:</label>
+    <input type="number" id="maxPrice" name="maxPrice" [(ngModel)]="maxPrice">
+  
+    <label for="developer">Developer:</label>
+    <input type="text" id="developer" name="developer" [(ngModel)]="developer">
+  </div>
+  <p>{{ searchQuery }}</p>
 
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">username</th>
-                <th scope="col">password</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr *ngFor = 'let us of searchResults'>
-                <th scope="row">{{us.ID}}</th>
-                <td>{{us.username}}</td>
-                <td>{{us.password}}</td>
-                <td>{{us.dev}}</td>
-            </tr>
-        </tbody>
-    </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col" *ngIf="searchType === 'user'">Username</th>
+        <th scope="col" *ngIf="searchType === 'game'">Name</th>
+        <th scope="col" *ngIf="searchType === 'user'">Password</th>
+        <th scope="col" *ngIf="searchType === 'game'">Developer</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <tr *ngFor="let item of searchResults">
+        <th scope="row">{{ item.ID }}</th>
+        <td *ngIf="searchType === 'user'">{{ item.username}}</td>
+        <td *ngIf="searchType === 'user'">{{ item.password}}</td>
+        <td *ngIf="searchType === 'game'">{{ item.name }}</td>
+        <td *ngIf="searchType === 'game'">{{ item.dev }}</td>
+        <td *ngIf="searchType === 'game'">{{ item.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  

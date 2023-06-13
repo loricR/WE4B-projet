@@ -15,6 +15,7 @@ export class ApiserviceService {
     apiUrl = 'http://localhost:3000/user';
     picUrl = 'http://localhost:3000/api/save-image';
     gameApiUrl = 'http://localhost:3000/user/games';
+    gameUrl = 'http://localhost:3000/recherche/game';
 
 
 
@@ -27,7 +28,7 @@ export class ApiserviceService {
       return this._http.get(`${this.apiUrl}`);
     }
 
-    getAllData2(id:any):Observable<any>{
+    getUserData(id:any):Observable<any>{
 
       return this._http.get(`${this.apiUrl}/${id}`);
     }
@@ -66,6 +67,16 @@ export class ApiserviceService {
       return this._http.get(url);
     }
 
+    researchGameById(gameId: any): Observable<any> {
+      const url = `${this.gameUrl}/${gameId}`;
+      return this._http.get(url);
+    }
+
+    researchGame(gameName: any, minPrice: any, maxPrice: any, developer: any): Observable<any> {
+      const url = `${this.gameUrl}/${gameName}/${minPrice}/${maxPrice}/${developer}`;
+      return this._http.get(url);
+    }
+
     addGameByDeveloper(game : Game): Observable<any> {
       const url = `${this.gameApiUrl}/${game.dev}`;
 
@@ -83,13 +94,4 @@ export class ApiserviceService {
       const url = `${this.apiUrl}/userinfo/${id}`; 
       return this._http.get(url);
     }
-
-
-    searchData(query: string): Observable<any> {
-        const url = `${this.apiUrl}/:${query}`; // Modify the URL and parameters based on your backend API
-        console.log("test");
-        return this._http.get(url);
-    }
-    
-
 }
