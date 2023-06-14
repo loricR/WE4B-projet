@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CommentDTO } from '../models/CommentDTO';
+import { userDTO } from '../models/userDTO';
 
 
 
@@ -29,6 +30,8 @@ export class GameService {
 
   gameApiUrl = 'http://localhost:3000/games';
   commentApiUrl = 'http://localhost:3000/comment';
+  apiUrl = 'http://localhost:3000/user';
+  buyUrl = 'http://localhost:3000/buy';
 
 
   constructor(private router: Router, private _http:HttpClient) { 
@@ -82,7 +85,7 @@ export class GameService {
             this.gameArray.push(...games);
     
             this.gameArray.forEach((game: Game) => {
-              console.log('First picture', game.images[0]);
+              console.log('First picture', game.images);
             });
     
             //Service ready
@@ -153,4 +156,33 @@ export class GameService {
 
     return this._http.get(`${this.commentApiUrl}/${ID}`);
   }
+
+  // getPPFromID(ID:number): Observable<any>{
+
+  //   return this._http.get(`${this.commentApiUrl}/user/${ID}`)
+  // }
+
+  getUserByID(userID: number): Observable<any> {
+    const url = `${this.commentApiUrl}/user/${userID}`;
+    return this._http.get(url);
+  }
+
+  getUserInfo(id : number):Observable<any> {
+    const url = `${this.apiUrl}/userinfo/${id}`; 
+    return this._http.get(url);
+  }
+
+  bought(data:number[]): Observable<any> {
+    const url = `${this.buyUrl}`;
+
+    return this._http.post(url, data);
+  }
+
+  getHasBought(data:number[]): Observable<any> {
+    const url = `${this.buyUrl}/${data[0]}/${data[1]}`;
+
+    return this._http.get(url);
+  }
+
+
 }
