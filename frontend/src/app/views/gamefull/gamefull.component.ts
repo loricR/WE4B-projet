@@ -5,6 +5,9 @@ import { Game } from 'src/app/models/game';
 import { GameService } from 'src/app/services/game.service';
 import { Router } from '@angular/router';
 import { CommentDTO } from 'src/app/models/CommentDTO';
+import { userDTO } from 'src/app/models/userDTO';
+import { CommentWithUser } from 'src/app/models/CommentWithUser';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 
 
 @Component({
@@ -14,15 +17,34 @@ import { CommentDTO } from 'src/app/models/CommentDTO';
 })
 
 export class GamefullComponent {
-  protected rating: number = 0;
+  protected rating: number = 1;
+  public average_rating: number = 0;
+  public average_rating_round: number = 0;
+
   public prd_idx : number = 0;
   public game : Game = new Game();
   public allComments: CommentDTO[] = [];
+  public processedComments : CommentWithUser[] = [];
 
   public commentFromUser: CommentDTO = new CommentDTO("",0,0,0);
   public comment_string: string = '';
-  public note:number = 0;
   public pageLoaded: boolean = false;
+  public hasAlreadyCommented: boolean = false;
+  public comm: boolean = false;
+
+  public userArray: userDTO[] = []
+  public userArray2: userDTO[] = [] // To get the profile picture
+  public user: userDTO = new userDTO(21,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user
+  public user2: userDTO = new userDTO(21,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user for profile picture 
+
+  public profilePic: string = "";
+
+  public hasBoughtObject:number[] = []; 
+  public hasBoughtFinal:boolean = false;
+
+  public buyBool:boolean = false;
+
+
 
   @ViewChild('youtubePlayer') youtubePlayer: ElementRef | undefined;
   videoHeight: number | undefined;
@@ -30,7 +52,7 @@ export class GamefullComponent {
   @ViewChild('youtubeVideo') youtubeVideo: YouTubePlayer | undefined;
   @ViewChild('carousel') carousel: ElementRef | undefined;
 
-  constructor(private activatedroute : ActivatedRoute, private service : GameService, private router : Router) { 
+  constructor(private activatedroute : ActivatedRoute, private tokenStorage: TokenStorageService, private service : GameService, private router : Router) { 
     if(service.isReadyImediately()) {
       this.pageLoaded = true;
       this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
@@ -38,7 +60,24 @@ export class GamefullComponent {
       this.game =this.service.getGameById(this.prd_idx);
 
       this.getCommentsFromGame(this.prd_idx);
+
+      if(this.tokenStorage.getToken()) {
+        this.user = this.tokenStorage.getUser(); // gets the user info
+        console.log("check récupération user : ",this.user);
+      }
+
+      // this.hasAlreadyCommented = this.processedComments.some(processedComment => processedComment.comment.ID_user === this.user.ID);
+      // console.log("Il a déjà commenté : ",this.hasAlreadyCommented, "  et  id = ", this.user.ID);
+      // console.log("allComments :",this.processedComments);
+
+
+      this.getUserInfo();
+
       this.pageLoaded = true;
+
+      // this.AlreadyCommented()
+
+      
     }
     else {
       this.service.isReady().subscribe((isReady: boolean) => {
@@ -51,9 +90,24 @@ export class GamefullComponent {
 
           this.getCommentsFromGame(this.prd_idx);
           this.pageLoaded = true;
+
+          if(this.tokenStorage.getToken()) {
+            this.user = this.tokenStorage.getUser(); // gets the user info
+            console.log("check récupération user : ",this.user);
+          }
+
+          // this.hasAlreadyCommented = this.processedComments.some(processedComment => processedComment.comment.ID_user === this.user.ID);
+          // console.log("Il a déjà commenté : ",this.hasAlreadyCommented, "  et  id = ", this.user.ID);
+          // console.log("allComments :",this.processedComments);
+
+          // this.AlreadyCommented()
+
+          this.getUserInfo();
+
         }
       });
     }
+
   }
 
   ngAfterViewInit(): void {
@@ -84,9 +138,30 @@ export class GamefullComponent {
   calldev() {
     this.service.devpage(this.game.dev);
   }
+
   setrating(rating: number):void{
     this.rating = rating;
+
+    console.log("RESULTAT : ", this.AlreadyCommented());
   }
+
+  getAverageRating(): void {
+    let count = 0;
+    let avg = 0;
+
+    this.allComments.forEach(comment => {
+      count++
+      avg+=comment.note
+    });
+
+    this.average_rating = avg / count
+
+    this.average_rating = parseFloat(this.average_rating.toFixed(2));
+
+    this.average_rating_round = Math.round(this.average_rating);
+    console.log(" Moyenne : ",this.average_rating);
+  }
+
 
   postCommForm() {
     this.commentFromUser.content = this.comment_string;
@@ -95,14 +170,22 @@ export class GamefullComponent {
     this.commentFromUser.ID_game= this.prd_idx;
 
     // CHANGER L'ID LORSQUE CONNEXION FAITE
-    this.commentFromUser.ID_user = 21;
-    this.commentFromUser.note = this.note;
+    this.commentFromUser.ID_user = this.user.ID;
+    this.commentFromUser.note = this.rating;
+
+    this.rating = 0;
+    this.setrating(0);
 
     this.postComm(this.commentFromUser);
   }
 
   postComm(data:CommentDTO) {
     //this.service2.postComm(data);
+
+    this.AlreadyCommented();
+    if(this.hasAlreadyCommented) {
+      return;
+    }
 
     this.service.postComm(data).subscribe(
       (response) => {
@@ -112,6 +195,12 @@ export class GamefullComponent {
         console.log('Error uploading Comment ...', error);
       }
     );
+
+    // Empty all arrays else double lists
+    this.allComments = [];
+    this.processedComments = [];
+    this.comm = true;
+
     this.getCommentsFromGame(this.prd_idx);
     
   }
@@ -121,13 +210,137 @@ export class GamefullComponent {
     this.service.getAllComments(id).subscribe(
       (response) => {
         this.allComments = response.data;
-        console.log(this.allComments);
+        this.getAverageRating();
+
+        this.allComments.forEach((comments) => {
+          this.service.getUserByID(comments.ID_user).subscribe((user) => {
+            // Create a new object with comment and user details
+            const commentWithUser = {
+              comment : comments,
+              user: user.data
+            };
+    
+            // Push the new object to an array
+            this.processedComments.push(commentWithUser);
+          });
+        });
+         
+        //console.log(this.processedComments);
+        
       },
       (error) => {
         console.log('Error fetching all comments:', error);
       }
+    );  
+  }
+
+  AlreadyCommented():boolean {
+
+    console.log("ID user :", this.user.ID)
+    console.log(this.processedComments);
+
+    this.processedComments.forEach((processedComment) => {
+      if (processedComment.comment.ID_user === this.user.ID) {
+        this.hasAlreadyCommented = true;
+      }
+      console.log("Comment id user : ",processedComment.comment.ID_user);
+    });
+
+    return this.hasAlreadyCommented
+    
+  }
+
+  closeSuccessMsg(): void {
+
+    // Programmatically trigger a click event on the close button
+    const successMsgElement = document.getElementById('successMsg');
+    if (successMsgElement) {
+      const closeButton = successMsgElement.querySelector('.btn-close');
+      if (closeButton) {
+        closeButton.dispatchEvent(new Event('click'));
+      }
+    }
+  }
+
+  getUserInfo() {
+
+    
+    
+
+    this.service.getUserInfo(this.user.ID).subscribe(
+      (response) => {
+        this.userArray2 = response.data;
+        console.log(this.userArray2);
+
+        this.user2 = this.userArray2[0];
+
+        const searchHasBought: number[] = [];
+        searchHasBought[0] = this.user2.ID;
+        searchHasBought[1] = this.prd_idx;
+
+        const button2 = document.getElementById('postcomm') as HTMLButtonElement;
+        button2.disabled = true;
+
+        this.service.getHasBought(searchHasBought).subscribe(
+          (response) => {
+            const result:number[] = response.data;
+            //console.log("hasBought : ", result);
+
+            if(result.length > 0) {
+              const button = document.getElementById('acheter') as HTMLButtonElement;
+              button.disabled = true;
+
+              this.hasBoughtFinal = true;
+
+              const buttonPost = document.getElementById('postcomm') as HTMLButtonElement;
+              buttonPost.disabled = false;
+            }
+    
+            //this.user2 = this.userArray2[0];
+    
+            return;
+          },
+          (error) => {
+            const buttonBuy = document.getElementById('acheter') as HTMLButtonElement;
+            buttonBuy.disabled = true;
+
+            const buttonPost = document.getElementById('postcomm') as HTMLButtonElement;
+            buttonPost.disabled = true;
+
+            console.log('Error fetching user info:', error);
+          }
+        );
+
+        return;
+      },
+      (error) => {
+        console.log('Error fetching user info:', error);
+      }
     );
-     
+  }
+
+  buyGame() {
+
+    this.hasBoughtObject[0] = this.user2.ID;
+    this.hasBoughtObject[1] = this.prd_idx;
+
+    this.service.bought(this.hasBoughtObject).subscribe(
+      (response) => {
+        console.log('Game Bought !!', response);
+      },
+      (error) => {
+        console.log('Error buying game', error);
+      }
+    );
+
+    const button = document.getElementById('acheter') as HTMLButtonElement;
+    button.disabled = true;
+
+    this.buyBool = true;
+
+    const button2 = document.getElementById('postcomm') as HTMLButtonElement;
+    button2.disabled = false;
+
   }
 
 }

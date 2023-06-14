@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host:"localhost",
     user:"root",
-    password:"",    
+    password:"iron",    
     database:"we4b",
     port:3306
 });
@@ -550,6 +550,96 @@ app.get("/comment/:id", (req, res) => {
     }
     res.send({
       message: `All comments' data from game ${game_id}`,
+      data: result,
+    });
+  });
+});
+
+
+// Get Profile Picture From ID
+// app.get("/comment/user/:id", (req, res) => {
+
+//   console.log("I MANAGED")
+
+//   let user_id = req.params.id;
+
+//   let qr = `SELECT * FROM user WHERE ID = ?`;
+
+//   db.query(qr, [user_id], (err, result) => {
+//     if (err) {
+//       console.log(err, "errs");
+//       return res.status(500).json({ error: "Internal server error" });
+//     }
+//     res.send({
+//       message: `The profile  pictureof user ${user_id}`,
+//       data: result,
+//     });
+//   });
+// });
+
+app.get("/comment/user/:id", (req, res) => {
+
+  const userId = req.params.id;
+
+  const query = `SELECT * FROM user WHERE ID = ?`;
+
+  db.query(query, [userId], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.send({
+      message: `The profile picture of user ${userId}`,
+      data: result,
+    });
+  });
+});
+
+
+// Post an object in hasBought table (user bought a game)
+app.post("/buy", (req,res) => {
+
+  let ID_game = req.body[1];
+  let ID_user = req.body[0];
+
+  let qr = `INSERT INTO hasBought(ID_user, ID_game) VALUES (?,?)`;
+
+  db.query(qr, [ID_user, ID_game], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+    console.log(`${ID_user} : The game ${ID_game} has been bought`);
+  });
+
+})
+
+
+app.get("/buy/:id_user/:id_game", (req, res) => {
+
+  const userId = req.params.id_user;
+  const gameId = req.params.id_game;
+
+  const query = `SELECT * FROM hasBought WHERE ID_user = ? AND ID_game = ?`;
+
+  db.query(query, [userId, gameId], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+    // if (result.length === 0) {
+    //   return res.status(404).json({ error: "User not found" });
+    // }
+
+    res.send({
+      message: `If has bought the game, at least one result}`,
       data: result,
     });
   });
