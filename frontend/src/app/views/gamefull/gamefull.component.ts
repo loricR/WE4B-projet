@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { YouTubePlayer } from '@angular/youtube-player';
 import { Game } from 'src/app/models/game';
@@ -50,9 +50,9 @@ export class GamefullComponent {
   videoHeight: number | undefined;
   videoWidth: number | undefined;
   @ViewChild('youtubeVideo') youtubeVideo: YouTubePlayer | undefined;
-  @ViewChild('carousel') carousel: ElementRef | undefined;
+  @ViewChildren('carousel') carousel: QueryList<ElementRef> | undefined;
 
-  constructor(private activatedroute : ActivatedRoute, private tokenStorage: TokenStorageService, private service : GameService, private router : Router) { 
+  constructor(private activatedroute : ActivatedRoute, private tokenStorage: TokenStorageService, private service : GameService, private router : Router, private changeDetect: ChangeDetectorRef) { 
     if(service.isReadyImediately()) {
       this.pageLoaded = true;
       this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
@@ -111,15 +111,33 @@ export class GamefullComponent {
   }
 
   ngAfterViewInit(): void {
+    if(!this.carousel?.first) {
+      this.carousel?.changes.subscribe((comp: QueryList<ElementRef>) => //Wait until the carousel element exists on the page
+      {
+        this.initCarousel();
+      })
+    }
+    else {
+      this.initCarousel();
+    }
+  }
+
+  ngAfterContentChecked(): void {
+    this.changeDetect.detectChanges();  //Tell angular that there have been changes in the content (carousel element)
+  }
+
+  initCarousel(): void {
+    this.youtubeVideo?.mute();
     this.onResize();
     window.addEventListener('resize', this.onResize.bind(this));  //Call onResize everytime the window is resized
 
-    this.carousel?.nativeElement.addEventListener('slid.bs.carousel', this.onChangeItem.bind(this)); //slid when it has finished the transition, slide when it begins
+    this.carousel?.first.nativeElement.addEventListener('slid.bs.carousel', this.onChangeItem.bind(this)); //slid when it has finished the transition, slide when it begins
 
   }
 
   onResize(): void {
     if(this.youtubePlayer != null) {  //If the component exists
+      console.log("onResize");  
       this.videoWidth = Math.min(this.youtubePlayer.nativeElement.clientWidth, 1200); //videoWidth = div size or 1200px if div larger
 
       this.videoHeight = this.videoWidth * 0.6; //To keep the aspect ratio
@@ -127,14 +145,17 @@ export class GamefullComponent {
   }
 
   onChangeItem(): void {
+    console.log("change");
     if(this.youtubePlayer?.nativeElement.classList.contains('active')) {  //If we are watching the video
       this.youtubeVideo?.playVideo();
+      console.log("joue");
     } 
     else {
       this.youtubeVideo?.pauseVideo();
     }
     this.onResize();
   }
+
   calldev() {
     this.service.devpage(this.game.dev);
   }
