@@ -53,12 +53,18 @@ export class GamefullComponent {
   @ViewChild('carousel') carousel: ElementRef | undefined;
 
   constructor(private activatedroute : ActivatedRoute, private tokenStorage: TokenStorageService, private service : GameService, private router : Router) { 
+    
+    // If the game array has been successfully loaded by the service
     if(service.isReadyImediately()) {
       this.pageLoaded = true;
+
+      // Get the ID of the game from the URL
       this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
 
+      // get all infos of the game from its ID
       this.game =this.service.getGameById(this.prd_idx);
 
+      // Get all comments on the game from user
       this.getCommentsFromGame(this.prd_idx);
 
       if(this.tokenStorage.getToken()) {
@@ -66,28 +72,24 @@ export class GamefullComponent {
         console.log("check récupération user : ",this.user);
       }
 
-      // this.hasAlreadyCommented = this.processedComments.some(processedComment => processedComment.comment.ID_user === this.user.ID);
-      // console.log("Il a déjà commenté : ",this.hasAlreadyCommented, "  et  id = ", this.user.ID);
-      // console.log("allComments :",this.processedComments);
-
-
       this.getUserInfo();
-
       this.pageLoaded = true;
-
-      // this.AlreadyCommented()
-
-      
+   
     }
+
+    // If the service didn't have time to successfully load games informations
     else {
       this.service.isReady().subscribe((isReady: boolean) => {
         if (isReady) {
-          //Game service ready
-          this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
-          //this.game = service.getPrdByIndex(this.prd_idx-1)
 
+          //Game service ready
+          // Get the ID of the game from the URL
+          this.prd_idx = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
+
+          // get all infos of the game from its ID
           this.game =this.service.getGameById(this.prd_idx);
 
+          // Get all comments on the game from user
           this.getCommentsFromGame(this.prd_idx);
           this.pageLoaded = true;
 
@@ -95,12 +97,6 @@ export class GamefullComponent {
             this.user = this.tokenStorage.getUser(); // gets the user info
             console.log("check récupération user : ",this.user);
           }
-
-          // this.hasAlreadyCommented = this.processedComments.some(processedComment => processedComment.comment.ID_user === this.user.ID);
-          // console.log("Il a déjà commenté : ",this.hasAlreadyCommented, "  et  id = ", this.user.ID);
-          // console.log("allComments :",this.processedComments);
-
-          // this.AlreadyCommented()
 
           this.getUserInfo();
 
@@ -139,12 +135,14 @@ export class GamefullComponent {
     this.service.devpage(this.game.dev);
   }
 
+  // Method responsible for rating a game 
   setrating(rating: number):void{
     this.rating = rating;
 
     console.log("RESULTAT : ", this.AlreadyCommented());
   }
 
+  // Method responsible for calculating the average rating based on all comments
   getAverageRating(): void {
     let count = 0;
     let avg = 0;
@@ -162,14 +160,13 @@ export class GamefullComponent {
     console.log(" Moyenne : ",this.average_rating);
   }
 
-
+  // Method responsible for getting all informations about the comment
   postCommForm() {
     this.commentFromUser.content = this.comment_string;
     this.comment_string = '';
 
     this.commentFromUser.ID_game= this.prd_idx;
 
-    // CHANGER L'ID LORSQUE CONNEXION FAITE
     this.commentFromUser.ID_user = this.user.ID;
     this.commentFromUser.note = this.rating;
 
@@ -179,8 +176,8 @@ export class GamefullComponent {
     this.postComm(this.commentFromUser);
   }
 
+  // Method responsible for uploading the comment in the database
   postComm(data:CommentDTO) {
-    //this.service2.postComm(data);
 
     this.AlreadyCommented();
     if(this.hasAlreadyCommented) {
@@ -205,6 +202,7 @@ export class GamefullComponent {
     
   }
 
+  // Method responsible for gathering all comments made by user on the game loaded
   getCommentsFromGame(id:number) {
 
     this.service.getAllComments(id).subscribe(
@@ -224,8 +222,6 @@ export class GamefullComponent {
             this.processedComments.push(commentWithUser);
           });
         });
-         
-        //console.log(this.processedComments);
         
       },
       (error) => {
@@ -234,6 +230,7 @@ export class GamefullComponent {
     );  
   }
 
+  // Method to check if the current user has already commented once or not
   AlreadyCommented():boolean {
 
     console.log("ID user :", this.user.ID)
@@ -262,10 +259,8 @@ export class GamefullComponent {
     }
   }
 
+  // Method responsible to return all information about an user
   getUserInfo() {
-
-    
-    
 
     this.service.getUserInfo(this.user.ID).subscribe(
       (response) => {
@@ -281,11 +276,13 @@ export class GamefullComponent {
         const button2 = document.getElementById('postcomm') as HTMLButtonElement;
         button2.disabled = true;
 
+
+        // Check if the user has already bought the game
         this.service.getHasBought(searchHasBought).subscribe(
           (response) => {
             const result:number[] = response.data;
-            //console.log("hasBought : ", result);
 
+            // 
             if(result.length > 0) {
               const button = document.getElementById('acheter') as HTMLButtonElement;
               button.disabled = true;
@@ -295,8 +292,6 @@ export class GamefullComponent {
               const buttonPost = document.getElementById('postcomm') as HTMLButtonElement;
               buttonPost.disabled = false;
             }
-    
-            //this.user2 = this.userArray2[0];
     
             return;
           },

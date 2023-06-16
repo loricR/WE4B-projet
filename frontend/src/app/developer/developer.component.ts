@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GameDTO } from '../models/gameDTO';
 import { User } from '../models/user';
 import { userDTO } from '../models/userDTO';
+import { TokenStorageService } from '../services/token-storage.service';
 
 
 @Component({
@@ -26,29 +27,48 @@ export class DeveloperComponent {
     'louis.rolland@utbm.fr'  // email
   );
 
+  public userConnected: userDTO = new userDTO(21,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user Connected
+  public isUserConnectedDev: boolean = false; // Boolean initially set to false responsible for displaying the add game section if set to true
+
   public isDeveloper:number = this.user.dev
   public profilePictureUrl: string = this.user.profilePictureURL
   public username:string = this.user.username
 
+
   public user_id : number
 
-  constructor(private activatedroute : ActivatedRoute, private http: HttpClient, private apiService: ApiserviceService, private router: Router) {
+  constructor(private activatedroute : ActivatedRoute, private tokenStorage : TokenStorageService, http: HttpClient, private apiService: ApiserviceService, private router: Router) {
 
     this.user_id = parseInt(this.activatedroute.snapshot.paramMap.get('id') || '0')
-    //this.user = apiService.getUserInfo(this.user_id)
-    this.user_id = 21;
+
+    // Get informations of the user connected
+    if(this.tokenStorage.getToken()) {
+      this.userConnected = this.tokenStorage.getUser(); // gets the user info
+      console.log("check récupération user connected : ",this.userConnected);
+
+      // Check if user connected is the developer displayed
+      if(this.userConnected.ID == this.user_id) {
+        this.isUserConnectedDev = true;
+      } else {
+        this.isUserConnectedDev = false;
+      }
+
+    // If the user isn't connected
+    } else {
+      this.isUserConnectedDev = false;
+    }
 
 
-    console.log(this.user_id);
+    console.log("ID DEV : ",this.user_id);
 
+    // Get all informations about the dev displayed
     this.apiService.getUserInfo(this.user_id).subscribe(
       (response) => {
         this.userArray = response.data;
-        console.log(this.userArray);
 
         this.user = this.userArray[0];
 
-
+        // Store all results
         this.isDeveloper = this.user.dev;
         this.profilePictureUrl = this.user.profilePictureURL;
         this.username = this.user.username;
@@ -61,14 +81,6 @@ export class DeveloperComponent {
     );
 
   }
-
-
-  // @Input() profilePictureUrl!: string;
-  // @Input() username!: string;
-  // @Input() isDeveloper!: boolean;
-  // @Input() userId!: number;
-
-  
 
 
   showGames: boolean = false;
@@ -111,25 +123,28 @@ export class DeveloperComponent {
     userId: new FormControl('', Validators.required)
   });
 
-
+  // Method responsible for adding a category
   addCategory(event: any): void {
     const category = event.value;
     this.categories.push(category);
     this.predefinedCategories = this.predefinedCategories.filter(c => c !== category);
   }
 
+  // Method responsible for adding a CPU
   addCPU(event: any): void {
     const cpu = event.value;
     this.recommendedCPU = cpu;
     this.predefinedCPU = [];
   }
 
+  // Method responsible for adding a GPU
   addGPU(event: any): void {
     const gpu = event.value;
     this.recommendedGPU = gpu;
     this.predefinedGPU = [];
   }
 
+  // Method responsible for adding a RAM
   addRAM(event: any): void {
     const ram = event.value;
     this.recommendedRAM = ram;
@@ -138,12 +153,13 @@ export class DeveloperComponent {
   
   
   
-
+  // Method responsible for the redirection to a ggame's page (using router)
   redirectToGamePage(gameId: number): void {
     console.log(gameId);
     this.router.navigate(['/game', gameId]);
   }
 
+  // Method responsible for showing / hiding list of games
   toggleGames(): void {
     if (this.isDeveloper) {
       this.showGames = !this.showGames;
@@ -151,10 +167,10 @@ export class DeveloperComponent {
         this.getGamesByDeveloper();
       }
     }
-    //console.log(this.user);
   }
 
   getGamesByDeveloper(): void {
+
     // Call the API service to fetch games made by the developer
     this.apiService.getGamesByDeveloper(this.user_id).subscribe(
       (response) => {
@@ -181,6 +197,7 @@ export class DeveloperComponent {
   }
 
 
+  // Function used to choose a picture in the computer
   onFileSelected(event: any): void {
 
     this.isSelectedFile = false;
@@ -191,7 +208,7 @@ export class DeveloperComponent {
       this.selectedFile = files[0];
       const reader: FileReader = new FileReader();
       reader.onload = (e: any) => {
-        //this.images.push(e.target.result);
+
       };
       reader.readAsDataURL(this.selectedFile);
     }
@@ -199,6 +216,7 @@ export class DeveloperComponent {
 
   isUploading: boolean = false;
 
+  // Method used to send pictures to the database
   uploadFile() {
     if (this.selectedFile && !this.isUploading) {
       this.isUploading = true; // Set the flag to indicate that file upload is in progress
@@ -207,6 +225,7 @@ export class DeveloperComponent {
 
       this.apiService.uploadFile(this.selectedFile).subscribe(
         (response) => {
+
           // Handle the response from the server if needed
           console.log('File uploaded successfully:', response);
 
@@ -225,10 +244,12 @@ export class DeveloperComponent {
       );
     }
   }
-  
+
+
+  // Method responsible for adding a game to the database
   addGameByDeveloper(): void {
   
-    // Assign the userId value to the userId control
+    
     this.userForm.patchValue({
       userId: this.user_id.toString()
     });
@@ -251,7 +272,9 @@ export class DeveloperComponent {
       return;
     }
 
+    // Creating a new instance of game with values from the userform
     const newGame: Game = new Game(
+
       0, // ID is initialized to 0 as it will be assigned by the server
       gameName,
       gameDescription,
@@ -269,6 +292,7 @@ export class DeveloperComponent {
     console.log('Adding game!', newGame);
     console.log('gameName value:', this.userForm.get('gameName')?.value);
 
+    // Send data to the service which will handle it
     this.apiService.addGameByDeveloper(newGame).subscribe(
       (response) => {
         console.log(response.message);
