@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host:"localhost",
     user:"root",
-    password:"iron",    
+    password:"",    
     database:"we4b",
     port:3306
 });
@@ -348,12 +348,14 @@ function createToken(user) {
 
 app.post("/auth/signin", (req, res) => {    //Query to login
     try {
-        let qr = 'SELECT id, username, dev FROM user WHERE username = ? AND password = PASSWORD(?)';
+      console.log(req.body.username);
+        let qr = 'SELECT ID, username, dev FROM user WHERE username = ? AND password = PASSWORD(?)';
     db.query(qr, [req.body.username, req.body.password], (err,result)=>{
 
         if(err) {
             console.log(err,"errs");
         }
+        console.log(result);
 
         if(result.length > 0) {   //If we find a user with this username/password
             result[0].accessToken = createToken(result);  //Add token to the data
@@ -365,7 +367,6 @@ app.post("/auth/signin", (req, res) => {    //Query to login
             data:false
         });
         }        
-        //TODO: Sinon, si l'utilisateur existe, mdp incorrect et sinon juste l'utilisateur existe pas
     });
     } catch (error) {
       return res.status(500).send({ message: error.message });
@@ -375,9 +376,9 @@ app.post("/auth/signin", (req, res) => {    //Query to login
 app.post("/auth/signup", (req, res) => {    //Query to signup
   try {
     let form = req.body.registerForm;
-      let qr = 'INSERT INTO user (username,email,password) VALUES (?,?,PASSWORD(?))';
+      let qr = 'INSERT INTO user (username,dev,email,password) VALUES (?,?,?,PASSWORD(?))';
       let qrGetID = 'SELECT ID, username, dev FROM user WHERE ID = ?';
-  db.query(qr, [form.username, form.email, form.password], (err,result)=>{
+  db.query(qr, [form.username, form.developer, form.email, form.password], (err,result)=>{
 
       if(err) {
           console.log(err,"errs");
@@ -388,7 +389,7 @@ app.post("/auth/signup", (req, res) => {    //Query to signup
               console.log(err,"errs");
             }
             if(resultUser.length > 0) {
-              resultUser.accessToken = createToken(resultUser);  //Add token to the data
+              resultUser[0].accessToken = createToken(resultUser);  //Add token to the data
               res.status(200).send({
                 data:resultUser
               });

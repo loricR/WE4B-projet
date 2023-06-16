@@ -29,8 +29,24 @@
         <div class="alert alert-danger" role="alert" *ngIf="registerFormControls['username'].invalid && registerFormControls['username'].touched">
             <div *ngIf="registerFormControls['username'].getError('required')">Veuillez saisir un nom d'utilisateur.</div>
             <div *ngIf="registerFormControls['username'].getError('userExist')">Ce nom d'utilisateur existe déjà.</div>
-          </div>
+        </div>
         <div id="userHelp" class="form-text">Retenez vos identifiants, vous ne pourrez pas les récupérer</div>
+    </div>
+    
+    <div class="mb-3">
+        <p class="form-label">Quel type de compte souhaitez-vous créer ?</p>
+        <div id="userHelp" class="form-text">Les mêmes fonctionnalités sont disponibles sur le site pour un utilisateur simple ou un developpeur. <br/> En tant que développeur vous aurez une page supplémentaire vous permettant d'ajouter des jeux sur le site.</div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="developer" id="developer" value="1" formControlName="developer">
+            <label class="form-check-label" for="developer">Developer</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="developer" id="notDeveloper" value="0" formControlName="developer">
+            <label class="form-check-label" for="notDeveloper">User</label>
+        </div>
+        <div class="alert alert-danger" role="alert" *ngIf="registerFormControls['developer'].invalid && (registerFormControls['developer'].touched || registerFormControls['email'].touched)">
+            <div *ngIf="registerFormControls['developer'].getError('required')">Veuillez préciser quel type de compte vous souhaitez créer.</div>
+        </div>
     </div>
     <div class="mb-3 ">
         <label for="email" class="form-label">Email</label>
