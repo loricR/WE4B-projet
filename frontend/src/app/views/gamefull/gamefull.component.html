@@ -24,7 +24,12 @@
             </span>        
           </li>
           <li class="list-group-item">Jeu développé par : <a href="javascript:void(0)" class="card-link" (click)="calldev()"> {{gameDev.username}}</a> </li>
-          <li class="list-group-item"><span class="badge text-bg-warning">{{game.price}}€</span>  <!--Price--></li>
+          <li class="list-group-item">
+            <span class="badge text-bg-warning" *ngIf="game.price > 0; else freeGame">{{game.price}}€</span>  <!--Price-->
+            <ng-template #freeGame>
+              <span class="badge text-bg-warning">Gratuit</span>
+            </ng-template>
+          </li>
           <li class="list-group-item">
             <ul class="rating"> <!-- Notation -->
                 <li class="star" *ngFor="let star of [1, 2, 3, 4, 5]" [ngClass]="{'active': star <= average_rating_round}">

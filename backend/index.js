@@ -348,7 +348,6 @@ function createToken(user) {
 
 app.post("/auth/signin", (req, res) => {    //Query to login
     try {
-      console.log(req.body.username);
         let qr = 'SELECT ID, username, dev FROM user WHERE username = ? AND password = PASSWORD(?)';
     db.query(qr, [req.body.username, req.body.password], (err,result)=>{
 
@@ -376,9 +375,17 @@ app.post("/auth/signin", (req, res) => {    //Query to login
 app.post("/auth/signup", (req, res) => {    //Query to signup
   try {
     let form = req.body.registerForm;
-      let qr = 'INSERT INTO user (username,dev,email,password) VALUES (?,?,?,PASSWORD(?))';
+    let qr ='';
+    if(req.body.image != '') {
+      qr = 'INSERT INTO user (username,dev,email,password, profilePictureURL) VALUES (?,?,?,PASSWORD(?),?)';
+      arg = [form.username, form.developer, form.email, form.password, req.body.image];
+    }
+    else {
+      qr = 'INSERT INTO user (username,dev,email,password) VALUES (?,?,?,PASSWORD(?))';
+      arg = [form.username, form.developer, form.email, form.password];
+    }
       let qrGetID = 'SELECT ID, username, dev FROM user WHERE ID = ?';
-  db.query(qr, [form.username, form.developer, form.email, form.password], (err,result)=>{
+  db.query(qr, arg, (err,result)=>{
 
       if(err) {
           console.log(err,"errs");
@@ -402,7 +409,7 @@ app.post("/auth/signup", (req, res) => {    //Query to signup
   }
 });
 
-app.post("/auth/userexist", (req, res) => {    //Query to login
+app.post("/auth/userexist", (req, res) => {    //Query to know if the user already exists
   try {
       let qr = 'SELECT id FROM user WHERE username = ?';
   db.query(qr, [req.body.username], (err,result)=>{
@@ -420,6 +427,86 @@ app.post("/auth/userexist", (req, res) => {    //Query to login
             data:false
         });
       }        
+  });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+});
+
+app.post("/auth/getemail", (req, res) => {    //Query to get email of connected user
+  try {
+      let qr = 'SELECT email FROM user WHERE ID = ?';
+  db.query(qr, [req.body.ID], (err,result)=>{
+
+      if(err) {
+          console.log(err,"errs");
+      }
+
+      if(result.length > 0) {   //If we find a user with this username
+          res.status(200).send({
+              data:result
+          });
+      }   
+  });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+});
+
+app.post("/auth/passwordcorrect", (req, res) => {    //Query to login
+  try {
+      let qr = 'SELECT ID FROM user WHERE ID = ? AND password = PASSWORD(?)';
+  db.query(qr, [req.body.ID, req.body.password], (err,result)=>{
+
+      if(err) {
+          console.log(err,"errs");
+      }
+
+      if(result.length > 0) {   //If we find a user with this ID/password
+          res.status(200).send({
+              data:result
+          });
+      } else {
+        res.status(200).send({
+          data:false
+      });
+      }        
+  });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+});
+
+app.post("/auth/update", (req, res) => {    //Query to update user info
+  try {
+      let form = req.body.registerForm;
+      let arg = [];
+      let qr ='';
+      if(req.body.image != '') {
+        qr = 'UPDATE user SET username=?, email=?, dev=?, password=PASSWORD(?), profilePictureURL=? WHERE ID = ?';
+        arg = [form.username, form.email, form.developer, form.password, req.body.image, req.body.ID];
+      }
+      else {
+        qr = 'UPDATE user SET username=?, email=?, dev=?, password=PASSWORD(?) WHERE ID = ?';
+        arg = [form.username, form.email, form.developer, form.password, req.body.ID];
+      }
+
+      let qrget = 'SELECT ID, username, dev FROM user WHERE username = ? AND password = PASSWORD(?)'
+  db.query(qr, arg, (err,resultUpdate)=>{
+    console.log(resultUpdate);
+      if(err) {
+          console.log(err,"errs");
+      }
+
+      if(resultUpdate.affectedRows > 0) {   //If we have changed something
+        db.query(qrget, [form.username, form.password], (err,result)=>{
+
+          result[0].changedRows = resultUpdate.changedRows;  //Add the number of changes to the data
+          res.status(200).send({
+              data:result
+          });
+        });
+      }   
   });
   } catch (error) {
     return res.status(500).send({ message: error.message });

@@ -12,6 +12,7 @@ import { ResearchPageComponent } from './views/research-page/research-page.compo
 import { authGuard } from './services/auth.guard';
 import { PagenotfoundComponent } from './views/pagenotfound/pagenotfound.component';
 import { NewsComponent } from './views/news/news.component';
+import { modifGuard } from './services/modif.guard';
 
 const routes: Routes = [
 //Chemins vers les pages
@@ -21,9 +22,11 @@ const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'store', component: GameListComponent},
   {path: 'register', component: SignupComponent, canActivate: [authGuard]},
-  { path: 'developer', component: DeveloperComponent },
-  { path: 'developer/:id', component: DeveloperComponent},
-  { path: 'store/:id', component: GameComponent}, 
+  {path: 'developer', component: DeveloperComponent},
+  {path: 'developer/:id', component: DeveloperComponent},
+  {path: 'user/:id', component: DeveloperComponent},
+  {path: 'usermodif/:id', component: SignupComponent, canActivate: [modifGuard]},
+  {path: 'store/:id', component: GameComponent}, 
   {path: 'game/:id', component : GamefullComponent},
   {path: 'research', component : ResearchPageComponent},
   {path: 'news', component : NewsComponent},
