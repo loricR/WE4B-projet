@@ -1,4 +1,5 @@
 <div class="card" >
+    <!-- card used to display the game in the store page -->
     <div class="card-body">
         <h5 class="card-title">{{game.name}}</h5>
         <span *ngFor="let category of game.category; let i = index;" [ngSwitch]="i">    <!--Category-->
@@ -17,7 +18,7 @@
             <img [src]="game.images[0]" class="card-img-top" alt="..."> <!--Image-->
         </ng-container>
 
-    
+    <!--Show basic info-->
         <ul class="list-group list-group-flush">
             <li class="list-group-item"> 
                 <p> Rapide description du jeu : </p>

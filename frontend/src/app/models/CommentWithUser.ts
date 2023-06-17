@@ -1,7 +1,7 @@
 import { CommentDTO } from './CommentDTO';
 import { userDTO } from './userDTO';
 
-export class CommentWithUser {
+export class CommentWithUser { 
   constructor(
     public comment: CommentDTO,
     public user: userDTO []
