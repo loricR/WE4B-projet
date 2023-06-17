@@ -119,3 +119,18 @@
   color:white;
   text-align: center;
 }
+.loginaccess{
+  background-color: lightgrey;
+  border-radius: 21px;
+}
+.image-zoom-login {
+  transition: transform 0.3s ease;
+  margin-left: 40%;
+}
+.image-zoom-login:hover {
+  transform: scale(1.1);
+}
+.txtwh{
+  color: black;
+  text-align: center;
+}

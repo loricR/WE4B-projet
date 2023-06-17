@@ -22,6 +22,7 @@ import { ResearchBarComponent } from './views/research-bar/research-bar.componen
 import { ResearchPageComponent } from './views/research-page/research-page.component';
 import { authInterceptorProviders } from './auth.interceptor';
 import { PagenotfoundComponent } from './views/pagenotfound/pagenotfound.component';
+import { NewsComponent } from './views/news/news.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { PagenotfoundComponent } from './views/pagenotfound/pagenotfound.compone
     DeveloperComponent,
     ResearchBarComponent,
     ResearchPageComponent,
-    PagenotfoundComponent
+    PagenotfoundComponent,
+    NewsComponent
   ],
 imports: [
     CommonModule,
