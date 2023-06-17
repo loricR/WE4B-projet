@@ -6,7 +6,7 @@ import { HomeComponent } from './views/home/home.component';
 import { CreateComponent } from './create/create.component';
 import { ReadComponent } from './read/read.component';
 import { SignupComponent } from './views/signup/signup.component';
-import { DeveloperComponent } from './views/developer/developer.component';
+import { DeveloperComponent } from './developer/developer.component';
 import { GameComponent } from './views/game/game.component';
 import { ResearchPageComponent } from './views/research-page/research-page.component';
 import { authGuard } from './services/auth.guard';

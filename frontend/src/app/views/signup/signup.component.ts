@@ -3,7 +3,7 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
-import { DeveloperComponent } from 'src/app/views/developer/developer.component';
+import { DeveloperComponent } from 'src/app/developer/developer.component';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 @Component({
