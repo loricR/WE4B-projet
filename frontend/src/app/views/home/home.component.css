@@ -122,7 +122,6 @@
 .loginaccess{
   background-color: lightgrey;
   border-radius: 21px;
-  margin-top: 2%;
 }
 .image-zoom-login {
   transition: transform 0.3s ease;
