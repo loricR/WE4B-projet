@@ -1,4 +1,4 @@
-<form class="registerform" *ngIf="!isLoggedIn && !modifForm" name="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+<form class="registerform" *ngIf="!isLoggedIn && !modifForm && login" name="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
     <div class="mb-3 ">
         <label for="username" class="form-label">Nom d'utilisateur</label>
         <input type="text" class="form-control" id="username" name="username" formControlName="username"/>
@@ -17,12 +17,15 @@
     </div>
         <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Se connecter </button>
         <div class="alert alert-danger" *ngIf="isLoginFailed">Nom d'utilisateur ou mot de passe incorrect.</div>
+    <div class="mb-3 alert">
+        <p>Pas encore de compte ? 
+            <a id="toggleButton" (click)="toggleRegisterLogin()" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">S'inscrire</a>
+        </p>
+    </div>
 </form>
 
-<h2> Ou créer votre compte si vous n'en n'avez pas !</h2>
 
-
-<form class="registerform" [formGroup]="registerForm" name="registerForm" (ngSubmit)="onSubmitRegister()">
+<form class="registerform" *ngIf="register" [formGroup]="registerForm" name="registerForm" (ngSubmit)="onSubmitRegister()">
     <div class="mb-3 ">
         <label for="username" class="form-label">Nom d'utilisateur</label>
         <input type="text" class="form-control" id="username" name="username" formControlName="username"/>
@@ -30,8 +33,18 @@
             <div *ngIf="registerFormControls['username'].getError('required')">Veuillez saisir un nom d'utilisateur.</div>
             <div *ngIf="registerFormControls['username'].getError('userExist')">Ce nom d'utilisateur existe déjà.</div>
         </div>
-        <div id="userHelp" class="form-text">Retenez vos identifiants, vous ne pourrez pas les récupérer</div>
     </div>
+
+    <div class="mb-3">
+        <label for="image" class="form-label">Image de profil</label>
+        <div *ngIf="image != ''">
+          <img [src]="image" alt="Uploaded Image" width="200">
+        </div>
+        <div>
+          <input class="form-control" type="file" name="image" id="image" (change)="onFileSelected($event)" formControlName="image"/>
+        </div>
+    </div>
+    <!--<button class="btn btn-success mt-3" (click)="uploadFile()">Upload image</button>-->
     
     <div class="mb-3">
         <p class="form-label">Quel type de compte souhaitez-vous créer ?</p>
@@ -57,7 +70,7 @@
             <div *ngIf="registerFormControls['email'].getError('email')">Veuillez saisir une adresse email valide.</div>
         </div>
     </div>
-    <div class="form-check">
+    <div class="form-check" *ngIf="modifForm">
         <input class="form-check-input" type="checkbox" id="flexCheckDefault" formControlName="changePassword">
         <label class="form-check-label" for="flexCheckDefault">Modifier le mot de passe</label>
     </div>
@@ -80,6 +93,13 @@
     </div>
     <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">{{ modifForm ? 'Modifier le profil' : 'Créer mon compte' }}</button>
     <div class="alert alert-warning" *ngIf="isSignupFailed">{{ modifForm ? 'Erreur lors de la modification du profil' : 'Erreur lors de l\'inscription' }}</div>
+    <div class="mb-3 alert" *ngIf="!modifForm">
+        <p>Déjà un compte ? 
+            <a id="toggleButton" (click)="toggleRegisterLogin()" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Se connecter</a>
+        </p>
+    </div>
 </form>
 <div class="alert alert-success" *ngIf="isSuccessRegister && !modifForm">Vous êtes inscrit correctement!</div>
-<div class="alert alert-success" *ngIf="isSuccessRegister && modifForm">Les modifications ont été faites avec succès, {{changedRows}} valeurs changées.</div>
+<div *ngIf="isSuccessRegister && modifForm">
+    <div class="alert alert-success">Les modifications ont été faites avec succès.</div>
+</div>

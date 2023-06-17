@@ -375,9 +375,17 @@ app.post("/auth/signin", (req, res) => {    //Query to login
 app.post("/auth/signup", (req, res) => {    //Query to signup
   try {
     let form = req.body.registerForm;
-      let qr = 'INSERT INTO user (username,dev,email,password) VALUES (?,?,?,PASSWORD(?))';
+    let qr ='';
+    if(req.body.image != '') {
+      qr = 'INSERT INTO user (username,dev,email,password, profilePictureURL) VALUES (?,?,?,PASSWORD(?),?)';
+      arg = [form.username, form.developer, form.email, form.password, req.body.image];
+    }
+    else {
+      qr = 'INSERT INTO user (username,dev,email,password) VALUES (?,?,?,PASSWORD(?))';
+      arg = [form.username, form.developer, form.email, form.password];
+    }
       let qrGetID = 'SELECT ID, username, dev FROM user WHERE ID = ?';
-  db.query(qr, [form.username, form.developer, form.email, form.password], (err,result)=>{
+  db.query(qr, arg, (err,result)=>{
 
       if(err) {
           console.log(err,"errs");
@@ -472,9 +480,20 @@ app.post("/auth/passwordcorrect", (req, res) => {    //Query to login
 app.post("/auth/update", (req, res) => {    //Query to update user info
   try {
       let form = req.body.registerForm;
-      let qr = 'UPDATE user SET username=?, email=?, dev=?, password=PASSWORD(?) WHERE ID = ?';
+      let arg = [];
+      let qr ='';
+      if(req.body.image != '') {
+        qr = 'UPDATE user SET username=?, email=?, dev=?, password=PASSWORD(?), profilePictureURL=? WHERE ID = ?';
+        arg = [form.username, form.email, form.developer, form.password, req.body.image, req.body.ID];
+      }
+      else {
+        qr = 'UPDATE user SET username=?, email=?, dev=?, password=PASSWORD(?) WHERE ID = ?';
+        arg = [form.username, form.email, form.developer, form.password, req.body.ID];
+      }
+
       let qrget = 'SELECT ID, username, dev FROM user WHERE username = ? AND password = PASSWORD(?)'
-  db.query(qr, [form.username, form.email, form.developer, form.password, req.body.ID], (err,resultUpdate)=>{
+  db.query(qr, arg, (err,resultUpdate)=>{
+    console.log(resultUpdate);
       if(err) {
           console.log(err,"errs");
       }

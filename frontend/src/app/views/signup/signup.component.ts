@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { DeveloperComponent } from 'src/app/developer/developer.component';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { ApiserviceService } from 'src/app/apiservice.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,6 +21,12 @@ export class SignupComponent implements OnInit {
   modifForm = false;
   modifPassword = false;
   changedRows = 0;
+  login = true;
+  register = false;
+
+  isSelectedFile: boolean = true;
+  selectedFile: File | null = null;
+  image: string = '';
 
   loginForm = new FormGroup(
     {
@@ -33,6 +40,7 @@ export class SignupComponent implements OnInit {
   registerForm = new FormGroup(
     {
       username: new FormControl('', Validators.required),
+      image: new FormControl(),
       developer: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       changePassword: new FormControl(),
@@ -43,7 +51,7 @@ export class SignupComponent implements OnInit {
 
   submitted = false;  
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { }
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router, private apiService: ApiserviceService) { }
 
   ngOnInit(): void {
     if(this.tokenStorage.getToken()) {
@@ -52,6 +60,8 @@ export class SignupComponent implements OnInit {
         this.user = this.tokenStorage.getUser();
         this.registerForm.controls['username'].setValue(this.user.username);
         this.registerForm.controls['developer'].setValue(String(this.user.dev));
+        this.register = true;
+        this.login = false;
         this.authService.getEmail(this.user.ID).subscribe(
           res => {
             if(res.data) {
@@ -80,6 +90,67 @@ export class SignupComponent implements OnInit {
 
   get loginFormControls() {
     return this.loginForm.controls;
+  }
+
+  toggleRegisterLogin(): void {
+    if(this.register) {
+      this.register = false;
+      this.login = true;
+    }
+    else if(this.login) {
+      this.login = false;
+      this.register = true; 
+    }
+  }
+
+  // Function used to choose a picture in the computer
+  onFileSelected(event: any): void {
+    
+    this.isSelectedFile = false;
+
+
+    const files: FileList = event.target.files;
+    if (files && files.length > 0) {
+      this.selectedFile = files[0];
+      const reader: FileReader = new FileReader();
+      reader.onload = (e: any) => {
+
+      };
+      reader.readAsDataURL(this.selectedFile);
+      this.uploadFile();
+    }
+  }
+
+  isUploading: boolean = false;
+
+  // Method used to send pictures to the database
+  uploadFile() {
+    if (this.selectedFile && !this.isUploading) {
+      this.isUploading = true; // Set the flag to indicate that file upload is in progress
+
+      this.isSelectedFile = true;
+
+      this.apiService.uploadFile(this.selectedFile).subscribe(
+        (response) => {
+
+          // Handle the response from the server if needed
+          console.log('File uploaded successfully:', response);
+
+          // Add the image URL to the images array
+          const newFileName = response.newFileName;
+          if (newFileName) {
+            this.image = '../assets/images/'+newFileName;
+            
+          }
+
+          this.isUploading = false; // Reset the flag after successful upload
+        },
+        (error) => {
+          console.log('Error uploading file:', error);
+          this.isUploading = false; // Reset the flag in case of upload error
+        }
+      );
+    }
   }
 
   changeConfirmPasswordControl(): void {
@@ -165,13 +236,16 @@ export class SignupComponent implements OnInit {
 
       if(password?.value) {
         if(this.modifPassword) {  //If the password changed, we have nothing to check
-          this.authService.updateUser(this.registerForm.value, this.user.ID).subscribe(
+          this.authService.updateUser(this.registerForm.value, this.user.ID, this.image).subscribe(
             res => {
               if(res.data) {
                 this.isSuccessRegister = true;
                 this.changedRows = res.data[0]['changedRows'];
                 delete res.data[0]['changedRows'];
                 this.tokenStorage.saveUser(res.data[0]);  //Save the new data of the user
+                setTimeout(() => {
+                  this.router.navigate(['/user', this.user.ID])
+                }, 1500);
               }
               else {
                 this.isSignupFailed = true;
@@ -180,19 +254,20 @@ export class SignupComponent implements OnInit {
           );
         }
         else {  //If the password doesn't change, we have to check if it is correct
-          
-
           this.authService.verifyUserPassword(this.user.ID, password.value).subscribe(
             res => {
               if(res.data) {
                 password.setErrors(null);
-                this.authService.updateUser(this.registerForm.value, this.user.ID).subscribe(
+                this.authService.updateUser(this.registerForm.value, this.user.ID, this.image).subscribe(
                   resUpdate => {
                     if(resUpdate.data) {
                       this.isSuccessRegister = true;
                       this.changedRows = resUpdate.data[0]['changedRows'];
                       delete res.data[0]['changedRows'];
                       this.tokenStorage.saveUser(resUpdate.data[0]);  //Save the new data of the user
+                      setTimeout(() => {
+                        this.router.navigate(['/user', this.user.ID])
+                      }, 1500);
                     }
                     else {
                       this.isSignupFailed = true;
@@ -231,7 +306,7 @@ export class SignupComponent implements OnInit {
             }
 
             // send the value in the db and get user token and data to store in cookies
-            this.authService.register(this.registerForm.value).subscribe(
+            this.authService.register(this.registerForm.value, this.image).subscribe(
               resRegister => {
                 if(!resRegister.data) {
                   this.isSignupFailed = true;

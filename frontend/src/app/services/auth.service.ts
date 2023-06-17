@@ -22,9 +22,10 @@ export class AuthService {
     }, httpOptions);
   }
 
-  register(registerForm: any): Observable<any> {
+  register(registerForm: any, image: string): Observable<any> {
     return this.http.post(AUTH_API + 'signup', {
-      registerForm
+      registerForm,
+      image
     }, httpOptions);
   }
 
@@ -47,10 +48,11 @@ export class AuthService {
     }, httpOptions);
   }
 
-  updateUser(registerForm: any, ID: number): Observable<any> {
+  updateUser(registerForm: any, ID: number, image: string): Observable<any> {
     return this.http.post(AUTH_API + 'update', {
       registerForm,
-      ID
+      ID,
+      image
     }, httpOptions);
   }
 }

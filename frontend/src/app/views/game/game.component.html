@@ -35,7 +35,10 @@
 
             </li>
             <li class="text-center list-group-item">
-                <span class="badge text-bg-warning">{{game.price}}€</span>  <!--Price-->
+                <span class="badge text-bg-warning" *ngIf="game.price > 0; else freeGame">{{game.price}}€</span>  <!--Price-->
+                <ng-template #freeGame>
+                    <span class="badge text-bg-warning">Gratuit</span>
+                </ng-template>
             </li>
         </ul>
         <div class="text-center">
