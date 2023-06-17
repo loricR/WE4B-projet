@@ -21,14 +21,16 @@
     <!--Show basic info-->
         <ul class="list-group list-group-flush">
             <li class="list-group-item"> 
-                <p> Rapide description du jeu : </p>
+                <p> En quelques mots : </p>
                 <p>{{game.description}}</p>   <!--Description-->
-                <p>Jeu concu par :<a href="javascript:void(0)" class="card-link" (click)="calldev()"> {{game.dev}}</a></p>  <!--Developer name-->
+                <p>Jeu concu par :<a href="javascript:void(0)" class="card-link" (click)="calldev()"> {{gameDev.username}}</a></p>  <!--Developer name-->
                 <!-- Notation -->
                 <ul class="rating">
-                    <li class="star" *ngFor="let star of [1, 2, 3, 4, 5]" (click)="setrating(star)" [ngClass]="{'active': star <= rating}">
-                      &#9733;
+                    <li class="star" *ngFor="let star of [1, 2, 3, 4, 5]" [ngClass]="{'active': star <= average_rating_round}">
+                        &#9733;
                     </li>
+                    <li></li>
+                    <span *ngIf="average_rating == 0" class="date text-black-50">Aucune note attribuée pour le moment</span>
                   </ul>
                 <!-- Notation -->
 

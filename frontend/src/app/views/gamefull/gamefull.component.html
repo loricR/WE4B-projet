@@ -5,7 +5,7 @@
     <div class="card " style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title">Informations techniques</h5>
-          <p class="card-text" style="text-align: center;">Chaque jeux diposent de ses informations spécifiques: composants minimum, style de jeu, prix et développeur</p>
+          <p class="card-text" style="text-align: center;"> Nous prenons soin de renseigner les configurations minmum nécessaires au lancement de chaque jeu pour garantir une expérience utilisateur inoubliable</p>
         </div>
 
         <!-- Show Technical information-->
@@ -23,7 +23,7 @@
                 <span *ngSwitchCase="7" class="badge rounded-pill text-bg-dark">{{category}}</span>
             </span>        
           </li>
-          <li class="list-group-item">Jeu développé par : <a href="javascript:void(0)" class="card-link" (click)="calldev()"> {{game.dev}}</a> </li>
+          <li class="list-group-item">Jeu développé par : <a href="javascript:void(0)" class="card-link" (click)="calldev()"> {{gameDev.username}}</a> </li>
           <li class="list-group-item"><span class="badge text-bg-warning">{{game.price}}€</span>  <!--Price--></li>
           <li class="list-group-item">
             <ul class="rating"> <!-- Notation -->
@@ -31,8 +31,8 @@
                   &#9733;
                 </li>
                 <span class="badge rounded-pill text-bg-dark">
-                  AVERAGE RATING: 
-                  {{ average_rating !== average_rating ? 'No rating yet' : average_rating + '/5' }}
+                  Note moyenne : 
+                  {{ average_rating !== average_rating ? 'Aucune note attribuée' : average_rating + '/5' }}
                 </span>
                 
                 
@@ -113,7 +113,7 @@
                       <div *ngFor="let comment of processedComments" class="d-flex flex-row user-info"> <!--Comment-->
                         <div class="d-flex flex-column justify-content-start ml-2">
                           <span class="d-block font-weight-bold name">{{ comment.user[0].username }}</span>
-                          <span class="date text-black-50"> Note given: {{ comment.comment.note }}/5</span>
+                          <span class="date text-black-50"> Note donnée : {{ comment.comment.note }}/5</span>
                           <img class="rounded-circle" [src]="comment.user[0].profilePictureURL" width="40">
                         </div>
                         <div>
@@ -133,7 +133,7 @@
                           <li class="star" *ngFor="let star of [1, 2, 3, 4, 5]" (click)="setrating(star)" [ngClass]="{'active': star <= rating}">
                             &#9733;
                           </li>
-                          <span class="date text-black-50">Let everyone know what you think about this game !</span>
+                          <span class="date text-black-50">Faites porter votre voix et donnez votre avis sur ce jeu !</span>
                         </div>
 
                         <div class="d-flex flex-row align-items-start">
@@ -141,13 +141,13 @@
                           <textarea class="form-control ml-1 shadow-none textarea" [(ngModel)]="comment_string"></textarea>
                         </div>
                         <div class="mt-2 text-right">
-                          <button id="postcomm" class="btn btn-primary btn-sm shadow-none" type="button" (click)="postCommForm()">Post comment</button>
+                          <button id="postcomm" class="btn btn-primary btn-sm shadow-none" type="button" (click)="postCommForm()">Publier le commentaire</button>
                         </div>
                                        
                       </div>
 
                       <div *ngIf="hasAlreadyCommented" id="successMsg" class="alert alert-danger alert-dismissible" role="alert">
-                        <strong>Vous avez déjà commenté ce jeu !!!</strong>
+                        <strong>Vous avez déjà commenté ce jeu ou ne l'avez pas encore acheté !</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="closeSuccessMsg()"></button>
                       </div>
 
