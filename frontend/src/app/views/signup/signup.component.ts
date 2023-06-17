@@ -3,8 +3,8 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
-import { DeveloperComponent } from 'src/app/developer/developer.component';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { DeveloperComponent } from 'src/app/views/developer/developer.component';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -17,6 +17,9 @@ export class SignupComponent implements OnInit {
   isSuccessRegister = false;
   isSignupFailed = false;
   dev: boolean = false;
+  modifForm = false;
+  modifPassword = false;
+  changedRows = 0;
 
   loginForm = new FormGroup(
     {
@@ -25,29 +28,50 @@ export class SignupComponent implements OnInit {
     }
   );
 
+  user: User = new User(); // Instanciez un nouvel utilisateur
+
   registerForm = new FormGroup(
     {
       username: new FormControl('', Validators.required),
       developer: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
+      changePassword: new FormControl(),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl('', Validators.required)
     }
-  , { validators: [this.passwordMatchValidator]});
+  , { validators: [this.passwordMatchValidator.bind(this), this.changeDev.bind(this)]});
 
-  submitted = false;
-
-  
-  user: User = new User(); // Instanciez un nouvel utilisateur
+  submitted = false;  
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { }
 
   ngOnInit(): void {
-    console.log("DEV",this.registerForm.get('developer')?.value);
     if(this.tokenStorage.getToken()) {
-      this.isLoggedIn = true;
-      this.dev = this.tokenStorage.getUser().dev; //If the user is a developer
+      if(this.router.url.split('/')[1] === 'usermodif') { //If we are on the route to change user informations
+        this.modifForm = true;
+        this.user = this.tokenStorage.getUser();
+        this.registerForm.controls['username'].setValue(this.user.username);
+        this.registerForm.controls['developer'].setValue(String(this.user.dev));
+        this.authService.getEmail(this.user.ID).subscribe(
+          res => {
+            if(res.data) {
+              this.registerForm.controls['email'].setValue(res.data[0].email);
+            }
+          }
+        )
+        this.changeConfirmPasswordControl();
+        this.registerForm.get('changePassword')?.valueChanges.subscribe(selectedValue => {
+          this.modifPassword = selectedValue;
+          //let confirmPassword = this.registerForm.get('confirmPassword') as FormArray
+          this.changeConfirmPasswordControl();
+        })
+      }
+      else {  //If we are registering
+        this.isLoggedIn = true;
+        this.dev = this.tokenStorage.getUser().dev; //If the user is a developer
+      }
     }
+    
   }
 
   get registerFormControls() {
@@ -58,16 +82,43 @@ export class SignupComponent implements OnInit {
     return this.loginForm.controls;
   }
 
+  changeConfirmPasswordControl(): void {
+    if(this.modifPassword) {
+      this.registerForm.get('confirmPassword')?.setValidators(Validators.required);
+      this.registerForm.addValidators(this.passwordMatchValidator.bind(this));
+    }
+    else {
+      this.registerForm.get('confirmPassword')?.setValidators(null);
+      this.registerForm.removeValidators(this.passwordMatchValidator.bind(this));
+    }
+  }
+
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.get('password');
     const confirmPassword = control.get('confirmPassword');
 
+    if(this.modifForm && !this.modifPassword) {
+      return null
+    }
     if (password?.value !== confirmPassword?.value) {
       confirmPassword?.setErrors({'passwordMismatch': true});
       return { 'passwordMismatch': true };
     }
     else {
       confirmPassword?.setErrors(null);
+      return null;
+    }
+  }
+
+  changeDev(control: AbstractControl): ValidationErrors | null {
+    const developer = control.get('developer');
+
+    if (developer?.value === '0' && Number(this.user.dev) === 1) {
+      developer?.setErrors({'developerChange': true});
+      return { 'developerChange': true };
+    }
+    else {
+      developer?.setErrors(null);
       return null;
     }
   }
@@ -105,46 +156,102 @@ export class SignupComponent implements OnInit {
     this.submitted = true;
 
     const username = this.registerForm.get('username');
+    const password = this.registerForm.get('password');
     let userExist = false;
+    console.log(this.registerForm.get('developer'));
 
-    if(username?.value) {
-      this.authService.verifyUsername(username.value).subscribe(
-        res => {                //res has the result data of the SQL query
-          if(res.data) {
-            userExist = true;
-            username.setErrors({userExist: true});
-          }
-          else {
-            userExist = false;
-            username.setErrors(null);
-          }
+    if(this.modifForm) {
+      const password = this.registerForm.get('password');
 
-          // stop here if form is invalid
-          if (this.registerForm.invalid || username?.getError('userExist')) {
-              return;
-          }
-
-          // send the value in the db and get user token and data to store in cookies
-          this.authService.register(this.registerForm.value).subscribe(
-            resRegister => {
-              if(!resRegister.data) {
-                this.isSignupFailed = true;
-              } else {
+      if(password?.value) {
+        if(this.modifPassword) {  //If the password changed, we have nothing to check
+          this.authService.updateUser(this.registerForm.value, this.user.ID).subscribe(
+            res => {
+              if(res.data) {
                 this.isSuccessRegister = true;
+                this.changedRows = res.data[0]['changedRows'];
+                delete res.data[0]['changedRows'];
+                this.tokenStorage.saveUser(res.data[0]);  //Save the new data of the user
+              }
+              else {
+                this.isSignupFailed = true;
+              }
+            }
+          );
+        }
+        else {  //If the password doesn't change, we have to check if it is correct
+          
 
-                this.tokenStorage.saveToken(resRegister.data[0].accessToken); //Save the JWT
-                delete resRegister.data[0]['accessToken'];  //Don't save the token inside the user data
-                this.tokenStorage.saveUser(resRegister.data[0]);  //Save the data of the new logged user
-
-                this.isLoginFailed = false;
-                this.isLoggedIn = true;
-                this.dev = this.tokenStorage.getUser().dev;
-                this.reloadPageHome();
+          this.authService.verifyUserPassword(this.user.ID, password.value).subscribe(
+            res => {
+              if(res.data) {
+                password.setErrors(null);
+                this.authService.updateUser(this.registerForm.value, this.user.ID).subscribe(
+                  resUpdate => {
+                    if(resUpdate.data) {
+                      this.isSuccessRegister = true;
+                      this.changedRows = resUpdate.data[0]['changedRows'];
+                      delete res.data[0]['changedRows'];
+                      this.tokenStorage.saveUser(resUpdate.data[0]);  //Save the new data of the user
+                    }
+                    else {
+                      this.isSignupFailed = true;
+                    }
+                  }
+                );
+              }
+              else {
+                password.setErrors({'correct': true});
+                this.isSignupFailed = true;
               }
             }
           )
         }
-      )
+      }
+      else {
+        password?.setErrors({'correct': true});
+      }
+    }
+    else {
+      if(username?.value) {
+        this.authService.verifyUsername(username.value).subscribe(
+          res => {                //res has the result data of the SQL query
+            if(res.data) {
+              userExist = true;
+              username.setErrors({userExist: true});
+            }
+            else {
+              userExist = false;
+              username.setErrors(null);
+            }
+
+            // stop here if form is invalid
+            if (this.registerForm.invalid || username?.getError('userExist')) {
+                return;
+            }
+
+            // send the value in the db and get user token and data to store in cookies
+            this.authService.register(this.registerForm.value).subscribe(
+              resRegister => {
+                if(!resRegister.data) {
+                  this.isSignupFailed = true;
+                } else {
+                  this.isSuccessRegister = true;
+
+                  this.tokenStorage.saveToken(resRegister.data[0].accessToken); //Save the JWT
+                  delete resRegister.data[0]['accessToken'];  //Don't save the token inside the user data
+                  this.tokenStorage.saveUser(resRegister.data[0]);  //Save the data of the new logged user
+
+                  this.isLoginFailed = false;
+                  this.isLoggedIn = true;
+                  this.dev = this.tokenStorage.getUser().dev;
+                  this.reloadPageHome();
+                }
+              }
+            )
+          }
+        )
+      }
     }
   }
 

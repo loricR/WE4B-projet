@@ -1,7 +1,7 @@
 export class User {
+    ID!: number;
     username!: string;
-    email!: string;
-    password!: string;
-    password2!: string;
+    dev!: boolean;
+    email?: string;
   }
   

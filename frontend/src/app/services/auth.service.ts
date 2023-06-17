@@ -33,4 +33,24 @@ export class AuthService {
       username
     }, httpOptions);
   }
+
+  getEmail(ID: number): Observable<any> {
+    return this.http.post(AUTH_API + 'getemail', {
+      ID
+    }, httpOptions);
+  }
+
+  verifyUserPassword(ID: number, password: string): Observable<any> {
+    return this.http.post(AUTH_API + 'passwordcorrect', {
+      ID,
+      password
+    }, httpOptions);
+  }
+
+  updateUser(registerForm: any, ID: number): Observable<any> {
+    return this.http.post(AUTH_API + 'update', {
+      registerForm,
+      ID
+    }, httpOptions);
+  }
 }
