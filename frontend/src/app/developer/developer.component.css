@@ -20,7 +20,10 @@
 
 .game-name {
   font-weight: normal; /* or any other regular font style */
+  cursor:pointer;
 }
+
+.game-name:hover { color:blue;}
 
 h5 {
   position : center;

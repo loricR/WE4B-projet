@@ -65,22 +65,10 @@
 
     <hr>
 
-    <!-- Video 
-    <div class="video-player-container">
-      <ng-container *ngIf="game.videoCode">
-        <div class="text-center carousel-item active">
-          <div #youtubePlayer>
-            <youtube-player #youtubeVideo videoId="{{ game.videoCode }}" [playerVars]="{autoplay: 1}"  [height]="videoHeight" [width]="videoWidth"></youtube-player> 
-          </div>
-        </div>
-      </ng-container>
-    </div>
-      -->
-    
 
     <!-- Carousel -->
     <ng-container *ngIf="game.images && game.images.length > 0">
-    <div id="carouselIndicators" class="carousel slide">
+    <div #carousel id="carouselIndicators" class="carousel slide">
         <!-- Indicators -->
         <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -89,8 +77,11 @@
 
         <!-- Slides -->
         <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img [src]="game.images[0]" class="card-img-top" [alt]="'Image 1'">
+        <!-- Video -->
+        <div #youtubePlayer class="carousel-item active">
+          <div class="video-player-container">
+            <youtube-player #youtubeVideo videoId="{{ game.videoCode }}" [playerVars]="{autoplay: 1}"  [height]="videoHeight" [width]="videoWidth"></youtube-player> 
+          </div>
         </div>
         <div class="carousel-item" *ngFor="let image of game.images; let i = index">
             <img [src]="image" class="card-img-top" [alt]="'Image ' + (i + 2)">

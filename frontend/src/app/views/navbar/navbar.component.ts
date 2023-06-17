@@ -39,7 +39,7 @@ export class NavbarComponent implements OnInit {
             this.setActive('research');
             break;
           case 'register':
-            this.setActive('register');
+            this.setActive('profile');
             break;
           default:
             this.setActive('home');

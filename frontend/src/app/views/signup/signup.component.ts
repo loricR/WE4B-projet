@@ -12,10 +12,6 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors,
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  form: any = {
-    username: null,
-    password: null
-  };
   isLoggedIn = false;
   isLoginFailed = false;
   isSuccessRegister = false;
@@ -32,6 +28,7 @@ export class SignupComponent implements OnInit {
   registerForm = new FormGroup(
     {
       username: new FormControl('', Validators.required),
+      developer: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl('', Validators.required)
@@ -46,6 +43,7 @@ export class SignupComponent implements OnInit {
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { }
 
   ngOnInit(): void {
+    console.log("DEV",this.registerForm.get('developer')?.value);
     if(this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.dev = this.tokenStorage.getUser().dev; //If the user is a developer
@@ -75,9 +73,12 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmitLogin(): void {
-    const {username, password} = this.form;
+    //const {username, password} = this.form;
+    const username = this.loginForm.get('username');
+    const password = this.loginForm.get('password');
 
-    this.authService.login(username, password).subscribe(
+    if(username?.value && password?.value) {
+    this.authService.login(username.value, password.value).subscribe(
       res => {                //res has the result data of the SQL query
         if(res.data) {
           this.tokenStorage.saveToken(res.data[0].accessToken); //Save the JWT
@@ -94,6 +95,10 @@ export class SignupComponent implements OnInit {
         }
       }
     )
+    }
+    else {
+      this.isLoginFailed = true;
+    }
   }
 
   onSubmitRegister() {
@@ -126,7 +131,6 @@ export class SignupComponent implements OnInit {
                 this.isSignupFailed = true;
               } else {
                 this.isSuccessRegister = true;
-                console.log(resRegister);
 
                 this.tokenStorage.saveToken(resRegister.data[0].accessToken); //Save the JWT
                 delete resRegister.data[0]['accessToken'];  //Don't save the token inside the user data
