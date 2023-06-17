@@ -3,10 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { GameListComponent } from './views/game-list/game-list.component';
 import { GamefullComponent } from './views/gamefull/gamefull.component';
 import { HomeComponent } from './views/home/home.component';
-import { CreateComponent } from './create/create.component';
-import { ReadComponent } from './read/read.component';
 import { SignupComponent } from './views/signup/signup.component';
-import { DeveloperComponent } from './developer/developer.component';
+import { DeveloperComponent } from './views/developer/developer.component';
 import { GameComponent } from './views/game/game.component';
 import { ResearchPageComponent } from './views/research-page/research-page.component';
 import { authGuard } from './services/auth.guard';
@@ -16,9 +14,6 @@ import { modifGuard } from './services/modif.guard';
 
 const routes: Routes = [
 //Chemins vers les pages
-  {path:'create', component:CreateComponent},
-  {path:'create/:id', component:CreateComponent},
-  {path:'read', component:ReadComponent},
   {path: '', component: HomeComponent},
   {path: 'store', component: GameListComponent},
   {path: 'register', component: SignupComponent, canActivate: [authGuard]},
