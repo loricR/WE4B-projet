@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { ApiserviceService } from '../apiservice.service';
-import { Game } from '../models/game';
+import { ApiserviceService } from '../../apiservice.service';
+import { Game } from '../../models/game';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GameDTO } from '../models/gameDTO';
-import { User } from '../models/user';
-import { userDTO } from '../models/userDTO';
-import { TokenStorageService } from '../services/token-storage.service';
+import { GameDTO } from '../../models/gameDTO';
+import { User } from '../../models/user';
+import { userDTO } from '../../models/userDTO';
+import { TokenStorageService } from '../../services/token-storage.service';
 
 
 @Component({

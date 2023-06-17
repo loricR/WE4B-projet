@@ -9,9 +9,7 @@ import { GameListComponent } from './views/game-list/game-list.component';
 import { GamefullComponent } from './views/gamefull/gamefull.component';
 import { NavbarComponent } from './views/navbar/navbar.component';
 import { HomeComponent } from './views/home/home.component';
-import { CreateComponent } from './create/create.component';
-import { ReadComponent } from './read/read.component';
-import { DeveloperComponent } from './developer/developer.component';
+import { DeveloperComponent } from './views/developer/developer.component';
 
 import { CommonModule } from '@angular/common';
 import { SignupComponent } from './views/signup/signup.component';
@@ -32,8 +30,6 @@ import { NewsComponent } from './views/news/news.component';
     GamefullComponent,
     NavbarComponent,
     HomeComponent,
-    CreateComponent,
-    ReadComponent,
     SignupComponent,
     DeveloperComponent,
     ResearchBarComponent,
