@@ -37,6 +37,9 @@ export class GamefullComponent {
   public user: userDTO = new userDTO(21,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user
   public user2: userDTO = new userDTO(21,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user for profile picture 
 
+  public devArray: userDTO[] = []; // Default array for the developer's informations
+  public gameDev: userDTO = new userDTO(21,"louisouiii","louisouiii",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png");
+
   public profilePic: string = "";
 
   public hasBoughtObject:number[] = []; 
@@ -72,6 +75,7 @@ export class GamefullComponent {
       }
 
       this.getUserInfo();
+      this.getDevInfo();
       this.pageLoaded = true;
    
     }
@@ -98,6 +102,7 @@ export class GamefullComponent {
           }
 
           this.getUserInfo();
+          this.getDevInfo();
 
         }
       });
@@ -277,6 +282,22 @@ export class GamefullComponent {
         closeButton.dispatchEvent(new Event('click'));
       }
     }
+  }
+
+  getDevInfo() {
+    this.service.getUserInfo(this.game.dev).subscribe(
+      (response) => {
+        this.devArray = response.data;
+
+        this.gameDev = this.devArray[0];
+        console.log("Dev : ", this.gameDev);
+
+        return;
+      },
+      (error) => {
+        console.log('Error fetching dev info:', error);
+      }
+    );
   }
 
   // Method responsible to return all information about an user

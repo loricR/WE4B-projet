@@ -100,7 +100,7 @@ export class DeveloperComponent {
 
   categories: string[] = [];
   predefinedCategories: string[] = ['Solo', 'Multiplayer', 'Adventure', 'FPS', 'Puzzle', 'Open World', 'RPG', 'Strategy', 'Simulation', 'MOBA', 'Retro'];
-
+//list of predefined categories
   recommendedCPU: string = '';
   predefinedCPU: string[] = ['Intel Core i7-10700K','AMD Ryzen 7 5800X','Intel Core i9-10900K', 'AMD Ryzen 9 5900X', 'Intel Core i5-11600K','AMD Ryzen 5 5600X','Intel Core i3-10100'];
 
@@ -113,7 +113,7 @@ export class DeveloperComponent {
   predefinedRAM: string[] = ['8 GB DDR4 RAM','16 GB DDR4 RAM','32 GB DDR4 RAM','64 GB DDR4 RAM','12 GB DDR4 RAM','24 GB DDR4 RAM','48 GB DDR4 RAM'];
 
 
-
+// Form group for the game form
   userForm = new FormGroup({
     gameName: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),

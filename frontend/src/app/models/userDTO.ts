@@ -1,4 +1,4 @@
-export class userDTO {
+export class userDTO { //user model (database)
   constructor(
       public ID: number,
       public username: string,

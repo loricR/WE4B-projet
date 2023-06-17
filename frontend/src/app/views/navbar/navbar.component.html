@@ -1,4 +1,5 @@
 <ul class="nav nav-pills mb-3 nav-fill sticky-top backperso" id="pills-tab" role="tablist">
+  <!--Dynamic navbar-->
     <li class="nav-item" role="presentation">
       <button class="nav-link active" [ngClass]="{active: navItem.get('home')}" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" routerLink=''>Accueil</button>
     </li>
@@ -30,19 +31,3 @@
       </ng-template>
     </li>
 </ul>
-
-
-<!--<ul class="dropdownmenu">
-  <li class="elem-menu"><a href="index.php">Accueil</a>
-  </li>
-  <li class="elem-menu"><a href="liste-blog.php">Liste des blogs</a>
-  </li>
-  <li class="elem-menu"><a href="recherche.php">Rechercher</a></li>
-			<li id="ID_myblog" class="menu-deroulant elem-menu"><a href="./blog.php?userID=' . $_SESSION["id"] . '"><img src="' . getAvatarLink($_SESSION["id"]) . '" alt=avatar> ' . $_SESSION["login"] . '</a>
-			<ul class="sous-menu">
-			<li class="elem-menu"><a href="./blog.php?userID=' . $_SESSION["id"] . '">Mon Blog</a></li>
-			<li class="elem-menu"><a href="profil.php">Mon Profil</a></li>
-			<li class="elem-menu"><a href="./logout.php">Déconnexion</a></li>
-			</ul>
-			</li>
-</ul>-->

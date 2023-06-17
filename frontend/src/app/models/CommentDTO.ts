@@ -1,4 +1,4 @@
-export class CommentDTO {
+export class CommentDTO { //class CommentDTO for the comment form in the game page
   constructor(
       public content: string,
       public ID_game: number,
