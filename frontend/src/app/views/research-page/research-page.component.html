@@ -27,24 +27,21 @@
   <p>{{ searchQuery }}</p>
 
   <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col" *ngIf="searchType === 'user'">Username</th>
-        <th scope="col" *ngIf="searchType === 'game'">Name</th>
-        <th scope="col" *ngIf="searchType === 'user'">Password</th>
-        <th scope="col" *ngIf="searchType === 'game'">Developer</th>
-      </tr>
-    </thead>
   
     <tbody>
+      <div *ngIf="searchType === 'user'">
       <tr *ngFor="let item of searchResults">
         <th scope="row">{{ item.ID }}</th>
-        <td *ngIf="searchType === 'user'">{{ item.username}}</td>
-        <td *ngIf="searchType === 'user'">{{ item.password}}</td>
-        <td *ngIf="searchType === 'game'">{{ item.name }}</td>
-        <td *ngIf="searchType === 'game'">{{ item.dev }}</td>
-        <td *ngIf="searchType === 'game'">{{ item.description }}</td>
+        <td>{{ item.username}}</td>
+        <td>{{ item.password}}</td>
+      </tr>
+      </div>
+      <tr *ngIf="searchType === 'game'">
+        <td>
+          <div class="card-group">
+            <app-game class="game" *ngFor="let gameVar of gameArray; let i = index" [game]="gameVar" [game_idx]="i"/>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
