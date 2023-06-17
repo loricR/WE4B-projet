@@ -1,0 +1,16 @@
+.card-group{
+    box-sizing: border-box;
+    width: 50%;
+    margin: 20px auto;
+    padding: 10px 30px;
+    opacity: 1;
+}
+.card-group.img {
+    width: 100%;
+}
+.game{
+    box-sizing: border-box;
+    width: 100%;
+    margin: 20px auto;
+    padding: 10px 30px;
+}
