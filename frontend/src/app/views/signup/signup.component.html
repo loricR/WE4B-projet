@@ -1,4 +1,5 @@
 <form class="registerform" *ngIf="!isLoggedIn" name="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+    <!--Login Form-->
     <div class="mb-3 ">
         <label for="username" class="form-label">Nom d'utilisateur</label>
         <input type="text" class="form-control" id="username" name="username" formControlName="username"/>
@@ -20,7 +21,7 @@
 </form>
 
 <h2> Ou créer votre compte si vous n'en n'avez pas !</h2>
-
+<!--register form-->
 
 <form class="registerform" [formGroup]="registerForm" *ngIf="!isLoggedIn" name="registerForm" (ngSubmit)="onSubmitRegister()">
     <div class="mb-3 ">

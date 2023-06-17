@@ -19,12 +19,12 @@ export class GameComponent implements OnInit {
 
 
   readMore() {
-    this.router.navigate(['/', 'game', this.game.ID]);
+    this.router.navigate(['/', 'game', this.game.ID]); //navigate to the game page
   }
   calldev() {
-    this.GameService.devpage(this.game.dev);
+    this.GameService.devpage(this.game.dev); //navigate to the dev page
   }
-  setrating(rating: number):void{
+  setrating(rating: number):void{ //set the rating of the game ( stars)
     this.rating = rating;
   }
 

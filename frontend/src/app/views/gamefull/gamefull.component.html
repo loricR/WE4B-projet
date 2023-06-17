@@ -1,6 +1,6 @@
 <div *ngIf="pageLoaded" class="container">
     <h3 class="card-title">{{game.name}}</h3>
-
+<!-- Game page ( with all information)-->
 
     <div class="card " style="width: 18rem;">
         <div class="card-body">
@@ -8,11 +8,9 @@
           <p class="card-text" style="text-align: center;">Chaque jeux diposent de ses informations spécifiques: composants minimum, style de jeu, prix et développeur</p>
         </div>
 
-        <div class="card-body">
-            <p class="card-text" style="text-align: center;">Chaque jeux diposent de ses informations spécifiques: composants minimum, style de jeu, prix et développeur</p>
-        </div>
+        <!-- Show Technical information-->
 
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush"> <!-- Display categories (fps etc..)-->
           <li class="list-group-item">
             <span *ngFor="let category of game.category; let i = index;" [ngSwitch]="i">    <!--Category-->
                 <span *ngSwitchCase="0" class="badge rounded-pill text-bg-primary">{{category}}</span>
@@ -40,7 +38,7 @@
                 
               </ul>
           </li>
-          <li class="list-group-item">
+          <li class="list-group-item"> <!--Minimum components-->
             <span class="badge rounded-pill text-bg-info">{{game.cpu}}</span>
             <span class="badge rounded-pill text-bg-success">{{game.gpu}}</span>
             <span class="badge rounded-pill text-bg-danger">{{game.ram}}</span>   
@@ -105,14 +103,14 @@
       
     <hr>
     <div class="com"> 
-        <h2> Zone de commentaire </h2>
+        <h2> Zone de commentaire </h2><!--Commentary -->
         
         <div class="container mt-5">
           <div class="d-flex justify-content-center row">
               <div class="col-md-8">
                   <div class="d-flex flex-column comment-section">
                     <div class="bg-white p-2">
-                      <div *ngFor="let comment of processedComments" class="d-flex flex-row user-info">
+                      <div *ngFor="let comment of processedComments" class="d-flex flex-row user-info"> <!--Comment-->
                         <div class="d-flex flex-column justify-content-start ml-2">
                           <span class="d-block font-weight-bold name">{{ comment.user[0].username }}</span>
                           <span class="date text-black-50"> Note given: {{ comment.comment.note }}/5</span>

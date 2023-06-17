@@ -1,4 +1,5 @@
 <h2>Your profile</h2>
+<!-- Developer profile -->
 
 <section class="vh-100" style="background-color: #f4f5f7;">
   <div class="container py-5 h-100">
@@ -29,13 +30,13 @@
                     </div>
                   </div>
                   <hr class="mt-0 mb-4">
-                  <div *ngIf="!isDeveloper" class="row pt-1">
-                    <p class="text-muted">User not a developer!</p>
+                  <div *ngIf="!isDeveloper" class="row pt-1"> <!-- If user is not a developer -->
+                    <p class="text-muted">User not a developer!</p> 
                   </div>
                 </div> 
-                  <div *ngIf="isDeveloper" class="row pt-1">
+                  <div *ngIf="isDeveloper" class="row pt-1"> <!-- If user is a developer -->
                     <div class="col-12 mb-3" style = "text-align: center">
-                      <button class="btn btn-primary" (click)="toggleGames()">
+                      <button class="btn btn-primary" (click)="toggleGames()"> <!-- Toggle games -->
                         {{ showGames ? 'Hide Games' : 'View Games' }}
                       </button>
                     </div>
@@ -43,7 +44,7 @@
                     <div class="col-12" *ngIf="showGames">
                       <h6>Games :</h6>
                       <hr class="mt-0 mb-4">
-                      <div *ngFor="let game of games; let i = index">
+                      <div *ngFor="let game of games; let i = index"> <!-- Display games -->
                         <h6>
                           <strong>Game {{ i + 1 }} : </strong>
                           <span class="game-name" (click)="redirectToGamePage(game.ID)">{{ game.name }}</span>
@@ -61,14 +62,12 @@
                           {{ showAddGameSection ? 'Hide adding section' : 'Add a new game you are proud of!' }}
                         </button>
                       </div>
-                      
+                      <!-- Add game section -->
                       <br>
                       <div class="col-12 mb-3" *ngIf="showAddGameSection">
                         <hr class="mt-0 mb-4">
-                        <form [formGroup]="userForm">
-  
+                        <form [formGroup]="userForm"> <!-- Form for adding a game -->  
                           <h5 style="text-align:center">Must fill Informations</h5>
-  
                           <br>
                           <hr class="mt-0 mb-4">
   
@@ -168,8 +167,8 @@
                             </select>
                           </div>
                           <br>
-  
-                          <div *ngIf="predefinedCPU.length == 0">
+   
+                          <div *ngIf="predefinedCPU.length == 0"> <!-- If the user has already selected a CPU -->
                             <h6>Selected CPU:</h6>
                             <ul>
                               <li>{{ recommendedCPU }}</li>
@@ -180,7 +179,7 @@
   
                           <!-- GPU -->
                           <div>
-                            <select id="category-select" (change)="addGPU($event.target)">
+                            <select id="category-select" (change)="addGPU($event.target)"> <!-- Select the GPU -->
                               <option value="" disabled selected>Recommended GPU</option>
                               <option *ngFor="let gpu of predefinedGPU" [value]="gpu">{{ gpu }}</option>
                             </select>
