@@ -42,7 +42,10 @@
           <p class="lead txtwh">Connectez-vous ou créez un compte afin d'accéder à de nombreuses fonctionnalités ! </p>
         </div>
         <div>
-          <a  routerLink="/register" > <img width="20%" class="image-zoom-login" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.vectorstock.com%2Fi%2F1000x1000%2F91%2F25%2Flogin-web-screen-with-blue-design-template-vector-10019125.jpg&f=1&nofb=1&ipt=f11301aee8626779cd552b5beffc9fcf4f3f77a6c2c7c2209d353cf8034b3522&ipo=images"> </a>
+            <a  *ngIf="!isLoggedIn; else logged" routerLink="/register" > <img width="20%" class="image-zoom-login" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.vectorstock.com%2Fi%2F1000x1000%2F91%2F25%2Flogin-web-screen-with-blue-design-template-vector-10019125.jpg&f=1&nofb=1&ipt=f11301aee8626779cd552b5beffc9fcf4f3f77a6c2c7c2209d353cf8034b3522&ipo=images"> </a>
+            <ng-template #logged>
+              <a [routerLink]="['/user',user.ID]" > <img width="20%" class="image-zoom-login" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.vectorstock.com%2Fi%2F1000x1000%2F91%2F25%2Flogin-web-screen-with-blue-design-template-vector-10019125.jpg&f=1&nofb=1&ipt=f11301aee8626779cd552b5beffc9fcf4f3f77a6c2c7c2209d353cf8034b3522&ipo=images"> </a>
+            </ng-template>
         </div>
 </div>
 
@@ -54,12 +57,20 @@
         </div>
         <div class="col-6 col-md">
           <h5>Fonctionnalités </h5>
-          <ul class="list-unstyled text-small">
-            <li><a class="text-muted" href="#">Mettre une note à un jeu</a></li>
-            <li><a class="text-muted" href="#">Ecrire un commentaire sur un jeu</a></li>
-            <li><a class="text-muted" href="#">Ajouter de nouveaux jeux</a></li>
-            <li><a class="text-muted" href="#">Exclusivités liées au statut développeur</a></li>
+          <ul *ngIf="!isLoggedIn; else loggedFonc" class="list-unstyled text-small">
+            <li><a class="text-muted" routerLink="/register">Mettre une note à un jeu</a></li>
+            <li><a class="text-muted" routerLink="/register">Ecrire un commentaire sur un jeu</a></li>
+            <li><a class="text-muted" routerLink="/register">Ajouter de nouveaux jeux</a></li>
+            <li><a class="text-muted" routerLink="/register">Exclusivités liées au statut développeur</a></li>
           </ul>
+          <ng-template #loggedFonc>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-muted" [routerLink]="['/user',user.ID]">Mettre une note à un jeu</a></li>
+              <li><a class="text-muted" [routerLink]="['/user',user.ID]">Ecrire un commentaire sur un jeu</a></li>
+              <li><a class="text-muted" [routerLink]="['/user',user.ID]">Ajouter de nouveaux jeux</a></li>
+              <li><a class="text-muted" [routerLink]="['/user',user.ID]">Exclusivités liées au statut développeur</a></li>
+            </ul>
+          </ng-template>
         </div>
         <div class="col-6 col-md">
           <h5>Développeurs du site </h5>
