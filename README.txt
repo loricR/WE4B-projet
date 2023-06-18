@@ -2,7 +2,11 @@ Projet WE4B - Site de recommandation de jeux vidéos
 Alexandre BARTHELME, Thibault MAYER, Loric RAVASSARD, Louis ROLLAND
 
 Avant de lancer le projet, vous devez avoir un serveur MySQL qui tourne avec la base de données backend/we4b.sql (serveur avec XAMPP ou UwAmp par exemple). 
-Le back-end est un serveur node.js pour pouvoir utiliser une base de données MySQL qui est une base de données relationnelle que nous connaissons déjà grâce à l'UV WE4A.
+Pour le back-end, nous avons opté pour un mélange entre les notions vues en cours de WE4B et les compétences déjà acquises en WE4A. 
+En effet, le back-end est organisé de la manière suivante :
+   • un serveur node.js pour pouvoir accéder à une base de données MySQL
+   • une base de données relationnelle que nous connaissons déjà grâce à l'UV WE4A
+   • un système de service liant le back-end et le front-end à l'aide de requêtes http diverses (put, post et get).
 Les sources du projet angular sont dans le dossier frontend.
 
 Les paramètres de connexion à la base de données sont dans le fichier backend/index.js dans la fonction createConnection().
