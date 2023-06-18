@@ -8,6 +8,7 @@
       <option value="game">Jeu</option>
     </select>
   </div>
+  <form>
   <div class="search-container" *ngIf="searchType === 'game'">
   
     <label for="gameName">Game Name:</label>
@@ -23,8 +24,9 @@
     <input type="text" id="username" name="username" [(ngModel)]="searchQuery">
   </div>
   <div class="text-center">
-  <button class="btn" (click)="search()">Search</button>
+  <button class="btn" type="submit" (click)="search()">Search</button>
   </div>
+  </form>
 </div>
 
 <div class="user-search" *ngIf="searchType === 'user'">
@@ -38,6 +40,7 @@
     </tbody>
   </table>
 </div>
+
 <table>
   <tbody>
       <tr *ngIf="searchType === 'game'">

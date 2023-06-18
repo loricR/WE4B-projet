@@ -171,24 +171,23 @@ app.post("/recherche/game", (req, res) => {
   let conditions = [];
 
   if (name) {
-    conditions.push("name LIKE '%" + name + "%'");
+    conditions.push("game.name LIKE '%" + name + "%'");
   }
 
   if (minPrice) {
-    conditions.push("price >= " + minPrice);
+    conditions.push("game.price >= " + minPrice);
   }
 
   if (maxPrice) {
-    conditions.push("price <= " + maxPrice);
+    conditions.push("game.price <= " + maxPrice);
   }
 
   if (dev) {
-    conditions.push("dev LIKE '%" + dev + "%'");
+    conditions.push("user.username LIKE '%" + dev + "%'");
   }
 
   let conditionString = conditions.length > 0 ? "WHERE " + conditions.join(" AND ") : "";
-  let qr = "SELECT * FROM game " + conditionString;
-
+  let qr = "SELECT game.* FROM game INNER JOIN user ON user.ID = game.dev " + conditionString;
 // Execute the database query using the appropriate method
 db.query(qr, (err, results) => {
   if (err) {
