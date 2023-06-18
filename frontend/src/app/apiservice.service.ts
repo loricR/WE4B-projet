@@ -96,6 +96,11 @@ export class ApiserviceService {
       return this._http.get(url);
     }
 
+
+    getUsers():Observable<any> {
+      const url = `${this.apiUrl}`; 
+    }
+
     getGamesBought(id : number):Observable<any> {
       const url = `${this.gameApiUrl}/buy/${id}`; 
       return this._http.get(url);

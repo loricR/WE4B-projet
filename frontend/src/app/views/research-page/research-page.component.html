@@ -1,37 +1,36 @@
-<div>
-  <!--Researche page with all filters-->
-    <input type="text" [(ngModel)]="searchQuery" placeholder="Enter search query" />
-    <button (click)="search()">Search</button>
+<div class="search-box">
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Search by:</span>
+    </div>
+    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="searchType">
+      <option value="user">User</option>
+      <option value="game">Game</option>
+    </select>
   </div>
-  
-  <div>
-    <label for="searchType">Search by:</label>
-    <input type="radio" id="userSearch" name="searchType" [(ngModel)]="searchType" value="user" checked>
-    <label for="userSearch">User</label>
-    <input type="radio" id="gameSearch" name="searchType" [(ngModel)]="searchType" value="game">
-    <label for="gameSearch">Game</label>
-  </div>
-  
-  <div *ngIf="searchType === 'game'">
+  <div class="search-container" *ngIf="searchType === 'game'">
     <label for="gameName">Game Name:</label>
     <input type="text" id="gameName" name="gameName" [(ngModel)]="gameName">
-  
-    <label for="minPrice">Minimum Price:</label>
-    <input type="number" id="minPrice" name="minPrice" [(ngModel)]="minPrice">
-  
-    <label for="maxPrice">Maximum Price:</label>
-    <input type="number" id="maxPrice" name="maxPrice" [(ngModel)]="maxPrice">
-  
+
+    <ngx-slider [(value)]="minPrice" [(highValue)]="maxPrice" [options]="options"></ngx-slider>
+    
     <label for="developer">Developer:</label>
     <input type="text" id="developer" name="developer" [(ngModel)]="developer">
   </div>
-  <p>{{ searchQuery }}</p>
+  <div class="search-container" *ngIf="searchType === 'user'">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" [(ngModel)]="searchQuery">
+  </div>
+  <div class="text-center">
+  <button class="btn" (click)="search()">Search</button>
+  </div>
+</div>
 
   <table class="table">
   
     <tbody>
       <div *ngIf="searchType === 'user'">
-      <tr *ngFor="let item of searchResults">
+      <tr *ngFor="let item of userArray">
         <th scope="row">{{ item.ID }}</th>
         <td>{{ item.username}}</td>
         <td>{{ item.password}}</td>

@@ -7,12 +7,6 @@ import { map } from 'rxjs/operators';
 import { CommentDTO } from '../models/CommentDTO';
 import { userDTO } from '../models/userDTO';
 
-
-
-
-
-
-
 @Injectable({
   providedIn: 'root'
 })
