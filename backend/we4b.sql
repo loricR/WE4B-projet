@@ -92,7 +92,8 @@ CREATE TABLE `comment` (
   `ID` int(8) NOT NULL,
   `content` varchar(2000) NOT NULL,
   `ID_game` int(8) NOT NULL,
-  `ID_user` int(8) NOT NULL
+  `ID_user` int(8) NOT NULL,
+  `note` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
