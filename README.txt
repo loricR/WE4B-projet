@@ -20,3 +20,11 @@ Pour lancer le back-end: "nodemon index.js" depuis le dossier backend.
 Pour lancer le front-end: "ng serve" depuis le dossier frontend.
 
 Le back-end et le front-end peuvent être lancés avec une seule commande en étant dans le dossier frontend: "npm start".
+
+
+Pour tester les fonctionnalités du site, des utilisateurs sont déjà enregistrés dans la base de données:
+    Nom d'utilisateur / mot de passe / développeur?
+  - Alex / iron68 / oui
+  - Luc / iron68 / oui
+  - Iron / iron68 / non
+  - LeBelfortdu90 / iron68 / oui
