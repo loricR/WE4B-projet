@@ -34,6 +34,9 @@ export class DeveloperComponent {
   public profilePictureUrl: string = this.user.profilePictureURL
   public username:string = this.user.username
 
+  public gamesBought: GameDTO[] = [];
+  public showGamesBought: boolean = false;
+
 
   public user_id : number
 
@@ -178,6 +181,30 @@ export class DeveloperComponent {
       },
       (error) => {
         console.log('Error fetching games:', error);
+      }
+    );
+  }
+
+  toggleGamesBought(): void {
+    
+    this.showGamesBought = !this.showGamesBought;
+    if (this.showGamesBought) {
+      this.getGamesBought();
+    }
+
+    
+
+  }
+
+
+  getGamesBought(): void {
+    this.apiService.getGamesBought(this.user_id).subscribe(
+      (response) => {
+        this.gamesBought = response.data;
+        console.log("Jeux achetés : ", this.gamesBought);
+      },
+      (error) => {
+        console.log('Error fetching games bought by the user: ', error);
       }
     );
   }

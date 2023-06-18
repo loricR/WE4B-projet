@@ -41,6 +41,30 @@
                     <p class="text-muted">Ce compte n'est pas un compte développeur!</p>
                   </div>
                 </div> 
+
+                  <div *ngIf="!isDeveloper" class="row pt-1">
+
+                    <div class="col-12 mb-3" style = "text-align: center">
+                      <button class="btn btn-primary" (click)="toggleGamesBought()">  <!-- Toggle games -->
+                        {{ showGamesBought ? 'Cacher les jeux achetés' : 'Voir les jeux achetés' }}
+                      </button>
+                    </div>
+                    
+                    <div class="col-12" *ngIf="showGamesBought">
+                      <h6>Jeux achetés :</h6>
+                      <hr class="mt-0 mb-4">
+                      <div *ngFor="let game of gamesBought; let i = index"> <!-- Display games bought -->
+                      <h6>
+                          <strong>Jeu {{ i + 1 }} : </strong>
+                          <span class="game-name" (click)="redirectToGamePage(game.ID)">{{ game.name }}</span>
+                      </h6>
+                        
+                      </div><br>
+                      <hr class="mt-0 mb-4">
+                        <br><br>
+                    </div>
+
+                  </div>
                   <div *ngIf="isDeveloper" class="row pt-1"> <!-- If user is a developer -->
                     <div class="col-12 mb-3" style = "text-align: center">
                       <button class="btn btn-primary" (click)="toggleGames()">  <!-- Toggle games -->
@@ -60,13 +84,40 @@
                       <br>
                       <hr class="mt-0 mb-4">
                     </div>
+
+
+                    <div class="col-12 mb-3" style = "text-align: center">
+                      <button class="btn btn-primary" (click)="toggleGamesBought()">  <!-- Toggle games -->
+                        {{ showGamesBought ? 'Cacher les jeux achetés' : 'Voir les jeux achetés' }}
+                      </button>
+                    </div>
+
+                    
+
+                      <br><br><br>
+                      <hr class="mt-0 mb-4">
+
                     <div class="col-12 mb-3">
                       <br> 
                     <div *ngIf="isUserConnectedDev" class="col-12 mb-3">
 
+                      <div class="col-12" *ngIf="showGamesBought">
+                        <h6>Jeux achetés :</h6>
+                        <hr class="mt-0 mb-4">
+                        <div *ngFor="let game of gamesBought; let i = index"> <!-- Display games bought -->
+                        <h6>
+                            <strong>Jeu {{ i + 1 }} : </strong>
+                            <span class="game-name" (click)="redirectToGamePage(game.ID)">{{ game.name }}</span>
+                        </h6>
+                          
+                        </div><br>
+                        <hr class="mt-0 mb-4">
+                          <br><br>
+                      </div>
+
                       <div style="text-align: center">
                         <button class="btn btn-primary" (click)="showAddGameSection = !showAddGameSection">
-                          {{ showAddGameSection ? 'Cacher section ajouter' : 'Ajouter un nouveau jeu dont vous êtes fier!' }}
+                          {{ showAddGameSection ? 'Cacher section ajouter' : 'Ajouter un nouveau jeu dont vous êtes fier !' }}
                         </button>
                       </div>
                       <!-- Add game section -->
@@ -74,7 +125,9 @@
                       <div class="col-12 mb-3" *ngIf="showAddGameSection">
                         <hr class="mt-0 mb-4">
                         <form [formGroup]="userForm"> <!-- Form for adding a game -->  
-                          <h5 style="text-align:center">Remplissez les informations</h5>
+
+                          <h5 style="text-align:center">Informations à compléter</h5>
+
                           <br>
                           <hr class="mt-0 mb-4">
   
@@ -135,7 +188,9 @@
                           <br>
                           <!-- Video Code-->
                           <h6> Code vidéo Youtube :</h6>
-                          <input type="text" class="form-control mt-3" placeholder="Code video Youtube" formControlName="videoCode" name="videoCode">
+                          <p class="text-muted">Le code d'une vidéo Youtube est le code qui est après watch?v=, ici la partie en gras: https://www.youtube.com/watch?v=<strong>QO1adblLSSA</strong>.</p>
+                          <input type="text" class="form-control mt-3" placeholder="Video Code" formControlName="videoCode" name="videoCode">
+
   
                           <br>
   
@@ -158,7 +213,7 @@
   
                           <hr class="mt-0 mb-4">
   
-                          <h5 style="text-align:center">Spécifications recommendées: </h5>
+                          <h5 style="text-align:center">Spécifications recommandées: </h5>
   
                           <br>
                           <hr class="mt-0 mb-4">
@@ -169,7 +224,7 @@
                           
                           <div>
                             <select id="category-select" (change)="addCPU($event.target)">
-                              <option value="" disabled selected>CPU recommendé</option>
+                              <option value="" disabled selected>CPU recommandé</option>
                               <option *ngFor="let cpu of predefinedCPU" [value]="cpu">{{ cpu }}</option>
                             </select>
                           </div>
@@ -187,7 +242,7 @@
                           <!-- GPU -->
                           <div>
                             <select id="category-select" (change)="addGPU($event.target)">  <!-- Select the GPU -->
-                              <option value="" disabled selected>GPU recommendé</option>
+                              <option value="" disabled selected>GPU recommandé</option>
                               <option *ngFor="let gpu of predefinedGPU" [value]="gpu">{{ gpu }}</option>
                             </select>
                           </div>
@@ -205,7 +260,7 @@
                           <!-- RAM -->
                           <div>
                             <select id="category-select" (change)="addRAM($event.target)">
-                              <option value="" disabled selected>RAM recommendée</option>
+                              <option value="" disabled selected>RAM recommandée</option>
                               <option *ngFor="let ram of predefinedRAM" [value]="ram">{{ ram }}</option>
                             </select>
                           </div>

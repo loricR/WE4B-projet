@@ -5,7 +5,7 @@
     <div class="card " style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title">Informations techniques</h5>
-          <p class="card-text" style="text-align: center;"> Nous prenons soin de renseigner les configurations minmum nécessaires au lancement de chaque jeu pour garantir une expérience utilisateur inoubliable</p>
+          <p class="card-text" style="text-align: center;"> Nous prenons soin de renseigner les configurations minimales nécessaires au lancement de chaque jeu pour garantir une expérience utilisateur inoubliable.</p>
         </div>
 
         <!-- Show Technical information-->
@@ -49,12 +49,23 @@
             <span class="badge rounded-pill text-bg-danger">{{game.ram}}</span>   
           </li>
 
-          <button type="button" class="btn btn-primary" id="acheter" (click)="buyGame()">Acheter</button>  <!--Buy the game-->  
-
-          <div *ngIf="buyBool" id="successMsg" class="alert alert-success alert-dismissible" role="alert">
-            <strong> Jeu acheté ! Vous avez été déboursé de {{game.price}}€</strong>
+          
+          <div *ngIf="!isConnected" id="successMsg" class="alert alert-danger alert-dismissible" role="alert">
+            <strong>Vous devez être connecté pour acheter des jeux</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="closeSuccessMsg()"></button>
           </div>
+
+          <ng-container *ngIf="isConnected">    
+            <button type="button" class="btn btn-primary" id="acheter" (click)="buyGame()">Acheter</button>  <!--Buy the game-->  
+          </ng-container>
+
+          
+
+            <div *ngIf="buyBool" id="successMsg" class="alert alert-success alert-dismissible" role="alert">
+              <strong> Jeu acheté ! Vous avez été débité de {{game.price}}€</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="closeSuccessMsg()"></button>
+            </div>
+          
 
         </ul>
     </div>
@@ -108,7 +119,7 @@
       
     <hr>
     <div class="com"> 
-        <h2> Zone de commentaire </h2><!--Commentary -->
+        <h2> Zone de commentaires </h2><!--Commentary -->
         
         <div class="container mt-5">
           <div class="d-flex justify-content-center row">
@@ -131,7 +142,13 @@
 
                     <br>
                       
-                    
+                    <div *ngIf="!isConnected" id="successMsg" class="alert alert-danger alert-dismissible" role="alert">
+                      <strong>Vous devez être connecté pour poster un avis</strong>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="closeSuccessMsg()"></button>
+                    </div>
+
+                    <div *ngIf="isConnected">
+                      
                       <div *ngIf="!hasAlreadyCommented" class="bg-light p-2">
 
                         <div>
@@ -162,6 +179,10 @@
                       </div>
 
                       <br><br>
+
+
+                    </div>
+                      
 
                       
 
