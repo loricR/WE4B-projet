@@ -15,16 +15,16 @@ export class ResearchPageComponent {
   searchQuery!: string;
   searchType: string = 'user'; //Default to user search
   searchResults: any;
-
+  searchOption: string = 'name'; //Default to name search
   gameName : string = '';
   developer : string = '';
   gameArray: Game[] = [];
   userArray: userDTO[] = [];
-  minPrice: number = 40;
-  maxPrice: number = 60;
+  minPrice: number = 0;
+  maxPrice: number = 600;
   options: Options = {
     floor: 0,
-    ceil: 100
+    ceil: 1000
   };
   constructor(private dataService: ApiserviceService, private gameService : GameService) {}
 
@@ -32,24 +32,21 @@ export class ResearchPageComponent {
     // Your search logic here based on searchQuery and searchType
     if (this.searchType === 'user') {
       this.userArray = [];
-      console.log(this.searchQuery);
       this.dataService.getUsers().subscribe((res) => {
-      this.searchResults = res.data;
-      for(let i = 0; i<Object.keys(this.searchResults).length; i++){
-        if (String(this.searchResults[i].username) === String(this.searchQuery)) {
-          this.userArray.push(this.searchResults[i]);
-        }
-      }
-      console.log(this.userArray);
-      });
-
-    } else if (this.searchType === 'game') {
-        this.gameArray = [];
-        this.dataService.researchGame(this.gameName, this.minPrice, this.maxPrice, this.developer).subscribe((res) => {
         this.searchResults = res.data;
-        console.log(this.searchResults);
-        for(let i = 0; i<Object.keys(this.searchResults).length; i++){
-          this.gameArray.push(this.gameService.getGameById(this.searchResults[i].ID));
+        for (let i = 0; i < Object.keys(this.searchResults)?.length; i++) {
+          if (this.searchResults[i]?.username?.includes(this.searchQuery)) {
+            this.userArray.push(this.searchResults[i]);
+          }
+        }
+      });
+  
+    } else if (this.searchType === 'game') {
+      this.gameArray = [];
+      this.dataService.researchGame(this.gameName, this.minPrice, this.maxPrice, this.developer).subscribe((res) => {
+        this.searchResults = res.data;
+        for (let i = 0; i < Object.keys(this.searchResults)?.length; i++) {
+          this.gameArray.push(this.gameService.getGameById(this.searchResults[i]?.ID));
         }
       });
     }
