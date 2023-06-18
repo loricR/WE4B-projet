@@ -13,7 +13,7 @@ import { Options } from 'ngx-slider-v2';
    
 export class ResearchPageComponent {
   searchQuery!: string;
-  searchType: string = 'user'; //Default to user search
+  searchType: string = 'game'; //Default to user search
   searchResults: any;
   searchOption: string = 'name'; //Default to name search
   gameName : string = '';
@@ -32,10 +32,12 @@ export class ResearchPageComponent {
     // Your search logic here based on searchQuery and searchType
     if (this.searchType === 'user') {
       this.userArray = [];
+      let username = '';
       this.dataService.getUsers().subscribe((res) => {
         this.searchResults = res.data;
         for (let i = 0; i < Object.keys(this.searchResults)?.length; i++) {
-          if (this.searchResults[i]?.username?.includes(this.searchQuery)) {
+          username = this.searchResults[i]?.username.toUpperCase();
+          if (username.includes(this.searchQuery.toUpperCase())) {
             this.userArray.push(this.searchResults[i]);
           }
         }
