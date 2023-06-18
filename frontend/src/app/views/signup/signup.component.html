@@ -49,14 +49,14 @@
     
     <div class="mb-3">
         <p class="form-label">Quel type de compte souhaitez-vous créer ?</p>
-        <div id="userHelp" class="form-text">Les mêmes fonctionnalités sont disponibles sur le site pour un utilisateur simple ou un developpeur. <br/> En tant que développeur vous aurez une page supplémentaire vous permettant d'ajouter des jeux sur le site.</div>
+        <div id="userHelp" class="form-text">Les mêmes fonctionnalités sont disponibles sur le site pour un utilisateur standard ou un développeur. <br/> En tant que développeur vous aurez une page supplémentaire vous permettant d'ajouter des jeux sur le site.</div>
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="developer" id="developer" value="1" formControlName="developer">
-            <label class="form-check-label" for="developer">Developpeur</label>
+            <label class="form-check-label" for="developer">Développeur</label>
         </div>
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="developer" id="notDeveloper" value="0" formControlName="developer">
-            <label class="form-check-label" for="notDeveloper">Utilisteur standard</label>
+            <label class="form-check-label" for="notDeveloper">Utilisateur standard</label>
         </div>
         <div class="alert alert-danger" role="alert" *ngIf="registerFormControls['developer'].invalid && (registerFormControls['developer'].touched || registerFormControls['email'].touched)">
             <div *ngIf="registerFormControls['developer'].getError('required')">Veuillez préciser quel type de compte vous souhaitez créer.</div>

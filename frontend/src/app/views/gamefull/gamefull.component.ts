@@ -34,8 +34,8 @@ export class GamefullComponent {
 
   public userArray: userDTO[] = []
   public userArray2: userDTO[] = [] // To get the profile picture
-  public user: userDTO = new userDTO(21,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user
-  public user2: userDTO = new userDTO(21,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user for profile picture 
+  public user: userDTO = new userDTO(-1,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user
+  public user2: userDTO = new userDTO(-1,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user for profile picture 
 
   public devArray: userDTO[] = []; // Default array for the developer's informations
   public gameDev: userDTO = new userDTO(21,"louisouiii","louisouiii",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png");
@@ -46,6 +46,7 @@ export class GamefullComponent {
   public hasBoughtFinal:boolean = false;
 
   public buyBool:boolean = false;
+  public isConnected:boolean = false;
 
 
 
@@ -71,11 +72,12 @@ export class GamefullComponent {
 
       if(this.tokenStorage.getToken()) {
         this.user = this.tokenStorage.getUser(); // gets the user info
-        console.log("check récupération user : ",this.user);
       }
 
       this.getUserInfo();
       this.getDevInfo();
+
+      if(this.user.ID > 0) this.isConnected = true;
       this.pageLoaded = true;
    
     }
@@ -98,11 +100,12 @@ export class GamefullComponent {
 
           if(this.tokenStorage.getToken()) {
             this.user = this.tokenStorage.getUser(); // gets the user info
-            console.log("check récupération user : ",this.user);
           }
 
           this.getUserInfo();
           this.getDevInfo();
+
+          if(this.user.ID > 0) this.isConnected = true;
 
         }
       });
@@ -137,7 +140,6 @@ export class GamefullComponent {
 
   onResize(): void {
     if(this.youtubePlayer != null) {  //If the component exists
-      console.log("onResize");  
       this.videoWidth = Math.min(this.youtubePlayer.nativeElement.clientWidth, 1200); //videoWidth = div size or 1200px if div larger
 
       this.videoHeight = this.videoWidth * 0.6; //To keep the aspect ratio
@@ -145,10 +147,8 @@ export class GamefullComponent {
   }
 
   onChangeItem(): void {
-    console.log("change");
     if(this.youtubePlayer?.nativeElement.classList.contains('active')) {  //If we are watching the video
       this.youtubeVideo?.playVideo();
-      console.log("joue");
     } 
     else {
       this.youtubeVideo?.pauseVideo();
@@ -163,8 +163,6 @@ export class GamefullComponent {
   // Method responsible for rating a game 
   setrating(rating: number):void{
     this.rating = rating;
-
-    console.log("RESULTAT : ", this.AlreadyCommented());
   }
 
   // Method responsible for calculating the average rating based on all comments
@@ -182,7 +180,6 @@ export class GamefullComponent {
     this.average_rating = parseFloat(this.average_rating.toFixed(2));
 
     this.average_rating_round = Math.round(this.average_rating);
-    console.log(" Moyenne : ",this.average_rating);
   }
 
   // Method responsible for getting all informations about the comment
@@ -204,6 +201,8 @@ export class GamefullComponent {
   // Method responsible for uploading the comment in the database
   postComm(data:CommentDTO) {
 
+    if(this.user.ID < 0) return;
+
     this.AlreadyCommented();
     if(this.hasAlreadyCommented) {
       return;
@@ -221,6 +220,7 @@ export class GamefullComponent {
     // Empty all arrays else double lists
     this.allComments = [];
     this.processedComments = [];
+
     this.comm = true;
 
     this.getCommentsFromGame(this.prd_idx);
@@ -257,15 +257,10 @@ export class GamefullComponent {
 
   // Method to check if the current user has already commented once or not
   AlreadyCommented():boolean {
-
-    console.log("ID user :", this.user.ID)
-    console.log(this.processedComments);
-
     this.processedComments.forEach((processedComment) => {
       if (processedComment.comment.ID_user === this.user.ID) {
         this.hasAlreadyCommented = true;
       }
-      console.log("Comment id user : ",processedComment.comment.ID_user);
     });
 
     return this.hasAlreadyCommented
@@ -290,7 +285,6 @@ export class GamefullComponent {
         this.devArray = response.data;
 
         this.gameDev = this.devArray[0];
-        console.log("Dev : ", this.gameDev);
 
         return;
       },
@@ -302,12 +296,11 @@ export class GamefullComponent {
 
   // Method responsible to return all information about an user
   getUserInfo() {
+    //if(this.user.ID > 0) return;
 
     this.service.getUserInfo(this.user.ID).subscribe(
       (response) => {
         this.userArray2 = response.data;
-        console.log(this.userArray2);
-
         this.user2 = this.userArray2[0];
 
         const searchHasBought: number[] = [];

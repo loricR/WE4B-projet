@@ -229,7 +229,6 @@ export class SignupComponent implements OnInit {
     const username = this.registerForm.get('username');
     const password = this.registerForm.get('password');
     let userExist = false;
-    console.log(this.registerForm.get('developer'));
 
     if(this.modifForm) {
       const password = this.registerForm.get('password');

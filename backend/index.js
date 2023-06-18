@@ -173,8 +173,6 @@ app.get("/recherche/game/:name/:minPrice/:maxPrice/:dev", (req, res) => {
 
 // Create data
 app.post("/user", (req, res) => {
-  console.log(req.body, "createdata");
-
   let username = req.body.username;
   let password = req.body.password;
 
@@ -194,8 +192,6 @@ app.post("/user", (req, res) => {
 
 // Update a user's data
 app.put("/user/:id", (req, res) => {
-  console.log(req.body, "updatedata");
-
   let gID = req.params.id;
 
   let username = req.body.username;
@@ -308,9 +304,6 @@ app.post("/user/games/:id", (req, res) => {
 
         let currentID = result_name[0].ID;
 
-        // console.log("Le current category id is : ", result_name);
-        // console.log("Le current id is : ", result_name[0].ID);
-
         let valuesInsertCategories = [currentID, gameId];
 
         db.query(qr_insertCategories, valuesInsertCategories, (err, result) => {
@@ -327,9 +320,6 @@ app.post("/user/games/:id", (req, res) => {
         console.log(`${i+1}th picture sent`);
       });
     }
-
-    console.log("Images length : ",images.length);
-    console.log("\nImages : ", images)
 
     res.send({
       message: "Game Inserted!",
@@ -544,8 +534,6 @@ app.get("/user/userinfo/:id", (req, res) => {
   
   let userId = req.params.id;
 
-  console.log("Loading user info of", userId);
-
   let qr = `SELECT * FROM user WHERE ID = ${userId}`;
   db.query(qr, (err, result) => {
     if (err) {
@@ -596,8 +584,6 @@ app.get("/games/categories/:id", (req, res) => {
     }
 
     const categoryNames = result.map((row) => row.name);
-
-    // console.log("Catégories :", categoryNames);
 
     res.send({
       message: "Tous les noms de catégories",
@@ -670,27 +656,6 @@ app.get("/comment/:id", (req, res) => {
 });
 
 
-// Get Profile Picture From ID
-// app.get("/comment/user/:id", (req, res) => {
-
-//   console.log("I MANAGED")
-
-//   let user_id = req.params.id;
-
-//   let qr = `SELECT * FROM user WHERE ID = ?`;
-
-//   db.query(qr, [user_id], (err, result) => {
-//     if (err) {
-//       console.log(err, "errs");
-//       return res.status(500).json({ error: "Internal server error" });
-//     }
-//     res.send({
-//       message: `The profile  pictureof user ${user_id}`,
-//       data: result,
-//     });
-//   });
-// });
-
 app.get("/comment/user/:id", (req, res) => {
 
   const userId = req.params.id;
@@ -756,6 +721,54 @@ app.get("/buy/:id_user/:id_game", (req, res) => {
       message: `If has bought the game, at least one result}`,
       data: result,
     });
+  });
+});
+
+app.get("/user/games/buy/:id", (req, res) => {
+
+  const userId = req.params.id;
+
+  const results = [];
+
+  const query = `SELECT * FROM hasBought WHERE ID_user = ?`;
+
+  db.query(query, [userId], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+
+    
+
+    const gamesID = result;
+
+    const query2 = `SELECT * FROM game WHERE ID = ?`;
+
+    for (let i = 0; i < gamesID.length; i++) {
+
+      db.query(query2, [gamesID[i].ID_game], (err, result2) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ error: "Internal server error" });
+        }
+
+        console.log(`${i}th game gotten`);
+
+        results.push(result2);
+
+
+        if (results.length === gamesID.length) {
+          const flattenedResults = results.flat();
+          
+          res.send({
+            message: `All games bought by the user : `,
+            data: flattenedResults,
+          });
+        }
+
+      });
+    }
   });
 });
 
