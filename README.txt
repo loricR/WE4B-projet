@@ -1,7 +1,7 @@
 Projet WE4B - Site de recommandation de jeux vidéos
 Alexandre BARTHELME, Thibault MAYER, Loric RAVASSARD, Louis ROLLAND
 
-Avant de lancer le projet, vous devez avoir un serveur MySQL qui tourne (avec XAMPP ou UwAmp par exemple). 
+Avant de lancer le projet, vous devez avoir un serveur MySQL qui tourne avec la base de données backend/we4b.sql (serveur avec XAMPP ou UwAmp par exemple). 
 Le back-end est un serveur node.js pour pouvoir utiliser une base de données MySQL qui est une base de données relationnelle que nous connaissons déjà grâce à l'UV WE4A.
 Les sources du projet angular est dans le dossier frontend.
 
