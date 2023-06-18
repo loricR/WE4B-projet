@@ -644,27 +644,6 @@ app.get("/comment/:id", (req, res) => {
 });
 
 
-// Get Profile Picture From ID
-// app.get("/comment/user/:id", (req, res) => {
-
-//   console.log("I MANAGED")
-
-//   let user_id = req.params.id;
-
-//   let qr = `SELECT * FROM user WHERE ID = ?`;
-
-//   db.query(qr, [user_id], (err, result) => {
-//     if (err) {
-//       console.log(err, "errs");
-//       return res.status(500).json({ error: "Internal server error" });
-//     }
-//     res.send({
-//       message: `The profile  pictureof user ${user_id}`,
-//       data: result,
-//     });
-//   });
-// });
-
 app.get("/comment/user/:id", (req, res) => {
 
   const userId = req.params.id;
@@ -730,6 +709,63 @@ app.get("/buy/:id_user/:id_game", (req, res) => {
       message: `If has bought the game, at least one result}`,
       data: result,
     });
+  });
+});
+
+app.get("/user/games/buy/:id", (req, res) => {
+
+  const userId = req.params.id;
+
+  const results = [];
+
+  console.log("currently getting games bought..");
+
+  const query = `SELECT * FROM hasBought WHERE ID_user = ?`;
+
+  db.query(query, [userId], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+
+    
+
+    const gamesID = result;
+
+    const query2 = `SELECT * FROM game WHERE ID = ?`;
+
+    for (let i = 0; i < gamesID.length; i++) {
+
+      db.query(query2, [gamesID[i].ID_game], (err, result2) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ error: "Internal server error" });
+        }
+
+        console.log(`${i}th game gotten`);
+
+        results.push(result2);
+
+
+        if (results.length === gamesID.length) {
+
+          // All results have been collected
+          console.log('All results:', results);
+
+          const flattenedResults = results.flat();
+
+          console.log('All results flattened :', flattenedResults);
+
+          
+          res.send({
+            message: `All games bought by the user : `,
+            data: flattenedResults,
+          });
+        }
+
+      });
+    }
   });
 });
 

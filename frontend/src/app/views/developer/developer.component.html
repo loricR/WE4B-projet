@@ -41,6 +41,30 @@
                     <p class="text-muted">Ce compte n'est pas un compte développeur!</p>
                   </div>
                 </div> 
+
+                  <div *ngIf="!isDeveloper" class="row pt-1">
+
+                    <div class="col-12 mb-3" style = "text-align: center">
+                      <button class="btn btn-primary" (click)="toggleGamesBought()">  <!-- Toggle games -->
+                        {{ showGamesBought ? 'Cacher les jeux achetés' : 'Voir les jeux achetés' }}
+                      </button>
+                    </div>
+                    
+                    <div class="col-12" *ngIf="showGamesBought">
+                      <h6>Jeux achetés :</h6>
+                      <hr class="mt-0 mb-4">
+                      <div *ngFor="let game of gamesBought; let i = index"> <!-- Display games bought -->
+                      <h6>
+                          <strong>Jeu {{ i + 1 }} : </strong>
+                          <span class="game-name" (click)="redirectToGamePage(game.ID)">{{ game.name }}</span>
+                      </h6>
+                        
+                      </div><br>
+                      <hr class="mt-0 mb-4">
+                        <br><br>
+                    </div>
+
+                  </div>
                   <div *ngIf="isDeveloper" class="row pt-1"> <!-- If user is a developer -->
                     <div class="col-12 mb-3" style = "text-align: center">
                       <button class="btn btn-primary" (click)="toggleGames()">  <!-- Toggle games -->
@@ -60,9 +84,36 @@
                       <br>
                       <hr class="mt-0 mb-4">
                     </div>
+
+
+                    <div class="col-12 mb-3" style = "text-align: center">
+                      <button class="btn btn-primary" (click)="toggleGamesBought()">  <!-- Toggle games -->
+                        {{ showGamesBought ? 'Cacher les jeux achetés' : 'Voir les jeux achetés' }}
+                      </button>
+                    </div>
+
+                    
+
+                      <br><br><br>
+                      <hr class="mt-0 mb-4">
+
                     <div class="col-12 mb-3">
                       <br> 
                     <div *ngIf="isUserConnectedDev" class="col-12 mb-3">
+
+                      <div class="col-12" *ngIf="showGamesBought">
+                        <h6>Jeux achetés :</h6>
+                        <hr class="mt-0 mb-4">
+                        <div *ngFor="let game of gamesBought; let i = index"> <!-- Display games bought -->
+                        <h6>
+                            <strong>Jeu {{ i + 1 }} : </strong>
+                            <span class="game-name" (click)="redirectToGamePage(game.ID)">{{ game.name }}</span>
+                        </h6>
+                          
+                        </div><br>
+                        <hr class="mt-0 mb-4">
+                          <br><br>
+                      </div>
 
                       <div style="text-align: center">
                         <button class="btn btn-primary" (click)="showAddGameSection = !showAddGameSection">
