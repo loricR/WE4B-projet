@@ -98,4 +98,9 @@ export class ApiserviceService {
       const url = `${this.apiUrl}/userinfo/${id}`; 
       return this._http.get(url);
     }
+
+    getUsers():Observable<any> {
+      const url = `${this.apiUrl}`; 
+      return this._http.get(url);
+    }
 }

@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host:"localhost",
     user:"root",
-    password:"iron",    
+    password:"",    
     database:"we4b",
     port:3306
 });
@@ -70,6 +70,32 @@ app.get("/user/:id", (req, res) => {
   let gID = req.params.id;
 
   let qr = `SELECT * FROM user WHERE id = ${gID}`;
+
+  db.query(qr, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+    if (result.length > 0) {
+      res.send({
+        message: "Get single data",
+        data: result,
+      });
+    } else {
+      res.send({
+        message: "Aucun utilisateur trouvé..",
+      });
+    }
+  });
+});
+
+app.get("/user/:name", (req, res) => {
+  console.log(req.params.id, "getid=>");
+
+  let gName = req.params.id;
+
+  let qr = `SELECT * FROM user WHERE username = ${gName}`;
 
   db.query(qr, (err, result) => {
     if (err) {

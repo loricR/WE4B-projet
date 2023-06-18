@@ -21,6 +21,7 @@ import { ResearchPageComponent } from './views/research-page/research-page.compo
 import { authInterceptorProviders } from './auth.interceptor';
 import { PagenotfoundComponent } from './views/pagenotfound/pagenotfound.component';
 import { NewsComponent } from './views/news/news.component';
+import { NgxSliderModule } from 'ngx-slider-v2';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ imports: [
     YouTubePlayerModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule, 
+    NgxSliderModule
   ],
   providers: [ApiserviceService, authInterceptorProviders],
   bootstrap: [AppComponent]
