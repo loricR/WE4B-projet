@@ -68,12 +68,12 @@
                   <div *ngIf="isDeveloper" class="row pt-1"> <!-- If user is a developer -->
                     <div class="col-12 mb-3" style = "text-align: center">
                       <button class="btn btn-primary" (click)="toggleGames()">  <!-- Toggle games -->
-                        {{ showGames ? 'Cacher les jeux' : 'Voir les jeux' }}
+                        {{ showGames ? 'Cacher les jeux développés' : 'Voir les jeux développés' }}
                       </button>
                     </div>
                   
                     <div class="col-12" *ngIf="showGames">
-                      <h6>Jeux :</h6>
+                      <h6>Jeux développés :</h6>
                       <hr class="mt-0 mb-4">
                       <div *ngFor="let game of games; let i = index"> <!-- Display games -->
                         <h6>
