@@ -34,8 +34,6 @@ export class ApiserviceService {
 
     createData(data:any):Observable<any>{
 
-      console.log(data,'createAPI');
-
       return this._http.post(`${this.apiUrl}`,data);
     }
 
@@ -62,7 +60,7 @@ export class ApiserviceService {
 
     searchData(query: string): Observable<any> {
       const url = `${this.apiUrl}/:${query}`; // Modify the URL and parameters based on your backend API
-      console.log("test");
+
       return this._http.get(url);
     }
   
@@ -84,7 +82,6 @@ export class ApiserviceService {
     addGameByDeveloper(game : Game): Observable<any> {
       const url = `${this.gameApiUrl}/${game.dev}`;
 
-      console.log("Api service add game");
       return this._http.post(url, game);
     }
 

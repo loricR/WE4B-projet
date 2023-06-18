@@ -47,7 +47,6 @@ export class DeveloperComponent {
     // Get informations of the user connected
     if(this.tokenStorage.getToken()) {
       this.userConnected = this.tokenStorage.getUser(); // gets the user info
-      console.log("check récupération user connected : ",this.userConnected);
 
       // Check if user connected is the developer displayed
       if(this.userConnected.ID == this.user_id) {
@@ -60,9 +59,6 @@ export class DeveloperComponent {
     } else {
       this.isUserConnectedDev = false;
     }
-
-
-    console.log("ID DEV : ",this.user_id);
 
     // Get all informations about the dev displayed
     this.apiService.getUserInfo(this.user_id).subscribe(
@@ -158,7 +154,6 @@ export class DeveloperComponent {
   
   // Method responsible for the redirection to a ggame's page (using router)
   redirectToGamePage(gameId: number): void {
-    console.log(gameId);
     this.router.navigate(['/game', gameId]);
   }
 
@@ -201,7 +196,6 @@ export class DeveloperComponent {
     this.apiService.getGamesBought(this.user_id).subscribe(
       (response) => {
         this.gamesBought = response.data;
-        console.log("Jeux achetés : ", this.gamesBought);
       },
       (error) => {
         console.log('Error fetching games bought by the user: ', error);
@@ -252,10 +246,6 @@ export class DeveloperComponent {
 
       this.apiService.uploadFile(this.selectedFile).subscribe(
         (response) => {
-
-          // Handle the response from the server if needed
-          console.log('File uploaded successfully:', response);
-
           // Add the image URL to the images array
           const newFileName = response.newFileName;
           if (newFileName) {
@@ -280,14 +270,10 @@ export class DeveloperComponent {
     this.userForm.patchValue({
       userId: this.user_id.toString()
     });
-  
-    console.log(this.userForm.value.userId);
-  
+    
     if (!this.userForm.valid) {
       return;
     }
-
-    console.log('Images uploaded:', this.images);
 
     const gameName = this.userForm.get('gameName')?.value;
     const gameDescription = this.userForm.get('description')?.value;
@@ -316,13 +302,9 @@ export class DeveloperComponent {
       this.recommendedRAM
     );
 
-    console.log('Adding game!', newGame);
-    console.log('gameName value:', this.userForm.get('gameName')?.value);
-
     // Send data to the service which will handle it
     this.apiService.addGameByDeveloper(newGame).subscribe(
       (response) => {
-        console.log(response.message);
         const gameId = response.id;
         newGame.ID = gameId;
         this.games.push(newGame);

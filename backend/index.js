@@ -147,8 +147,6 @@ app.get("/recherche/game/:name/:minPrice/:maxPrice/:dev", (req, res) => {
 
 // Create data
 app.post("/user", (req, res) => {
-  console.log(req.body, "createdata");
-
   let username = req.body.username;
   let password = req.body.password;
 
@@ -168,8 +166,6 @@ app.post("/user", (req, res) => {
 
 // Update a user's data
 app.put("/user/:id", (req, res) => {
-  console.log(req.body, "updatedata");
-
   let gID = req.params.id;
 
   let username = req.body.username;
@@ -282,9 +278,6 @@ app.post("/user/games/:id", (req, res) => {
 
         let currentID = result_name[0].ID;
 
-        // console.log("Le current category id is : ", result_name);
-        // console.log("Le current id is : ", result_name[0].ID);
-
         let valuesInsertCategories = [currentID, gameId];
 
         db.query(qr_insertCategories, valuesInsertCategories, (err, result) => {
@@ -301,9 +294,6 @@ app.post("/user/games/:id", (req, res) => {
         console.log(`${i+1}th picture sent`);
       });
     }
-
-    console.log("Images length : ",images.length);
-    console.log("\nImages : ", images)
 
     res.send({
       message: "Game Inserted!",
@@ -518,8 +508,6 @@ app.get("/user/userinfo/:id", (req, res) => {
   
   let userId = req.params.id;
 
-  console.log("Loading user info of", userId);
-
   let qr = `SELECT * FROM user WHERE ID = ${userId}`;
   db.query(qr, (err, result) => {
     if (err) {
@@ -570,8 +558,6 @@ app.get("/games/categories/:id", (req, res) => {
     }
 
     const categoryNames = result.map((row) => row.name);
-
-    // console.log("Catégories :", categoryNames);
 
     res.send({
       message: "Tous les noms de catégories",
@@ -718,8 +704,6 @@ app.get("/user/games/buy/:id", (req, res) => {
 
   const results = [];
 
-  console.log("currently getting games bought..");
-
   const query = `SELECT * FROM hasBought WHERE ID_user = ?`;
 
   db.query(query, [userId], (err, result) => {
@@ -749,14 +733,7 @@ app.get("/user/games/buy/:id", (req, res) => {
 
 
         if (results.length === gamesID.length) {
-
-          // All results have been collected
-          console.log('All results:', results);
-
           const flattenedResults = results.flat();
-
-          console.log('All results flattened :', flattenedResults);
-
           
           res.send({
             message: `All games bought by the user : `,

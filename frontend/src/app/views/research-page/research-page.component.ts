@@ -34,7 +34,6 @@ export class ResearchPageComponent {
         for(let i = 0; i<Object.keys(this.searchResults).length; i++){
           this.gameArray.push(this.gameService.getGameById(this.searchResults[i].ID));
         }
-        console.log(this.gameArray);
       });
     }
   }

@@ -72,7 +72,6 @@ export class GamefullComponent {
 
       if(this.tokenStorage.getToken()) {
         this.user = this.tokenStorage.getUser(); // gets the user info
-        console.log("check récupération user : ",this.user);
       }
 
       this.getUserInfo();
@@ -101,7 +100,6 @@ export class GamefullComponent {
 
           if(this.tokenStorage.getToken()) {
             this.user = this.tokenStorage.getUser(); // gets the user info
-            console.log("check récupération user : ",this.user);
           }
 
           this.getUserInfo();
@@ -142,7 +140,6 @@ export class GamefullComponent {
 
   onResize(): void {
     if(this.youtubePlayer != null) {  //If the component exists
-      console.log("onResize");  
       this.videoWidth = Math.min(this.youtubePlayer.nativeElement.clientWidth, 1200); //videoWidth = div size or 1200px if div larger
 
       this.videoHeight = this.videoWidth * 0.6; //To keep the aspect ratio
@@ -150,10 +147,8 @@ export class GamefullComponent {
   }
 
   onChangeItem(): void {
-    console.log("change");
     if(this.youtubePlayer?.nativeElement.classList.contains('active')) {  //If we are watching the video
       this.youtubeVideo?.playVideo();
-      console.log("joue");
     } 
     else {
       this.youtubeVideo?.pauseVideo();
@@ -168,10 +163,6 @@ export class GamefullComponent {
   // Method responsible for rating a game 
   setrating(rating: number):void{
     this.rating = rating;
-
-   //console.log("RESULTAT : ", this.AlreadyCommented());
-
-   console.log("IsConnected : ", this.isConnected);
   }
 
   // Method responsible for calculating the average rating based on all comments
@@ -189,7 +180,6 @@ export class GamefullComponent {
     this.average_rating = parseFloat(this.average_rating.toFixed(2));
 
     this.average_rating_round = Math.round(this.average_rating);
-    console.log(" Moyenne : ",this.average_rating);
   }
 
   // Method responsible for getting all informations about the comment
@@ -267,15 +257,10 @@ export class GamefullComponent {
 
   // Method to check if the current user has already commented once or not
   AlreadyCommented():boolean {
-
-    console.log("ID user :", this.user.ID)
-    console.log(this.processedComments);
-
     this.processedComments.forEach((processedComment) => {
       if (processedComment.comment.ID_user === this.user.ID) {
         this.hasAlreadyCommented = true;
       }
-      console.log("Comment id user : ",processedComment.comment.ID_user);
     });
 
     return this.hasAlreadyCommented
@@ -300,7 +285,6 @@ export class GamefullComponent {
         this.devArray = response.data;
 
         this.gameDev = this.devArray[0];
-        console.log("Dev : ", this.gameDev);
 
         return;
       },
@@ -312,16 +296,11 @@ export class GamefullComponent {
 
   // Method responsible to return all information about an user
   getUserInfo() {
-
-    console.log("This is the user connected ID : ", this.user.ID);
-
     //if(this.user.ID > 0) return;
 
     this.service.getUserInfo(this.user.ID).subscribe(
       (response) => {
         this.userArray2 = response.data;
-        console.log(this.userArray2);
-
         this.user2 = this.userArray2[0];
 
         const searchHasBought: number[] = [];
