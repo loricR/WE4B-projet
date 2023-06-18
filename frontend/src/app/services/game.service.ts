@@ -78,10 +78,6 @@ export class GameService {
             // Assign each game to the game's array
             this.gameArray.push(...games);
     
-            this.gameArray.forEach((game: Game) => {
-              console.log('First picture', game.images);
-            });
-    
             //Service ready
             this.readySubject.next(true);
             this.readySubject.complete();
