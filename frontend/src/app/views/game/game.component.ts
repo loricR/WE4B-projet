@@ -53,8 +53,6 @@ export class GameComponent implements OnInit {
         this.allComments = response.data;
         //this.getAverageRating();
 
-        console.log("All Comments about game", this.game.ID, " : ", this.allComments);
-
         this.allComments.forEach(comment => {
           count++
           avg+=comment.note
@@ -85,8 +83,6 @@ export class GameComponent implements OnInit {
         this.devArray = response.data;
 
         this.gameDev = this.devArray[0];
-        console.log("Dev : ", this.gameDev);
-
         return;
       },
       (error) => {
