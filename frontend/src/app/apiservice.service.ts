@@ -77,7 +77,6 @@ export class ApiserviceService {
     researchGame(gameName: any, minPrice: any, maxPrice: any, developer: any): Observable<any> {
       const data = {gameName, minPrice, maxPrice, developer};
       const url = `${this.gameUrl}`;
-      console.log(data);
       return this._http.post(url, data);
     }
 
