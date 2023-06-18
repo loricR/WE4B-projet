@@ -143,34 +143,6 @@ app.get("/recherche/game/:id", (req, res) => {
   });
 });
 
-app.get("/recherche/game/:name/:minPrice/:maxPrice/:dev", (req, res) => {
-
-  let name = req.params.name;
-  let minPrice = req.params.minPrice;
-  let maxPrice = req.params.maxPrice;
-  let dev = req.params.dev;
-
-  let qr = `SELECT * FROM game WHERE name LIKE '%${name}%' AND price >= ${minPrice} AND price <= ${maxPrice} AND dev LIKE  '%${dev}%'`;
-
-  db.query(qr, (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-
-    if (result.length > 0) {
-      res.send({
-        message: "Get single data",
-        data: result,
-      });
-    } else {
-      res.send({
-        message: "Aucun jeu trouvé..",
-      });
-    }
-  });
-});
-
 // Create data
 app.post("/user", (req, res) => {
   console.log(req.body, "createdata");
@@ -191,6 +163,49 @@ app.post("/user", (req, res) => {
     });
   });
 });
+
+app.post("/recherche/game", (req, res) => {
+  let name = req.body.gameName;
+  let minPrice = req.body.minPrice;
+  let maxPrice = req.body.maxPrice;
+  let dev = req.body.developer;
+
+  let conditions = [];
+
+  if (name) {
+    conditions.push("name LIKE '%" + name + "%'");
+  }
+
+  if (minPrice) {
+    conditions.push("price >= " + minPrice);
+  }
+
+  if (maxPrice) {
+    conditions.push("price <= " + maxPrice);
+  }
+
+  if (dev) {
+    conditions.push("dev LIKE '%" + dev + "%'");
+  }
+
+  let conditionString = conditions.length > 0 ? "WHERE " + conditions.join(" AND ") : "";
+  let qr = "SELECT * FROM game " + conditionString;
+
+// Execute the database query using the appropriate method
+db.query(qr, (err, results) => {
+  if (err) {
+    console.error("Error executing the database query:", err);
+    res.status(500).json({ error: "Internal server error" });
+  } else {
+    // Return the query results to the client
+    res.send({
+      message: "Data collectée!",
+      data: results,
+    });
+  }
+});
+});
+
 
 // Update a user's data
 app.put("/user/:id", (req, res) => {
