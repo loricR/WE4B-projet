@@ -66,7 +66,7 @@
 
                       <div style="text-align: center">
                         <button class="btn btn-primary" (click)="showAddGameSection = !showAddGameSection">
-                          {{ showAddGameSection ? 'Cacher section ajouter' : 'Ajouter un nouveau jeu dont vous êtes fier!' }}
+                          {{ showAddGameSection ? 'Cacher section ajouter' : 'Ajouter un nouveau jeu dont vous êtes fier !' }}
                         </button>
                       </div>
                       <!-- Add game section -->
@@ -74,7 +74,7 @@
                       <div class="col-12 mb-3" *ngIf="showAddGameSection">
                         <hr class="mt-0 mb-4">
                         <form [formGroup]="userForm"> <!-- Form for adding a game -->  
-                          <h5 style="text-align:center">Must fill Informations</h5>
+                          <h5 style="text-align:center">Informations à compléter</h5>
                           <br>
                           <hr class="mt-0 mb-4">
   
@@ -135,6 +135,7 @@
                           <br>
                           <!-- Video Code-->
                           <h6> Code vidéo Youtube :</h6>
+                          <p class="text-muted">Le code d'une vidéo Youtube est le code qui est après watch?v=, ici la partie en gras: https://www.youtube.com/watch?v=<strong>QO1adblLSSA</strong>.</p>
                           <input type="text" class="form-control mt-3" placeholder="Video Code" formControlName="videoCode" name="videoCode">
   
                           <br>
@@ -158,7 +159,7 @@
   
                           <hr class="mt-0 mb-4">
   
-                          <h5 style="text-align:center">Spécifications recommendées: </h5>
+                          <h5 style="text-align:center">Spécifications recommandées: </h5>
   
                           <br>
                           <hr class="mt-0 mb-4">
@@ -169,7 +170,7 @@
                           
                           <div>
                             <select id="category-select" (change)="addCPU($event.target)">
-                              <option value="" disabled selected>CPU recommendé</option>
+                              <option value="" disabled selected>CPU recommandé</option>
                               <option *ngFor="let cpu of predefinedCPU" [value]="cpu">{{ cpu }}</option>
                             </select>
                           </div>
@@ -187,7 +188,7 @@
                           <!-- GPU -->
                           <div>
                             <select id="category-select" (change)="addGPU($event.target)">  <!-- Select the GPU -->
-                              <option value="" disabled selected>GPU recommendé</option>
+                              <option value="" disabled selected>GPU recommandé</option>
                               <option *ngFor="let gpu of predefinedGPU" [value]="gpu">{{ gpu }}</option>
                             </select>
                           </div>
@@ -205,7 +206,7 @@
                           <!-- RAM -->
                           <div>
                             <select id="category-select" (change)="addRAM($event.target)">
-                              <option value="" disabled selected>RAM recommendée</option>
+                              <option value="" disabled selected>RAM recommandée</option>
                               <option *ngFor="let ram of predefinedRAM" [value]="ram">{{ ram }}</option>
                             </select>
                           </div>

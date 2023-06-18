@@ -5,7 +5,7 @@
     <div class="card " style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title">Informations techniques</h5>
-          <p class="card-text" style="text-align: center;"> Nous prenons soin de renseigner les configurations minmum nécessaires au lancement de chaque jeu pour garantir une expérience utilisateur inoubliable</p>
+          <p class="card-text" style="text-align: center;"> Nous prenons soin de renseigner les configurations minimales nécessaires au lancement de chaque jeu pour garantir une expérience utilisateur inoubliable.</p>
         </div>
 
         <!-- Show Technical information-->
@@ -52,7 +52,7 @@
           <button type="button" class="btn btn-primary" id="acheter" (click)="buyGame()">Acheter</button>  <!--Buy the game-->  
 
           <div *ngIf="buyBool" id="successMsg" class="alert alert-success alert-dismissible" role="alert">
-            <strong> Jeu acheté ! Vous avez été déboursé de {{game.price}}€</strong>
+            <strong> Jeu acheté ! Vous avez été débité de {{game.price}}€</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="closeSuccessMsg()"></button>
           </div>
 
@@ -108,7 +108,7 @@
       
     <hr>
     <div class="com"> 
-        <h2> Zone de commentaire </h2><!--Commentary -->
+        <h2> Zone de commentaires </h2><!--Commentary -->
         
         <div class="container mt-5">
           <div class="d-flex justify-content-center row">
