@@ -34,8 +34,8 @@ export class GamefullComponent {
 
   public userArray: userDTO[] = []
   public userArray2: userDTO[] = [] // To get the profile picture
-  public user: userDTO = new userDTO(21,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user
-  public user2: userDTO = new userDTO(21,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user for profile picture 
+  public user: userDTO = new userDTO(-1,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user
+  public user2: userDTO = new userDTO(-1,"louis","louis",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png"); // Default user for profile picture 
 
   public devArray: userDTO[] = []; // Default array for the developer's informations
   public gameDev: userDTO = new userDTO(21,"louisouiii","louisouiii",1,"louis.rolland@utbm.fr","./assets/images/Pesto_tete.png");
@@ -46,6 +46,7 @@ export class GamefullComponent {
   public hasBoughtFinal:boolean = false;
 
   public buyBool:boolean = false;
+  public isConnected:boolean = false;
 
 
 
@@ -76,6 +77,8 @@ export class GamefullComponent {
 
       this.getUserInfo();
       this.getDevInfo();
+
+      if(this.user.ID > 0) this.isConnected = true;
       this.pageLoaded = true;
    
     }
@@ -103,6 +106,8 @@ export class GamefullComponent {
 
           this.getUserInfo();
           this.getDevInfo();
+
+          if(this.user.ID > 0) this.isConnected = true;
 
         }
       });
@@ -164,7 +169,9 @@ export class GamefullComponent {
   setrating(rating: number):void{
     this.rating = rating;
 
-    console.log("RESULTAT : ", this.AlreadyCommented());
+   //console.log("RESULTAT : ", this.AlreadyCommented());
+
+   console.log("IsConnected : ", this.isConnected);
   }
 
   // Method responsible for calculating the average rating based on all comments
@@ -204,6 +211,8 @@ export class GamefullComponent {
   // Method responsible for uploading the comment in the database
   postComm(data:CommentDTO) {
 
+    if(this.user.ID < 0) return;
+
     this.AlreadyCommented();
     if(this.hasAlreadyCommented) {
       return;
@@ -221,6 +230,7 @@ export class GamefullComponent {
     // Empty all arrays else double lists
     this.allComments = [];
     this.processedComments = [];
+
     this.comm = true;
 
     this.getCommentsFromGame(this.prd_idx);
@@ -302,6 +312,10 @@ export class GamefullComponent {
 
   // Method responsible to return all information about an user
   getUserInfo() {
+
+    console.log("This is the user connected ID : ", this.user.ID);
+
+    //if(this.user.ID > 0) return;
 
     this.service.getUserInfo(this.user.ID).subscribe(
       (response) => {
