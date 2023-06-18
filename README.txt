@@ -36,13 +36,13 @@ Pour tester les fonctionnalités du site, des utilisateurs sont déjà enregistr
   - Iron / iron68 / non
   - LeBelfortdu90 / iron68 / oui
 
-Deux types d'utilisateurs: utilisateur standard et développeur. Seul un développeur peut ajouter un jeu dans la boutique, les deux types d'utilisateurs interagissent avec les jeux de la même manière.
+Deux types d'utilisateurs: l'utilisateur standard et le développeur. Seul un développeur peut ajouter un jeu dans la boutique, les deux types d'utilisateurs interagissent avec les jeux de la même manière.
 
-Connecté ou non, un utilisateur peut consulter tous les jeux répertoriés (onglet Boutique) et rechercher un jeu ou un utilisateur spécifique (onglet Recherche). La recherche de jeu se fait selon plusieurs critères: nom du jeu, prix (min et max), et nom du développeur.
+Connecté ou non, un utilisateur peut consulter tous les jeux répertoriés (onglet Boutique) et rechercher un jeu ou un utilisateur spécifique (onglet Recherche). La recherche de jeu se fait selon plusieurs critères: nom du jeu, prix (min et max) et/ou nom du développeur.
 
-N'importe quel utilisateur peut créer un compte (onglet se Register) en choisissant sa photo de profil et son statut (développeur ou utilisateur standard). Une fois l'inscription faite, l'utilisateur est automatiquement connecté au compte créé et pourra se reconnecter à tout moment après une déconnexion en réutilisant les identifiants rentrés lors de l'inscription.
+N'importe quel utilisateur peut créer un compte (onglet Register) en choisissant sa photo de profil et son statut (développeur ou utilisateur standard). Une fois l'inscription faite, l'utilisateur est automatiquement connecté au compte créé et pourra se reconnecter à tout moment après une déconnexion en réutilisant les identifiants rentrés lors de l'inscription.
 
-Seulement un utilisateur connecté ayant acheté le jeu (achat possible depuis l'onglet "En savoir plus" de chaque jeu) peut ajouter un commentaire et une note à un jeu qu'il a acheté (un seul commentaire par personne & par jeu). La liste des commentaires & notations attribués à un jeu sont affichés dans les sections "En savoir plus" de chaque jeu.
+Seulement un utilisateur connecté ayant acheté le jeu (achat possible depuis l'onglet "En savoir plus" de chaque jeu) peut ajouter un commentaire et une note au jeu qu'il a acheté (un seul commentaire par personne & par jeu). La liste des commentaires & notations attribués à un jeu sont affichés dans les sections "En savoir plus" de chaque jeu.
 
 L'ensemble de la bibliothèque de jeux disponibles est accessible depuis l'onglet Boutique. Chacun des jeux est affiché avec une image caractéristique, une description courte, des catégories, et la note globale attribuée par les joueurs. Dans l'onglet En savoir Plus, des informations plus approfondies sont apportées (note moyenne précise, configuration requise pour faire tourner le jeu, description longue, vidéo trailer, images du jeu et commentaires).
 
