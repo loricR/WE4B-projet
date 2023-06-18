@@ -26,7 +26,7 @@ Pour lancer le front-end: "ng serve" depuis le dossier frontend.
 Le back-end et le front-end peuvent être lancés avec une seule commande en étant dans le dossier frontend: "npm start".
 
 
----------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------
 Fonctionnalités:
 
 Pour tester les fonctionnalités du site, des utilisateurs sont déjà enregistrés dans la base de données:
