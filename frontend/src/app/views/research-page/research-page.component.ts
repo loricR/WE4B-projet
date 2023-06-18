@@ -24,7 +24,7 @@ export class ResearchPageComponent {
   maxPrice: number = 600;
   options: Options = {
     floor: 0,
-    ceil: 1000
+    ceil: 100
   };
   constructor(private dataService: ApiserviceService, private gameService : GameService) {}
 
