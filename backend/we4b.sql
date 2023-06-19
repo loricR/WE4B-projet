@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Dim 18 Juin 2023 à 17:36
+-- Généré le :  Dim 18 Juin 2023 à 21:32
 -- Version du serveur :  5.7.11
--- Version de PHP :  7.0.3
+-- Version de PHP :  5.6.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -101,7 +101,13 @@ INSERT INTO `comment` (`ID`, `content`, `ID_game`, `ID_user`, `note`) VALUES
 (36, 'Ils font tellement de maj c\'est incroyable ! ', 26, 36, 5),
 (37, 'Un jeu sympa mais vite répétitif !', 27, 36, 3),
 (38, 'C\'était mieux avant :/', 28, 34, 2),
-(39, 'Il a complétement vrillé ce jeu ! Mais il est sympa , vivement le 6 ', 30, 35, 3);
+(39, 'Il a complétement vrillé ce jeu ! Mais il est sympa , vivement le 6 ', 30, 35, 3),
+(40, 'Ne mérite pas sa réputation...', 26, 37, 2),
+(41, 'Jeu surprenant, un vrai coup de cœur !', 28, 37, 5),
+(42, 'Aucun intérêt, à éviter à tout prix !', 30, 37, 1),
+(43, 'Très bon jeu !', 26, 35, 4),
+(44, 'Sensationnel !', 28, 35, 5),
+(45, 'Passionnant et extrêmement beau ! Ce jeu a beaucoup à vous apporter !', 27, 35, 5);
 
 -- --------------------------------------------------------
 
@@ -153,7 +159,14 @@ INSERT INTO `hasbought` (`ID`, `ID_user`, `ID_game`) VALUES
 (14, 36, 26),
 (15, 36, 27),
 (16, 34, 28),
-(17, 35, 30);
+(17, 35, 30),
+(18, 37, 26),
+(19, 37, 28),
+(20, 37, 31),
+(21, 37, 30),
+(22, 35, 26),
+(23, 35, 28),
+(24, 35, 27);
 
 -- --------------------------------------------------------
 
@@ -204,7 +217,9 @@ INSERT INTO `user` (`ID`, `username`, `password`, `dev`, `profilePictureURL`, `e
 (34, 'Alex', '*56B8928A47B1E466F9A464B6C7A19189E397332D', 1, './assets/images/Pesto_tete.png', 'alex.b@gmail.com'),
 (35, 'Luc', '*56B8928A47B1E466F9A464B6C7A19189E397332D', 1, '../assets/images/1687093140379.jpg', 'luc@utbm.fr'),
 (36, 'Iron', '*56B8928A47B1E466F9A464B6C7A19189E397332D', 0, '../assets/images/1687094541636.jpg', 'Ironmc@gmail.fr'),
-(37, 'LeBelfortdu90', '*56B8928A47B1E466F9A464B6C7A19189E397332D', 1, './assets/images/Pesto_tete.png', 'bellefortte@utbm.fr');
+(37, 'LeBelfortdu90', '*56B8928A47B1E466F9A464B6C7A19189E397332D', 1, './assets/images/Pesto_tete.png', 'bellefortte@utbm.fr'),
+(38, 'usertest', '*CB906022B4E0E990F2583F7E97924C99ECC580DD', 1, '../assets/images/1687123825278.png', 'usertest@gmail.com'),
+(39, 'usertest2', '*03BCA50D1C8F8D56E077B51F5C70F2AC4512D70B', 0, '../assets/images/1687123900484.jpg', 'usertest2@gmail.com');
 
 --
 -- Index pour les tables exportées
@@ -278,7 +293,7 @@ ALTER TABLE `categorygame`
 -- AUTO_INCREMENT pour la table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT pour la table `game`
 --
@@ -288,7 +303,7 @@ ALTER TABLE `game`
 -- AUTO_INCREMENT pour la table `hasbought`
 --
 ALTER TABLE `hasbought`
-  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT pour la table `image`
 --
@@ -298,7 +313,7 @@ ALTER TABLE `image`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- Contraintes pour les tables exportées
 --

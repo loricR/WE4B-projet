@@ -21,7 +21,6 @@ const routes: Routes = [
   {path: 'developer/:id', component: DeveloperComponent},
   {path: 'user/:id', component: DeveloperComponent},
   {path: 'usermodif/:id', component: SignupComponent, canActivate: [modifGuard]},
-  {path: 'store/:id', component: GameComponent}, 
   {path: 'game/:id', component : GamefullComponent},
   {path: 'research', component : ResearchPageComponent},
   {path: 'news', component : NewsComponent},
